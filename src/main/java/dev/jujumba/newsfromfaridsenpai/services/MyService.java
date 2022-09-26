@@ -5,6 +5,8 @@ import dev.jujumba.newsfromfaridsenpai.repos.MyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MyService {
     private MyRepository repository;
@@ -16,6 +18,9 @@ public class MyService {
         return repository.existsByTitleAndUrl(news.getTitle(), news.getUrl());
     }
 
+    public List<News> findAll() {
+        return repository.findAll();
+    }
     public void save(News news) {
         repository.save(news);
     }

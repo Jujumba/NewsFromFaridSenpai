@@ -1,5 +1,6 @@
 package dev.jujumba.newsfromfaridsenpai.parsers;
 
+import dev.jujumba.newsfromfaridsenpai.dtos.NewsDto;
 import dev.jujumba.newsfromfaridsenpai.model.News;
 import dev.jujumba.newsfromfaridsenpai.services.MyService;
 import org.jsoup.Jsoup;
@@ -20,7 +21,7 @@ public class PresidentOffice {
         this.service = service;
     }
     public List<News> parse() {
-        var list = new ArrayList<News>();
+        var list = service.findAll();
         Document doc;
         try {
             doc = Jsoup.connect("https://www.president.gov.ua/ua").get();
@@ -32,10 +33,10 @@ public class PresidentOffice {
             String href = elem.attr("href");
             if (href.contains("https://www.president.gov.ua/news/") && href.contains("-")) {
                 News news = new News(elem.text(),href);
-//                if (!service.exists(news)) {
+                if (!service.exists(news)) {
                     service.save(news);
                     list.add(news);
-//                }
+                }
             }
         }
         return list;

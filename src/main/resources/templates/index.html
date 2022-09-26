@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html  lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Todo</title>
+    <title>НОвости(С) Храпко</title>
 </head>
 <body>
-    <div th:each="news : ${allNews}">
-        <a th:href="${news.getUrl()}" th:text="${news.getTitle()}">title</a> <!-- TODO -->
+    <div th:each="news : ${all_news}">
+        <a th:href="${news.getUrl()}" th:text="${news.getTitle()} +' '+ ${news.getNow()}">title</a>
     </div>
 </body>
 </html>
