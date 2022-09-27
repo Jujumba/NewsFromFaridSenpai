@@ -1,18 +1,18 @@
 package dev.jujumba.newsfromfaridsenpai.model;
 
-import org.hibernate.engine.loading.internal.LoadContexts;
+import lombok.Data;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 @Component
 @Entity
+@Data
 public class News {
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,47 +23,14 @@ public class News {
     private String url;
     @Column(name = "date")
     private LocalDateTime now;
-    public News() {
-
+    public News () {
+        now = LocalDateTime.parse(formatter.format(LocalDateTime.now()), formatter);
     }
 
     public News(String title, String url) {
         this.title = title;
         this.url = url;
         now = LocalDateTime.parse(formatter.format(LocalDateTime.now()), formatter);
-    }
-
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public LocalDateTime getNow() {
-        return now;
-    }
-
-    public void setNow(LocalDateTime now) {
-        this.now = now;
     }
 
     @Override
