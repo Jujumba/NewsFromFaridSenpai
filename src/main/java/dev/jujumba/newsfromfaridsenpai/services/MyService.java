@@ -17,7 +17,6 @@ public class MyService {
     public boolean exists(News news) {
         return repository.existsByTitleAndUrl(news.getTitle(), news.getUrl());
     }
-
     public List<News> findAll() {
         return repository.findAll();
     }

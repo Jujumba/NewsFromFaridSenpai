@@ -11,7 +11,7 @@ import java.util.Objects;
 @Component
 @Entity
 @Data
-public class News {
+public class News implements Comparable<News> {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     @Id
     @Column(name = "id")
@@ -33,6 +33,12 @@ public class News {
         now = LocalDateTime.parse(formatter.format(LocalDateTime.now()), formatter);
     }
 
+    public News(String title, String url, LocalDateTime now) {
+        this.title = title;
+        this.url = url;
+        this.now = now;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -44,5 +50,22 @@ public class News {
     @Override
     public int hashCode() {
         return Objects.hash(title, url);
+    }
+
+    @Override
+    public int compareTo(News o) {
+        if (o.getNow() == null) return 1;
+        else if (this.getNow() == null) return -1;
+
+
+        if (this.getNow().isBefore(o.getNow())) {
+            return 1;
+        }
+        else if (this.getNow().isAfter(o.getNow())) {
+            return -1;
+        }
+        else {
+            return 0;
+        }
     }
 }
