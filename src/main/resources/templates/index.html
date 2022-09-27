@@ -3,10 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Новости</title>
+    <link th:rel="stylesheet" th:href="@{/styles/style.css}">
 </head>
 <body>
+
+<center>
     <div th:each="news : ${all_news}">
         <a th:href="${news.getUrl()}" th:text="${news.getTitle()} +' '+ ${news.getNow()}">title</a>
     </div>
+</center>
 </body>
 </html>
