@@ -1,7 +1,7 @@
 body {
-    background: linear-gradient(to right, white, skyblue);
+    background: linear-gradient(to right, #c600ff, #093f0a);
     background-repeat: no-repeat;
     background-attachment: fixed;
     font-family: consolas;
-    font-size: 18px
+    font-size: 14px
 }
