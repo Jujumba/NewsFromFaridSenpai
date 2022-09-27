@@ -11,19 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/news")
 public class MainController {
     private PresidentOffice presidentOffice = null;
-    {
-        new Thread(() ->{
-            presidentOffice.parse();
-        }).start();
-    }
     @Autowired
     public MainController(PresidentOffice presidentOffice) {
         this.presidentOffice = presidentOffice;
+        new Thread(presidentOffice).start();
     }
 
     @GetMapping()
     public String index(Model model) {
-        System.out.println(presidentOffice.getResult());
         model.addAttribute("all_news", presidentOffice.getResult());
         return "index.html";
     }

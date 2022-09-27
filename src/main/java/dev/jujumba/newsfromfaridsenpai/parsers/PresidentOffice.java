@@ -10,20 +10,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Component
 @Getter
-public class PresidentOffice {
+public class PresidentOffice implements Runnable {
     private MyService service;
-    private volatile List<News> result = new ArrayList<>();
+    private volatile List<News> result;
     @Autowired
     public PresidentOffice(MyService service) {
         this.service = service;
+        result = service.findAll();
     }
-    public void parse() {
+    @Override
+    public void run() {
         while (true) {
             Document doc;
             try {
@@ -43,7 +44,7 @@ public class PresidentOffice {
                 }
             }
             try {
-                TimeUnit.SECONDS.sleep(30);
+                TimeUnit.SECONDS.sleep(60);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
