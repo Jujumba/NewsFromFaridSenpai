@@ -28,7 +28,7 @@ public class Pravda implements Runnable {
         while (true) {
             Document doc;
             try {
-                doc = Jsoup.connect("https://www.pravda.com.ua/rus/news/").get();
+                doc = Jsoup.connect("https://www.pravda.com.ua/news/").get();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

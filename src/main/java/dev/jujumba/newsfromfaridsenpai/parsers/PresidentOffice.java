@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.TimeUnit;
 
@@ -29,43 +30,40 @@ public class PresidentOffice implements Runnable {
         while (true) {
             Document doc;
             try {
-                doc = Jsoup.connect("https://www.president.gov.ua/ua").get();
+                doc = Jsoup.connect("https://www.president.gov.ua/news/last").get();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            Elements withAAttr = doc.select("a");
-            Elements dates = doc.select(".date");
-            int counter = 0;
+            Elements withAAttr = doc.select(".item_stat_headline");
             for (var elem : withAAttr) {
-                String href = elem.attr("href");
-                if (href.contains("https://www.president.gov.ua/news/") && href.contains("-")) {
-                    String date = dates.get(counter++).text(); //26 вересня 2022 року - 22:16
-                    String[] split = date.split(" ");
-                    StringBuilder resultDate = new StringBuilder();
-                    String month = split[1];
-                    switch (month.trim()) {
-                        case "січня" -> month = "01";
-                        case "лютого" -> month = "02";
-                        case "березня" -> month = "03";
-                        case "квітня" -> month = "04";
-                        case "травня" -> month = "05";
-                        case "червня" -> month = "06";
-                        case "липня" -> month = "07";
-                        case "серпня" -> month = "08";
-                        case "вересня" -> month = "09";
-                        case "жовтня" -> month = "10";
-                        case "листопада" -> month = "11";
-                        case "грудня" -> month = "12";
-                    }
-                    resultDate.append(split[2]).append(" ");
-                    resultDate.append(month).append(" ");
-                    resultDate.append(split[5]);
-                    LocalDateTime dateTime = LocalDateTime.parse(resultDate.toString(), formatter);
-                    News news = new News(elem.text(), href, dateTime); //todo
-                    if (!collector.contains(news)) {
-                        collector.add(news);
-                    }
-                }
+                String href = elem.getElementsByTag("a").attr("href");
+                String title = elem.text();
+                String[] split = title.split(" ");
+
+                int day = Integer.parseInt(split[split.length - 6]);
+                int year = Integer.parseInt(split[split.length - 4]);
+                Month month = switch (split[split.length - 5]) {
+                    case "січня" -> Month.JANUARY;
+                    case "лютого" -> Month.FEBRUARY;
+                    case "березня" -> Month.MARCH;
+                    case "квітня" -> Month.APRIL;
+                    case "травня" -> Month.MAY;
+                    case "червня" -> Month.JUNE;
+                    case "липня" -> Month.JULY;
+                    case "серпня" -> Month.AUGUST;
+                    case "вересня" -> Month.SEPTEMBER;
+                    case "жовтня" -> Month.OCTOBER;
+                    case "листопада" -> Month.NOVEMBER;
+                    case "грудня" -> Month.DECEMBER;
+                    default -> throw new RuntimeException("PARSE ERROR");
+                };
+                String[] hourAndMinute = split[split.length - 1].split(":");
+                int hour = Integer.parseInt(hourAndMinute[0]);
+                int minute = Integer.parseInt(hourAndMinute[1]);
+
+              LocalDateTime dateTime = LocalDateTime.of(year,month ,day, hour, minute);
+              News news = new News(title, href, dateTime);
+              if (!collector.contains(news)) collector.add(news);
             }
             try {
                 TimeUnit.SECONDS.sleep(60);
