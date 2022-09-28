@@ -1,7 +1,5 @@
 body {
-    background: linear-gradient(to right, #c600ff, #093f0a);
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    font-family: consolas;
+    background: linear-gradient(to right, #ffffff, #b4c200) no-repeat fixed;
+    font-family: consolas, system-ui;
     font-size: 14px
 }
