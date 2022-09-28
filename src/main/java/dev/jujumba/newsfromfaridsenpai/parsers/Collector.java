@@ -3,6 +3,8 @@ package dev.jujumba.newsfromfaridsenpai.parsers;
 import dev.jujumba.newsfromfaridsenpai.model.News;
 import dev.jujumba.newsfromfaridsenpai.services.MyService;
 import lombok.Getter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -10,6 +12,7 @@ import java.util.Collections;
 import java.util.List;
 @Component
 public class Collector {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     private final MyService service;
     @Getter
     private volatile List<News> allNews;
@@ -24,7 +27,9 @@ public class Collector {
         Thread presidentOfficeThread = new Thread(new PresidentOffice(this));
         Thread pravdaThread = new Thread(new Pravda(this));
         presidentOfficeThread.start();
+        logger.info("Parsing from PF site has been started.");
         pravdaThread.start();
+        logger.info("Parsing from -- site has been started.");
     }
 
     public void add(News news) {

@@ -13,6 +13,7 @@ import java.util.Objects;
 @Data
 public class News implements Comparable<News> {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    private static final DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("HH:mm");
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,6 +38,12 @@ public class News implements Comparable<News> {
         this.title = title;
         this.url = url;
         this.now = now;
+    }
+
+    public String getFormattedNow() {
+        if (now.getYear() == LocalDateTime.now().getYear() && now.getMonth() == LocalDateTime.now().getMonth() && now.getDayOfMonth() == LocalDateTime.now().getDayOfMonth())
+        return formatter1.format(now);
+        else return formatter.format(now);
     }
 
     @Override
