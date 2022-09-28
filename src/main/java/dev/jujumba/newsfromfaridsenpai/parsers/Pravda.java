@@ -53,7 +53,7 @@ public class Pravda implements Runnable {
                 if (href.charAt(0) == '/') href = "https://www.pravda.com.ua" + href;
                 LocalDateTime time = LocalTime.parse(dates.get(counter++).text(), pattern).atDate(LocalDate.now());
                 News news = new News(title,href,time);
-                if (!collector.contains(news)) {
+                if (!collector.contains(news) && (LocalDateTime.now().getDayOfMonth() - time.getDayOfMonth() <= 2)) {
                     collector.add(news);
                 }else {
                     logger.warn("Continuing to while(true) loop");

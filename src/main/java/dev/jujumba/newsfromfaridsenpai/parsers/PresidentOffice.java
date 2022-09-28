@@ -39,7 +39,7 @@ public class PresidentOffice implements Runnable {
             }
             Elements withAAttr = doc.select(".item_stat_headline");
             for (var elem : withAAttr) {
-                String title = elem.text();
+                String title = elem.getElementsByTag("h3").text();
                 String href = elem.getElementsByTag("a").attr("href");
                 String[] split = elem.text().split(" ");
 
@@ -70,7 +70,8 @@ public class PresidentOffice implements Runnable {
 
               LocalDateTime dateTime = LocalDateTime.of(year,month ,day, hour, minute);
               News news = new News(title, href, dateTime);
-              if (!collector.contains(news)) {
+
+              if (!collector.contains(news) && (LocalDateTime.now().getDayOfMonth() - dateTime.getDayOfMonth() <= 2)) {
                   collector.add(news);
               } else {
                   logger.warn("Continuing to while(true) loop");

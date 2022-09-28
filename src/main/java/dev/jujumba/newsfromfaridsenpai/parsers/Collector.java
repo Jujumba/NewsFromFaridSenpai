@@ -1,6 +1,7 @@
 package dev.jujumba.newsfromfaridsenpai.parsers;
 
 import dev.jujumba.newsfromfaridsenpai.model.News;
+import dev.jujumba.newsfromfaridsenpai.parsers.cleaner.NewsCleaner;
 import dev.jujumba.newsfromfaridsenpai.services.MyService;
 import lombok.Getter;
 import org.slf4j.Logger;
@@ -24,12 +25,13 @@ public class Collector {
     }
 
     public void collect() {
+        Thread newsCleaner = new Thread(new NewsCleaner(this.service));
+        newsCleaner.start();
+
         Thread presidentOfficeThread = new Thread(new PresidentOffice(this));
         Thread pravdaThread = new Thread(new Pravda(this));
         presidentOfficeThread.start();
-        logger.info("Parsing from PF site has been started.");
         pravdaThread.start();
-        logger.info("Parsing from -- site has been started.");
     }
 
     public void add(News news) {

@@ -24,7 +24,7 @@ public class MyService {
         repository.save(news);
     }
 
-    public void remove(News news) {
+    public void delete(News news) {
         repository.delete(news);
     }
 }
