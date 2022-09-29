@@ -6,7 +6,12 @@
     <link th:rel="stylesheet" th:href="@{/styles/style.css}">
 </head>
 <body th:class="body">
-    <div th:each="news : ${all_news}">
+<center>
+    <header th:class="news">
+        <h1>News From Farid Senpai</h1>
+    </header>
+</center>
+    <div th:class="news" th:each="news : ${all_news}">
         <a th:href="${news.getUrl()}" th:text="${news.getTitle()} +' - '+ ${news.getFormattedNow()}">title</a>
     </div>
 </body>
