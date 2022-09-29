@@ -1,6 +1,6 @@
 package dev.jujumba.newsfromfaridsenpai.contollers;
 
-import dev.jujumba.newsfromfaridsenpai.parsers.Collector;
+import dev.jujumba.newsfromfaridsenpai.logic.Collector;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

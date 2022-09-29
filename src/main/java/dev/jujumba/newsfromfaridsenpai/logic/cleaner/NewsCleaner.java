@@ -1,6 +1,6 @@
-package dev.jujumba.newsfromfaridsenpai.parsers.cleaner;
+package dev.jujumba.newsfromfaridsenpai.logic.cleaner;
 
-import dev.jujumba.newsfromfaridsenpai.services.MyService;
+import dev.jujumba.newsfromfaridsenpai.services.NewsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +11,10 @@ import java.util.concurrent.TimeUnit;
 
 @Component
 public class NewsCleaner implements Runnable {
-    private final MyService service;
+    private final NewsService service;
     private final Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
-    public NewsCleaner(MyService service) {
+    public NewsCleaner(NewsService service) {
         this.service = service;
     }
 
@@ -25,7 +25,6 @@ public class NewsCleaner implements Runnable {
             for (var news : service.findAll())
                 if (LocalDateTime.now().getDayOfMonth() - news.getNow().getDayOfMonth() >3) {
                     service.delete(news);
-                    logger.info("Deleted old news");
                 }
             try {
                 TimeUnit.HOURS.sleep(8);

@@ -1,6 +1,9 @@
-package dev.jujumba.newsfromfaridsenpai.parsers;
+package dev.jujumba.newsfromfaridsenpai.logic.parsers.independents;
 
-import dev.jujumba.newsfromfaridsenpai.model.News;
+import dev.jujumba.newsfromfaridsenpai.logic.Collector;
+import dev.jujumba.newsfromfaridsenpai.logic.translate.Translator;
+import dev.jujumba.newsfromfaridsenpai.models.News;
+import dev.jujumba.newsfromfaridsenpai.services.NewsService;
 import lombok.Getter;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -21,11 +24,14 @@ import java.util.concurrent.TimeUnit;
 public class PresidentOffice implements Runnable {
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy MM dd HH:mm");
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private volatile Collector collector;
-    private final DateTimeFormatter pattern = DateTimeFormatter.ofPattern("yyyy MM dd HH:mm");
+    private final Collector collector;
+    private final Translator translator;
+    private final NewsService newsService;
     @Autowired
-    public PresidentOffice(Collector collector) {
+    public PresidentOffice(Collector collector, Translator translator, NewsService newsService) {
         this.collector = collector;
+        this.translator = translator;
+        this.newsService = newsService;
     }
     @Override
     public void run() {
@@ -40,6 +46,15 @@ public class PresidentOffice implements Runnable {
             Elements withAAttr = doc.select(".item_stat_headline");
             for (var elem : withAAttr) {
                 String title = elem.getElementsByTag("h3").text();
+
+                if (newsService.existsByFullTitle(title)) {
+                    logger.warn("Continuing to while(true) loop");
+                    sleep(240);
+                    continue label;
+                }
+
+                String fullTitle = title;
+                title = translator.translate("EN",title);
                 String href = elem.getElementsByTag("a").attr("href");
                 String[] split = elem.text().split(" ");
 
@@ -69,17 +84,13 @@ public class PresidentOffice implements Runnable {
                 int minute = Integer.parseInt(hourAndMinute[1]);
 
               LocalDateTime dateTime = LocalDateTime.of(year,month ,day, hour, minute);
-              News news = new News(title, href, dateTime);
+              News news = new News(title, href, dateTime, fullTitle);
 
               if (!collector.contains(news) && (LocalDateTime.now().getDayOfMonth() - dateTime.getDayOfMonth() <= 2)) {
                   collector.add(news);
-              } else {
-                  logger.warn("Continuing to while(true) loop");
-                  sleep(240);
-                  continue label;
               }
             }
-            sleep(240);
+            sleep(60);
         }
     }
 

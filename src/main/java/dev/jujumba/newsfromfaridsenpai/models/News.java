@@ -1,4 +1,4 @@
-package dev.jujumba.newsfromfaridsenpai.model;
+package dev.jujumba.newsfromfaridsenpai.models;
 
 import lombok.Data;
 import org.springframework.stereotype.Component;
@@ -20,6 +20,8 @@ public class News implements Comparable<News> {
     private int id;
     @Column(name = "title")
     private String title;
+    @Column(name = "full_title")
+    private String fullTitle;
     @Column(name = "url")
     private String url;
     @Column(name = "date")
@@ -39,11 +41,26 @@ public class News implements Comparable<News> {
         this.url = url;
         this.now = now;
     }
+    public News(String title, String url, LocalDateTime now, String fullTitle) {
+        this.title = title;
+        this.url = url;
+        this.now = now;
+        this.fullTitle = fullTitle;
+    }
+
+    public News(String fullTitle) {
+        this.fullTitle = fullTitle;
+    }
 
     public String getFormattedNow() {
         if (now.getYear() == LocalDateTime.now().getYear() && now.getMonth() == LocalDateTime.now().getMonth() && now.getDayOfMonth() == LocalDateTime.now().getDayOfMonth())
         return formatter1.format(now);
         else return formatter.format(now);
+    }
+
+    public String getTitle() {
+        if (title.length() > 60) return title.substring(0,60) + "...";
+        else return title;
     }
 
     @Override
