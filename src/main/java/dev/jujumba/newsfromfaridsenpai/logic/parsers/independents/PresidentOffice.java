@@ -88,6 +88,7 @@ public class PresidentOffice implements Runnable {
 
               if (!collector.contains(news) && (LocalDateTime.now().getDayOfMonth() - dateTime.getDayOfMonth() <= 2)) {
                   collector.add(news);
+                  logger.info("New news found");
               }
             }
             sleep(60);

@@ -68,6 +68,7 @@ public class Pravda implements Runnable {
                 News news = new News(title,href,time, fullTitle);
                 if (!collector.contains(news) && (LocalDateTime.now().getDayOfMonth() - time.getDayOfMonth() <= 2)) {
                     collector.add(news);
+                    logger.info("New news found");
                 }
             }
                 sleep(60);
