@@ -24,7 +24,6 @@ public class Translator {
                 .build();
 
         text = text.replace(", видео","");
-//        text = text.replace(":","");
         text = text.replace(", фото","");
 
         Translate.Translations.List list = t.new Translations().list(Arrays.asList(text), languageCode);

@@ -18,7 +18,6 @@ import java.util.concurrent.TimeUnit;
 
 @Component
 public class TeleTest implements Runnable {
-    //TODO: add logging
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final Collector collector;
     private final TextHandler textHandler;
