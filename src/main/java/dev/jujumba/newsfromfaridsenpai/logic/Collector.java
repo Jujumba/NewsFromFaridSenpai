@@ -3,7 +3,7 @@ package dev.jujumba.newsfromfaridsenpai.logic;
 import dev.jujumba.newsfromfaridsenpai.logic.cleaner.NewsCleaner;
 import dev.jujumba.newsfromfaridsenpai.logic.parsers.independents.Pravda;
 import dev.jujumba.newsfromfaridsenpai.logic.parsers.independents.PresidentOffice;
-import dev.jujumba.newsfromfaridsenpai.logic.parsers.telegram.TeleTest;
+import dev.jujumba.newsfromfaridsenpai.logic.parsers.telegram.Telegram;
 import dev.jujumba.newsfromfaridsenpai.logic.processing.TextHandler;
 import dev.jujumba.newsfromfaridsenpai.models.News;
 import dev.jujumba.newsfromfaridsenpai.services.NewsService;
@@ -35,7 +35,7 @@ public class Collector {
         newsCleaner.start();
         Thread presidentOfficeThread = new Thread(new PresidentOffice(this,textHandler, service));
         Thread pravdaThread = new Thread(new Pravda(this, textHandler, service));
-        Thread tele = new Thread(new TeleTest(this, textHandler, service));
+        Thread tele = new Thread(new Telegram(this, textHandler, service));
         presidentOfficeThread.start();
         pravdaThread.start();
         tele.start();

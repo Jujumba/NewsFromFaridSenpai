@@ -42,6 +42,7 @@ public class News implements Comparable<News> {
         this.now = now;
     }
     public News(String title, String url, LocalDateTime now, String fullTitle) {
+        if (title.chars().filter(ch -> ch == '\"').count() == 1) title = title.replace("\"","");
         this.title = title;
         this.url = url;
         this.now = now;
@@ -59,8 +60,7 @@ public class News implements Comparable<News> {
     }
 
     public String getTitle() {
-//        if (title.length() > 60) return title.substring(0,60) + "...";
-        /*else*/ return title;
+        return title;
     }
 
     @Override

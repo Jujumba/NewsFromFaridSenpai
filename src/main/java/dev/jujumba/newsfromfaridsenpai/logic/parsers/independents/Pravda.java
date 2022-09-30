@@ -50,7 +50,9 @@ public class Pravda implements Runnable {
                 String title = header.text();
                 String href = header.getElementsByTag("a").attr("href");
                 if (newsService.existsByFullTitle(title) || newsService.existsByUrl(href)) {
-                    logger.warn("Continuing to while(true) loop");
+                    LocalTime now = LocalTime.now();
+                    now = now.plusMinutes(3);
+                    logger.warn("Continuing to while(true) loop. Will parse again in "+now);
                     sleep(240);
                     continue label;
                 }
@@ -68,6 +70,7 @@ public class Pravda implements Runnable {
                 News news = new News(title,href,time, fullTitle);
                 if (!collector.contains(news) && (LocalDateTime.now().getDayOfMonth() - time.getDayOfMonth() <= 2)) {
                     collector.add(news);
+                    logger.info("New news found");
                 }
             }
                 sleep(60);

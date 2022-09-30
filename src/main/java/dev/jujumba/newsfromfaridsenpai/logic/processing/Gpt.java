@@ -22,7 +22,7 @@ public class Gpt {
     private int counter = 0;
     @SneakyThrows
     protected String process(String text) {
-        if (counter++ >= 60) {
+        if (++counter >= 60) {
             logger.warn("The request limit per minute has been reached!");
             int minute = LocalTime.now().getMinute();
             while (minute == minute) {

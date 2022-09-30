@@ -14,16 +14,17 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.concurrent.TimeUnit;
 
 @Component
-public class TeleTest implements Runnable {
+public class Telegram implements Runnable {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final Collector collector;
     private final TextHandler textHandler;
     private final NewsService newsService;
     @Autowired
-    public TeleTest(Collector collector, TextHandler textHandler, NewsService newsService) {
+    public Telegram(Collector collector, TextHandler textHandler, NewsService newsService) {
         this.collector = collector;
         this.textHandler = textHandler;
         this.newsService = newsService;
@@ -47,13 +48,15 @@ public class TeleTest implements Runnable {
                 String fullTitle = title;
                 String href = hrefs.get(i).attr("href");
                 if (newsService.existsByFullTitle(title) || newsService.existsByUrl(href)) {
-                    logger.warn("Continuing to while(true) loop");
+                    LocalTime now = LocalTime.now();
+                    now = now.plusMinutes(3);
+                    logger.warn("Continuing to while(true) loop. Will parse again in "+now);
                     sleep(240);
                     continue label;
                 }
 
                 if (title.contains("#") || title.contains("\uD83D\uDD25")) {
-                    logger.info("Unsuitable news has been found",title);
+                    logger.warn("Unsuitable news has been found",title);
                     continue;
                 } else {
                     title = textHandler.handleTitle(title);
@@ -63,7 +66,7 @@ public class TeleTest implements Runnable {
                 News news = new News(title,href,now, fullTitle);
                 if (!collector.contains(news)) {
                     collector.add(news);
-                    logger.info("New news has been found");
+                    logger.info("New news found");
                 }
             }
             sleep(180);
