@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.TimeUnit;
@@ -49,7 +50,9 @@ public class PresidentOffice implements Runnable {
 
                 String href = elem.getElementsByTag("a").attr("href");
                 if (newsService.existsByFullTitle(title) || newsService.existsByUrl(href)) {
-                    logger.warn("Continuing to while(true) loop");
+                    LocalTime now = LocalTime.now();
+                    now = now.plusMinutes(3);
+                    logger.warn("Continuing to while(true) loop. Will parse again in "+now);
                     sleep(240);
                     continue label;
                 }
@@ -75,7 +78,6 @@ public class PresidentOffice implements Runnable {
                     case "грудня" -> Month.DECEMBER;
                     default -> {
                         throw new RuntimeException("PARSE ERROR");
-//                        logger.error("FAILED TO PARSE.",title,href);
                     }
                 };
 

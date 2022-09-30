@@ -50,7 +50,9 @@ public class Pravda implements Runnable {
                 String title = header.text();
                 String href = header.getElementsByTag("a").attr("href");
                 if (newsService.existsByFullTitle(title) || newsService.existsByUrl(href)) {
-                    logger.warn("Continuing to while(true) loop");
+                    LocalTime now = LocalTime.now();
+                    now = now.plusMinutes(3);
+                    logger.warn("Continuing to while(true) loop. Will parse again in "+now);
                     sleep(240);
                     continue label;
                 }

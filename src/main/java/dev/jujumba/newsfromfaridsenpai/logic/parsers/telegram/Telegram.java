@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -47,7 +48,9 @@ public class Telegram implements Runnable {
                 String fullTitle = title;
                 String href = hrefs.get(i).attr("href");
                 if (newsService.existsByFullTitle(title) || newsService.existsByUrl(href)) {
-                    logger.warn("Continuing to while(true) loop");
+                    LocalTime now = LocalTime.now();
+                    now = now.plusMinutes(3);
+                    logger.warn("Continuing to while(true) loop. Will parse again in "+now);
                     sleep(240);
                     continue label;
                 }
