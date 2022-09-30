@@ -15,11 +15,15 @@ public class NewsService {
         this.repository = newsRepository;
     }
     public boolean exists(News news) {
-        return repository.existsByTitleAndUrl(news.getTitle(), news.getUrl());
+        return repository.existsByUrl(news.getUrl()) && repository.existsByFullTitle(news.getFullTitle());
     }
 
     public boolean existsByFullTitle(String fullTitle) {
         return repository.existsByFullTitle(fullTitle);
+    }
+
+    public boolean existsByUrl(String url) {
+        return repository.existsByUrl(url);
     }
     public List<News> findAll() {
         return repository.findAll();

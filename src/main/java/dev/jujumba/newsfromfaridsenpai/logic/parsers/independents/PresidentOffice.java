@@ -47,7 +47,8 @@ public class PresidentOffice implements Runnable {
             for (var elem : withAAttr) {
                 String title = elem.getElementsByTag("h3").text();
 
-                if (newsService.existsByFullTitle(title)) {
+                String href = elem.getElementsByTag("a").attr("href");
+                if (newsService.existsByFullTitle(title) || newsService.existsByUrl(href)) {
                     logger.warn("Continuing to while(true) loop");
                     sleep(240);
                     continue label;
@@ -55,7 +56,6 @@ public class PresidentOffice implements Runnable {
 
                 String fullTitle = title;
                 title = textHandler.handleTitle(title);
-                String href = elem.getElementsByTag("a").attr("href");
                 String[] split = elem.text().split(" ");
 
                 int day = Integer.parseInt(split[split.length - 6]);

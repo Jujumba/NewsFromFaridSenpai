@@ -42,28 +42,25 @@ public class TeleTest implements Runnable {
             }
             Elements elements = doc.select(".tgme_widget_message_text");
             Elements hrefs = doc.select(".tgme_widget_message_date");
-            int counter = hrefs.size() - 1;
-            for (int i = elements.size() - 1; i >= 0; i--) {
-                if (counter < 0) continue;
+            for (int i = 0; i < elements.size(); i++) {
+                if (i >= hrefs.size()) break;
                 String title = elements.get(i).text();
                 String fullTitle = title;
-                if (newsService.existsByFullTitle(title)) {
+                String href = hrefs.get(i).attr("href");
+                if (newsService.existsByFullTitle(title) || newsService.existsByUrl(href)) {
                     logger.warn("Continuing to while(true) loop");
                     sleep(240);
                     continue label;
                 }
 
-                if (title.contains("#")) {
+                if (title.contains("#") || title.contains("\uD83D\uDD25")) {
                     logger.info("Unsuitable news has been found",title);
                     continue;
                 } else {
                     title = textHandler.handleTitle(title);
                 }
-                /*
-                TODO: Title analysis by GPT-3-curie
-                 */
-                String href = hrefs.get(counter).attr("href");
-                LocalDateTime now = LocalDateTime.parse(hrefs.get(counter--).getElementsByTag("time").get(0).attr("datetime").split("\\+")[0]);
+
+                LocalDateTime now = LocalDateTime.parse(hrefs.get(i).getElementsByTag("time").get(0).attr("datetime").split("\\+")[0]);
                 News news = new News(title,href,now, fullTitle);
                 if (!collector.contains(news)) {
                     collector.add(news);

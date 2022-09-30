@@ -59,8 +59,8 @@ public class News implements Comparable<News> {
     }
 
     public String getTitle() {
-        if (title.length() > 60) return title.substring(0,60) + "...";
-        else return title;
+//        if (title.length() > 60) return title.substring(0,60) + "...";
+        /*else*/ return title;
     }
 
     @Override
