@@ -1,7 +1,7 @@
 package dev.jujumba.newsfromfaridsenpai.logic.parsers.independents;
 
 import dev.jujumba.newsfromfaridsenpai.logic.Collector;
-import dev.jujumba.newsfromfaridsenpai.logic.translate.Translator;
+import dev.jujumba.newsfromfaridsenpai.logic.processing.TextHandler;
 import dev.jujumba.newsfromfaridsenpai.models.News;
 import dev.jujumba.newsfromfaridsenpai.services.NewsService;
 import lombok.Getter;
@@ -25,12 +25,12 @@ public class PresidentOffice implements Runnable {
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy MM dd HH:mm");
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final Collector collector;
-    private final Translator translator;
+    private final TextHandler textHandler;
     private final NewsService newsService;
     @Autowired
-    public PresidentOffice(Collector collector, Translator translator, NewsService newsService) {
+    public PresidentOffice(Collector collector, TextHandler textHandler, NewsService newsService) {
         this.collector = collector;
-        this.translator = translator;
+        this.textHandler = textHandler;
         this.newsService = newsService;
     }
     @Override
@@ -54,7 +54,7 @@ public class PresidentOffice implements Runnable {
                 }
 
                 String fullTitle = title;
-                title = translator.translate("EN",title);
+                title = textHandler.handleTitle(title);
                 String href = elem.getElementsByTag("a").attr("href");
                 String[] split = elem.text().split(" ");
 

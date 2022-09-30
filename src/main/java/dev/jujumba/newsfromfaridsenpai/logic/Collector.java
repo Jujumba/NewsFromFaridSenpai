@@ -4,7 +4,7 @@ import dev.jujumba.newsfromfaridsenpai.logic.cleaner.NewsCleaner;
 import dev.jujumba.newsfromfaridsenpai.logic.parsers.independents.Pravda;
 import dev.jujumba.newsfromfaridsenpai.logic.parsers.independents.PresidentOffice;
 import dev.jujumba.newsfromfaridsenpai.logic.parsers.telegram.TeleTest;
-import dev.jujumba.newsfromfaridsenpai.logic.translate.Translator;
+import dev.jujumba.newsfromfaridsenpai.logic.processing.TextHandler;
 import dev.jujumba.newsfromfaridsenpai.models.News;
 import dev.jujumba.newsfromfaridsenpai.services.NewsService;
 import lombok.Getter;
@@ -16,16 +16,16 @@ import java.util.List;
 @Component
 public class Collector {
     private final NewsService service;
-    private final Translator translator;
+    private final TextHandler textHandler;
 
     @Getter
     private volatile List<News> allNews;
 
     @Autowired
-    public Collector(NewsService service, Translator translator) {
+    public Collector(NewsService service, TextHandler textHandler) {
         this.service = service;
         allNews = service.findAll();
-        this.translator = translator;
+        this.textHandler = textHandler;
         Collections.sort(allNews);
     }
 
@@ -33,9 +33,9 @@ public class Collector {
         Thread newsCleaner = new Thread(new NewsCleaner(this.service));
         newsCleaner.start();
 
-        Thread presidentOfficeThread = new Thread(new PresidentOffice(this,translator, service));
-        Thread pravdaThread = new Thread(new Pravda(this, translator, service));
-        Thread tele = new Thread(new TeleTest(this, translator, service));
+        Thread presidentOfficeThread = new Thread(new PresidentOffice(this,textHandler, service));
+        Thread pravdaThread = new Thread(new Pravda(this, textHandler, service));
+        Thread tele = new Thread(new TeleTest(this, textHandler, service));
         presidentOfficeThread.start();
         pravdaThread.start();
         tele.start();

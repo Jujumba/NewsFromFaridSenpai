@@ -1,7 +1,7 @@
 package dev.jujumba.newsfromfaridsenpai.logic.parsers.independents;
 
 import dev.jujumba.newsfromfaridsenpai.logic.Collector;
-import dev.jujumba.newsfromfaridsenpai.logic.translate.Translator;
+import dev.jujumba.newsfromfaridsenpai.logic.processing.TextHandler;
 import dev.jujumba.newsfromfaridsenpai.models.News;
 import dev.jujumba.newsfromfaridsenpai.services.NewsService;
 import org.jsoup.Jsoup;
@@ -24,12 +24,12 @@ public class Pravda implements Runnable {
     private volatile Collector collector;
     private final DateTimeFormatter pattern = DateTimeFormatter.ofPattern("HH:mm");
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private final Translator translator;
+    private final TextHandler textHandler;
     private final NewsService newsService;
     @Autowired
-    public Pravda(Collector collector, Translator translator, NewsService newsService) {
+    public Pravda(Collector collector, TextHandler textHandler, NewsService newsService) {
         this.collector = collector;
-        this.translator = translator;
+        this.textHandler = textHandler;
         this.newsService = newsService;
     }
 
@@ -61,17 +61,13 @@ public class Pravda implements Runnable {
                     title = title.replace("відео","");
                 }
                 String fullTitle = title;
-                title = translator.translate("EN", title);
+                title = textHandler.handleTitle(title);
                 String href = header.getElementsByTag("a").attr("href");
                 if (href.charAt(0) == '/') href = "https://www.pravda.com.ua" + href;
                 LocalDateTime time = LocalTime.parse(dates.get(counter++).text(), pattern).atDate(LocalDate.now());
                 News news = new News(title,href,time, fullTitle);
                 if (!collector.contains(news) && (LocalDateTime.now().getDayOfMonth() - time.getDayOfMonth() <= 2)) {
                     collector.add(news);
-                }else {
-                    logger.warn("Continuing to while(true) loop");
-                    sleep(120);
-                    continue label;
                 }
             }
                 sleep(60);

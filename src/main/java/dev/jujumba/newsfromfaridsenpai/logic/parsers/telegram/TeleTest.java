@@ -1,7 +1,7 @@
 package dev.jujumba.newsfromfaridsenpai.logic.parsers.telegram;
 
 import dev.jujumba.newsfromfaridsenpai.logic.Collector;
-import dev.jujumba.newsfromfaridsenpai.logic.translate.Translator;
+import dev.jujumba.newsfromfaridsenpai.logic.processing.TextHandler;
 import dev.jujumba.newsfromfaridsenpai.models.News;
 import dev.jujumba.newsfromfaridsenpai.services.NewsService;
 import org.jsoup.Jsoup;
@@ -21,12 +21,12 @@ public class TeleTest implements Runnable {
     //TODO: add logging
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final Collector collector;
-    private final Translator translator;
+    private final TextHandler textHandler;
     private final NewsService newsService;
     @Autowired
-    public TeleTest(Collector collector, Translator translator, NewsService newsService) {
+    public TeleTest(Collector collector, TextHandler textHandler, NewsService newsService) {
         this.collector = collector;
-        this.translator = translator;
+        this.textHandler = textHandler;
         this.newsService = newsService;
     }
 
@@ -57,7 +57,7 @@ public class TeleTest implements Runnable {
                     logger.info("Unsuitable news has been found",title);
                     continue;
                 } else {
-                    title = translator.translate("EN", title);
+                    title = textHandler.handleTitle(title);
                 }
                 /*
                 TODO: Title analysis by GPT-3-curie
