@@ -17,18 +17,18 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-@Component
 /**
  * @author Jujumba
  */
-public class Telegram implements Runnable, Parser {
+@Component
+public abstract class AbstractTelegramParser implements Runnable, Parser {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final Collector collector;
     private final TextHandler textHandler;
     private final NewsService newsService;
-    private String url = "https://t.me/s/UkraineNow";
+    private String url = null; //!
     @Autowired
-    public Telegram(Collector collector, TextHandler textHandler, NewsService newsService) {
+    public AbstractTelegramParser(Collector collector, TextHandler textHandler, NewsService newsService) {
         this.collector = collector;
         this.textHandler = textHandler;
         this.newsService = newsService;
@@ -64,11 +64,8 @@ public class Telegram implements Runnable, Parser {
                     sleep(240);
                     continue label;
                 }
-                /**
-                 * Only for UkraineNOW
-                 */
-                if (title.contains("#") || title.contains("\uD83D\uDD25")) {
-                    logger.warn("Unsuitable news has been found",title);
+                if (ifSuits(title)) {
+                    logger.warn("An unsuitable news has been found",title);
                     continue;
                 } else {
                     title = textHandler.handleTitle(title);
@@ -84,4 +81,10 @@ public class Telegram implements Runnable, Parser {
             sleep(180);
         }
     }
+
+    public AbstractTelegramParser setUrl(String url) {
+        this.url = url;
+        return this;
+    }
+    abstract boolean ifSuits(Object o);
 }

@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author Jujumba
  */
+@FunctionalInterface
 public interface Parser {
     void parse();
 
