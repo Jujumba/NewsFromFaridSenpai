@@ -14,4 +14,9 @@ public interface Parser {
     default void sleep(int seconds) {
         TimeUnit.SECONDS.sleep(seconds);
     }
+
+    @SneakyThrows
+    default void sleep(float hours) {
+        TimeUnit.HOURS.sleep((long) hours);
+    }
 }
