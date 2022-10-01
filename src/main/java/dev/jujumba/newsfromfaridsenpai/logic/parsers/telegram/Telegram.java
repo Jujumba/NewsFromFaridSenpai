@@ -1,6 +1,7 @@
 package dev.jujumba.newsfromfaridsenpai.logic.parsers.telegram;
 
 import dev.jujumba.newsfromfaridsenpai.logic.Collector;
+import dev.jujumba.newsfromfaridsenpai.logic.parsers.Parser;
 import dev.jujumba.newsfromfaridsenpai.logic.processing.TextHandler;
 import dev.jujumba.newsfromfaridsenpai.models.News;
 import dev.jujumba.newsfromfaridsenpai.services.NewsService;
@@ -15,14 +16,17 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.concurrent.TimeUnit;
 
 @Component
-public class Telegram implements Runnable {
+/**
+ * @author Jujumba
+ */
+public class Telegram implements Runnable, Parser {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final Collector collector;
     private final TextHandler textHandler;
     private final NewsService newsService;
+    private String url = "https://t.me/s/UkraineNow";
     @Autowired
     public Telegram(Collector collector, TextHandler textHandler, NewsService newsService) {
         this.collector = collector;
@@ -32,13 +36,19 @@ public class Telegram implements Runnable {
 
     @Override
     public void run() {
+        parse();
+    }
+
+    @Override
+    public void parse() {
         label: while (true) {
-            Document doc;
+            Document doc = null;
             try {
-                doc = Jsoup.connect("https://t.me/s/UkraineNow").get();
-                logger.info("Connected to https://t.me/s/UkraineNow");
+                doc = Jsoup.connect(url).get();
+                logger.info("Connected to " + url);
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                logger.error("Unable to connect to " + url);
+                e.printStackTrace();
             }
             Elements elements = doc.select(".tgme_widget_message_text");
             Elements hrefs = doc.select(".tgme_widget_message_date");
@@ -54,7 +64,9 @@ public class Telegram implements Runnable {
                     sleep(240);
                     continue label;
                 }
-
+                /**
+                 * Only for UkraineNOW
+                 */
                 if (title.contains("#") || title.contains("\uD83D\uDD25")) {
                     logger.warn("Unsuitable news has been found",title);
                     continue;
@@ -70,13 +82,6 @@ public class Telegram implements Runnable {
                 }
             }
             sleep(180);
-        }
-    }
-    private synchronized void sleep(int seconds) {
-        try {
-            TimeUnit.SECONDS.sleep(seconds);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
         }
     }
 }

@@ -10,6 +10,9 @@ import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 
 @Component
+/**
+ * @author Jujumba
+ */
 public class NewsCleaner implements Runnable {
     private final NewsService service;
     private final Logger logger = LoggerFactory.getLogger(getClass());

@@ -1,6 +1,7 @@
 package dev.jujumba.newsfromfaridsenpai.logic.parsers.independents;
 
 import dev.jujumba.newsfromfaridsenpai.logic.Collector;
+import dev.jujumba.newsfromfaridsenpai.logic.parsers.Parser;
 import dev.jujumba.newsfromfaridsenpai.logic.processing.TextHandler;
 import dev.jujumba.newsfromfaridsenpai.models.News;
 import dev.jujumba.newsfromfaridsenpai.services.NewsService;
@@ -18,11 +19,13 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
-import java.util.concurrent.TimeUnit;
 
 @Component
 @Getter
-public class PresidentOffice implements Runnable {
+/**
+ * @author Jujumba
+ */
+public class PresidentOffice implements Runnable, Parser {
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy MM dd HH:mm");
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final Collector collector;
@@ -36,6 +39,11 @@ public class PresidentOffice implements Runnable {
     }
     @Override
     public void run() {
+        parse();
+    }
+
+    @Override
+    public void parse() {
         label: while (true) {
             Document doc;
             try {
@@ -76,32 +84,22 @@ public class PresidentOffice implements Runnable {
                     case "жовтня" -> Month.OCTOBER;
                     case "листопада" -> Month.NOVEMBER;
                     case "грудня" -> Month.DECEMBER;
-                    default -> {
-                        throw new RuntimeException("PARSE ERROR");
-                    }
+                    default -> throw new RuntimeException("PARSE ERROR");
                 };
 
                 String[] hourAndMinute = split[split.length - 1].split(":");
                 int hour = Integer.parseInt(hourAndMinute[0]);
                 int minute = Integer.parseInt(hourAndMinute[1]);
 
-              LocalDateTime dateTime = LocalDateTime.of(year,month ,day, hour, minute);
-              News news = new News(title, href, dateTime, fullTitle);
+                LocalDateTime dateTime = LocalDateTime.of(year,month ,day, hour, minute);
+                News news = new News(title, href, dateTime, fullTitle);
 
-              if (!collector.contains(news) && (LocalDateTime.now().getDayOfMonth() - dateTime.getDayOfMonth() <= 2)) {
-                  collector.add(news);
-                  logger.info("New news found");
-              }
+                if (!collector.contains(news) && (LocalDateTime.now().getDayOfMonth() - dateTime.getDayOfMonth() <= 2)) {
+                    collector.add(news);
+                    logger.info("New news found");
+                }
             }
             sleep(60);
-        }
-    }
-
-    private synchronized void sleep(int seconds) {
-        try {
-            TimeUnit.SECONDS.sleep(seconds);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
         }
     }
 }

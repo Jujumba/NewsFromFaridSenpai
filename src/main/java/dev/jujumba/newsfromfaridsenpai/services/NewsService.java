@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+/**
+ * @author Jujumba
+ */
 public class NewsService {
     private final NewsRepository repository;
     @Autowired

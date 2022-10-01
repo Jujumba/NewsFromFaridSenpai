@@ -11,6 +11,9 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 
 @Component
+/**
+ * @author Jujumba
+ */
 public class Translator {
     @Value("${translate_api_key}")
     private String apiKey;

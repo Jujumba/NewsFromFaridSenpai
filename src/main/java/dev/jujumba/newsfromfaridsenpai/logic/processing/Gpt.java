@@ -15,6 +15,9 @@ import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
 @Component
+/**
+ * @author Jujumba
+ */
 public class Gpt {
     @Value("${gpt_api_key}")
     private String apiKey;

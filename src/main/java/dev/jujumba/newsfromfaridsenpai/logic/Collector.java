@@ -15,6 +15,9 @@ import org.springframework.stereotype.Component;
 import java.util.Collections;
 import java.util.List;
 @Component
+/**
+ * @author Jujumba
+ */
 public class Collector {
     private final NewsService service;
     private final TextHandler textHandler;

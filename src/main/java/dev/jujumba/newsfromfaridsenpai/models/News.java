@@ -11,6 +11,9 @@ import java.util.Objects;
 @Component
 @Entity
 @Data
+/**
+ * @author Jujumba
+ */
 public class News implements Comparable<News> {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     private static final DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("HH:mm");

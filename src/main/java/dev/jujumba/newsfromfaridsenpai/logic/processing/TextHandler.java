@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
+/**
+ * @author Jujumba
+ */
 public class TextHandler {
     private final Gpt gpt;
     private final Translator translator;

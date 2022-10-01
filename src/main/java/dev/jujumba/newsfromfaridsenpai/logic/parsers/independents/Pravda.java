@@ -1,6 +1,7 @@
 package dev.jujumba.newsfromfaridsenpai.logic.parsers.independents;
 
 import dev.jujumba.newsfromfaridsenpai.logic.Collector;
+import dev.jujumba.newsfromfaridsenpai.logic.parsers.Parser;
 import dev.jujumba.newsfromfaridsenpai.logic.processing.TextHandler;
 import dev.jujumba.newsfromfaridsenpai.models.News;
 import dev.jujumba.newsfromfaridsenpai.services.NewsService;
@@ -17,10 +18,12 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.concurrent.TimeUnit;
 
 @Component
-public class Pravda implements Runnable {
+/**
+ * @author Jujumba
+ */
+public class Pravda implements Runnable, Parser {
     private volatile Collector collector;
     private final DateTimeFormatter pattern = DateTimeFormatter.ofPattern("HH:mm");
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -35,6 +38,11 @@ public class Pravda implements Runnable {
 
     @Override
     public void run() {
+        parse();
+    }
+
+    @Override
+    public void parse() {
         label: while (true) {
             Document doc;
             try {
@@ -73,15 +81,7 @@ public class Pravda implements Runnable {
                     logger.info("New news found");
                 }
             }
-                sleep(60);
-        }
-    }
-
-    private synchronized void sleep(int seconds) {
-        try {
-            TimeUnit.SECONDS.sleep(seconds);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            sleep(60);
         }
     }
 }

@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
+/**
+ * @author Jujumba
+ */
 public interface NewsRepository extends JpaRepository<News, Integer> {
     boolean existsByTitleAndUrl(String title, String url);
     boolean existsByTitle(String title);
