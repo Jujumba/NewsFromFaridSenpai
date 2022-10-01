@@ -12,12 +12,23 @@ import org.springframework.stereotype.Component;
 public class UkraineNowTelegram extends AbstractTelegramParser{
     public UkraineNowTelegram(Collector collector, TextHandler textHandler, NewsService newsService) {
         super(collector, textHandler, newsService);
-        this.setUrl("https://t.me/s/UkraineNow");
+        setUrl("https://t.me/s/UkraineNow");
     }
 
     @Override
-    boolean ifSuits(Object o) {
+    boolean notSuits(Object o) {
         String title = (String) o;
         return title.contains("#") || title.contains("\uD83D\uDD25");
+    }
+
+
+    @Override
+    public String cleanupTitle(String title) {
+        return title;
+    }
+
+    @Override
+    public boolean hasOccurred(String fullTitle, String href) {
+        return getNewsService().existsByFullTitle(fullTitle) || getNewsService().existsByUrl(href);
     }
 }
