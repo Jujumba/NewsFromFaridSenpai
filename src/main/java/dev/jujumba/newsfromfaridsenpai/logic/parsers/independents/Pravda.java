@@ -19,10 +19,10 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-@Component
 /**
  * @author Jujumba
  */
+@Component
 public class Pravda implements Runnable, Parser {
     private volatile Collector collector;
     private final DateTimeFormatter pattern = DateTimeFormatter.ofPattern("HH:mm");
@@ -47,7 +47,7 @@ public class Pravda implements Runnable, Parser {
             Document doc;
             try {
                 doc = Jsoup.connect("https://www.pravda.com.ua/news/").get();
-                logger.info("Conneted to https://www.pravda.com.ua/news/");
+                logger.info("Connected to https://www.pravda.com.ua/news/");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

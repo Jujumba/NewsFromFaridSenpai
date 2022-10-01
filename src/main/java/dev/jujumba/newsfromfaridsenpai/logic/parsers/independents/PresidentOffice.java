@@ -20,11 +20,11 @@ import java.time.LocalTime;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
 
-@Component
-@Getter
 /**
  * @author Jujumba
  */
+@Component
+@Getter
 public class PresidentOffice implements Runnable, Parser {
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy MM dd HH:mm");
     private final Logger logger = LoggerFactory.getLogger(getClass());

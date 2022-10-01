@@ -6,11 +6,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@Controller()
-@RequestMapping("/news")
 /**
  * @author Jujumba
  */
+@Controller()
+@RequestMapping("/news")
 public class MainController {
     private final Collector collector;
         public MainController(Collector collector) {

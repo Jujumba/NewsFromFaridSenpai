@@ -9,10 +9,10 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 
-@Component
 /**
  * @author Jujumba
  */
+@Component
 public class NewsCleaner implements Runnable {
     private final NewsService service;
     private final Logger logger = LoggerFactory.getLogger(getClass());

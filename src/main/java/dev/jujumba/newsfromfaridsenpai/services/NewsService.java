@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 /**
  * @author Jujumba
  */
+@Service
 public class NewsService {
     private final NewsRepository repository;
     @Autowired
