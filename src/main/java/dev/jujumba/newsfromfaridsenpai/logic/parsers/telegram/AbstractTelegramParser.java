@@ -1,32 +1,28 @@
 package dev.jujumba.newsfromfaridsenpai.logic.parsers.telegram;
 
 import dev.jujumba.newsfromfaridsenpai.logic.Collector;
-import dev.jujumba.newsfromfaridsenpai.logic.parsers.Parser;
+import dev.jujumba.newsfromfaridsenpai.logic.parsers.AbstractParser;
 import dev.jujumba.newsfromfaridsenpai.logic.processing.TextHandler;
 import dev.jujumba.newsfromfaridsenpai.models.News;
 import dev.jujumba.newsfromfaridsenpai.services.NewsService;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
+import lombok.Data;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 /**
  * @author Jujumba
  */
-@Component
-public abstract class AbstractTelegramParser implements Runnable, Parser {
+@Data
+public abstract class AbstractTelegramParser extends AbstractParser {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final Collector collector;
     private final TextHandler textHandler;
     private final NewsService newsService;
-    private String url = null; //!
     @Autowired
     public AbstractTelegramParser(Collector collector, TextHandler textHandler, NewsService newsService) {
         this.collector = collector;
@@ -42,34 +38,29 @@ public abstract class AbstractTelegramParser implements Runnable, Parser {
     @Override
     public void parse() {
         label: while (true) {
-            Document doc = null;
-            try {
-                doc = Jsoup.connect(url).get();
-                logger.info("Connected to " + url);
-            } catch (IOException e) {
-                logger.error("Unable to connect to " + url);
-                e.printStackTrace();
-            }
-            Elements elements = doc.select(".tgme_widget_message_text");
-            Elements hrefs = doc.select(".tgme_widget_message_date");
+            setDocument(connect());
+            Elements elements = execQuery(getDocument(),".tgme_widget_message_text");
+            Elements hrefs = execQuery(getDocument(),".tgme_widget_message_date");
+            int counter = 0;
             for (int i = 0; i < elements.size(); i++) {
-                if (i >= hrefs.size()) break;
+                if (elements.get(i).classNames().contains("js-message_reply_text")) continue;
                 String title = elements.get(i).text();
                 String fullTitle = title;
-                String href = hrefs.get(i).attr("href");
-                if (newsService.existsByFullTitle(title) || newsService.existsByUrl(href)) {
+                String href = hrefs.get(counter++).attr("href");
+                if (hasOccurred(title,href)) { //newsService.existsByFullTitle(title) || newsService.existsByUrl(href)
                     LocalTime now = LocalTime.now();
                     now = now.plusMinutes(3);
                     logger.warn("Continuing to while(true) loop. Will parse again in "+now);
                     sleep(240);
                     continue label;
                 }
-                if (ifSuits(title)) {
+
+                if (notSuits(title)) {
                     logger.warn("An unsuitable news has been found",title);
                     continue;
-                } else {
-                    title = textHandler.handleTitle(title);
                 }
+                title = cleanupTitle(title);
+                title = textHandler.handleTitle(title);
 
                 LocalDateTime now = LocalDateTime.parse(hrefs.get(i).getElementsByTag("time").get(0).attr("datetime").split("\\+")[0]);
                 News news = new News(title,href,now, fullTitle);
@@ -81,10 +72,5 @@ public abstract class AbstractTelegramParser implements Runnable, Parser {
             sleep(180);
         }
     }
-
-    public AbstractTelegramParser setUrl(String url) {
-        this.url = url;
-        return this;
-    }
-    abstract boolean ifSuits(Object o);
+    abstract boolean notSuits(Object o);
 }

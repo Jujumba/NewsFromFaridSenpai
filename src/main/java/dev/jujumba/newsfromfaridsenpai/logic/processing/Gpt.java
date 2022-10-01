@@ -36,6 +36,7 @@ public class Gpt {
         Map values = new HashMap() {{
             put("model","text-davinci-002");
             put("prompt", text.replace("\n","") +"\nMake a title out of this text");
+            put("max_tokens",30);
             put("temperature",0.45f);
         }};
         ObjectMapper mapper = new ObjectMapper();
