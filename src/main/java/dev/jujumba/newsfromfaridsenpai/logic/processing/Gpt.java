@@ -28,7 +28,8 @@ public class Gpt {
         if (++counter >= 60) {
             logger.warn("The request limit per minute has been reached!");
             int minute = LocalTime.now().getMinute();
-            while (minute == minute) {
+            int nextMinute = minute + 1;
+            while (minute != nextMinute) {
                 Thread.sleep(500);
                 minute = LocalTime.now().getMinute();
             }
