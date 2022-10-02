@@ -81,18 +81,8 @@ public class News implements Comparable<News> {
 
     @Override
     public int compareTo(News o) {
-        if (o.getNow() == null) return 1;
-        else if (this.getNow() == null) return -1;
-
-
-        if (this.getNow().isBefore(o.getNow())) {
-            return 1;
-        }
-        else if (this.getNow().isAfter(o.getNow())) {
-            return -1;
-        }
-        else {
-            return 0;
-        }
+        if ((o.getNow() == null) || (this.getNow().isBefore(o.getNow()))) return 1;
+        else if ((this.getNow() == null) || (this.getNow().isAfter(o.getNow()))) return -1;
+        else return 0;
     }
 }
