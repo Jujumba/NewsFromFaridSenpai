@@ -17,7 +17,7 @@ import java.util.List;
  * @author Jujumba
  */
 @Component
-public class Collector {
+public class    Collector {
     private final NewsService service;
     private final TextHandler textHandler;
 
