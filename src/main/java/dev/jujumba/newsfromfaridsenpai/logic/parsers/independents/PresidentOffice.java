@@ -43,7 +43,7 @@ public class PresidentOffice extends AbstractParser {
     @Override
     public void parse() {
         label: while (true) {
-            setDocument(connect());
+            connect();
             Elements withAAttr = execQuery(getDocument(),".item_stat_headline");
             for (var elem : withAAttr) {
                 String title = elem.getElementsByTag("h3").text();
@@ -72,8 +72,8 @@ public class PresidentOffice extends AbstractParser {
                 LocalDateTime dateTime = LocalDateTime.of(year,month ,day, hour, minute);
                 News news = new News(title, href, dateTime, fullTitle);
 
-                if (!collector.contains(news) && (LocalDateTime.now().getDayOfMonth() - dateTime.getDayOfMonth() <= 2)) {
-                    collector.add(news);
+                if (!newsService.exists(news) && (LocalDateTime.now().getDayOfMonth() - dateTime.getDayOfMonth() <= 2)) {
+                    newsService.save(news);
                     logger.info("New news found");
                 }
             }

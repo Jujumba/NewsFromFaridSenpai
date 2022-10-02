@@ -21,7 +21,6 @@ public class UkraineNowTelegram extends AbstractTelegramParser{
         return title.contains("#") || title.contains("\uD83D\uDD25");
     }
 
-
     @Override
     public String cleanupTitle(String title) {
         return title;

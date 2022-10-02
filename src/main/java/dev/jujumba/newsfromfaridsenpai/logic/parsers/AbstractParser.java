@@ -19,10 +19,9 @@ public abstract class AbstractParser implements Parser, Runnable {
     private int delay = 180;
     private final Logger logger = LoggerFactory.getLogger(getClass());
     @SneakyThrows
-    public Document connect() {
-        Document document = Jsoup.connect(url).get();
+    public void connect() {
+        document = Jsoup.connect(url).get();
         logger.info("Connected to "+url);
-        return document;
     }
 
     public Elements execQuery(Document doc, String query) {
