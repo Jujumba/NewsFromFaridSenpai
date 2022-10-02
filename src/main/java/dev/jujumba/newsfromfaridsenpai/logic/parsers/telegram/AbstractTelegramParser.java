@@ -1,6 +1,5 @@
 package dev.jujumba.newsfromfaridsenpai.logic.parsers.telegram;
 
-import dev.jujumba.newsfromfaridsenpai.logic.Collector;
 import dev.jujumba.newsfromfaridsenpai.logic.parsers.AbstractParser;
 import dev.jujumba.newsfromfaridsenpai.logic.processing.TextHandler;
 import dev.jujumba.newsfromfaridsenpai.models.News;
@@ -20,12 +19,10 @@ import java.time.LocalTime;
 @Data
 public abstract class AbstractTelegramParser extends AbstractParser {
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private final Collector collector;
     private final TextHandler textHandler;
     private final NewsService newsService;
     @Autowired
-    public AbstractTelegramParser(Collector collector, TextHandler textHandler, NewsService newsService) {
-        this.collector = collector;
+    public AbstractTelegramParser(TextHandler textHandler, NewsService newsService) {
         this.textHandler = textHandler;
         this.newsService = newsService;
     }

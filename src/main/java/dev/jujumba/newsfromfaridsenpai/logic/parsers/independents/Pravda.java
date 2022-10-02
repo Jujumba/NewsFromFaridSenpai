@@ -1,6 +1,5 @@
 package dev.jujumba.newsfromfaridsenpai.logic.parsers.independents;
 
-import dev.jujumba.newsfromfaridsenpai.logic.Collector;
 import dev.jujumba.newsfromfaridsenpai.logic.parsers.AbstractParser;
 import dev.jujumba.newsfromfaridsenpai.logic.processing.TextHandler;
 import dev.jujumba.newsfromfaridsenpai.models.News;
@@ -21,14 +20,12 @@ import java.time.format.DateTimeFormatter;
  */
 @Component
 public class Pravda extends AbstractParser {
-    private volatile Collector collector;
     private final DateTimeFormatter pattern = DateTimeFormatter.ofPattern("HH:mm");
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final TextHandler textHandler;
     private final NewsService newsService;
     @Autowired
-    public Pravda(Collector collector, TextHandler textHandler, NewsService newsService) {
-        this.collector = collector;
+    public Pravda(TextHandler textHandler, NewsService newsService) {
         this.textHandler = textHandler;
         this.newsService = newsService;
         setUrl("https://www.pravda.com.ua/news/");

@@ -32,9 +32,9 @@ public class Collector {
         Thread newsCleaner = new Thread(new NewsCleaner(this.service));
         newsCleaner.setDaemon(true);
         newsCleaner.start();
-        Thread presidentOfficeThread = new Thread(new PresidentOffice(this, textHandler, service));
-        Thread pravdaThread = new Thread(new Pravda(this, textHandler, service));
-        Thread tele = new Thread(new UkraineNowTelegram(this, textHandler, service));
+        Thread presidentOfficeThread = new Thread(new PresidentOffice(textHandler, service));
+        Thread pravdaThread = new Thread(new Pravda(textHandler, service));
+        Thread tele = new Thread(new UkraineNowTelegram(textHandler, service));
         presidentOfficeThread.start();
         pravdaThread.start();
         tele.start();
