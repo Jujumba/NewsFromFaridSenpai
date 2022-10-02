@@ -42,7 +42,7 @@ public class Pravda extends AbstractParser {
     @Override
     public void parse() {
         label: while (true) {
-            setDocument(connect());
+            connect();
             Elements headers = execQuery(getDocument(),".article_header");
             Elements dates = execQuery(getDocument(),".article_time");
             int counter = 0;

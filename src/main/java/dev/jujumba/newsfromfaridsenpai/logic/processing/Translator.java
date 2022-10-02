@@ -26,9 +26,6 @@ public class Translator {
                 .setApplicationName("NewsFromFaridSenpai")
                 .build();
 
-        text = text.replace(", видео","");
-        text = text.replace(", фото","");
-
         Translate.Translations.List list = t.new Translations().list(Arrays.asList(text), languageCode);
         list.setKey(apiKey);
         TranslationsListResponse response = list.execute();

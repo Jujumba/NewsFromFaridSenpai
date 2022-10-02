@@ -38,7 +38,7 @@ public abstract class AbstractTelegramParser extends AbstractParser {
     @Override
     public void parse() {
         label: while (true) {
-            setDocument(connect());
+            connect();
             Elements elements = execQuery(getDocument(),".tgme_widget_message_text");
             Elements hrefs = execQuery(getDocument(),".tgme_widget_message_date");
             int counter = 0;
@@ -47,7 +47,7 @@ public abstract class AbstractTelegramParser extends AbstractParser {
                 String title = elements.get(i).text();
                 String fullTitle = title;
                 String href = hrefs.get(counter++).attr("href");
-                if (hasOccurred(title,href)) { //newsService.existsByFullTitle(title) || newsService.existsByUrl(href)
+                if (hasOccurred(title,href)) {
                     LocalTime now = LocalTime.now();
                     now = now.plusMinutes(3);
                     logger.warn("Continuing to while(true) loop. Will parse again in "+now);
