@@ -72,8 +72,8 @@ public class PresidentOffice extends AbstractParser {
                 LocalDateTime dateTime = LocalDateTime.of(year,month ,day, hour, minute);
                 News news = new News(title, href, dateTime, fullTitle);
 
-                if (!collector.contains(news) && (LocalDateTime.now().getDayOfMonth() - dateTime.getDayOfMonth() <= 2)) {
-                    collector.add(news);
+                if (!newsService.exists(news) && (LocalDateTime.now().getDayOfMonth() - dateTime.getDayOfMonth() <= 2)) {
+                    newsService.save(news);
                     logger.info("New news found");
                 }
             }

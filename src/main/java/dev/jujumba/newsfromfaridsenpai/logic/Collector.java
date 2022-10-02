@@ -7,7 +7,6 @@ import dev.jujumba.newsfromfaridsenpai.logic.parsers.telegram.UkraineNowTelegram
 import dev.jujumba.newsfromfaridsenpai.logic.processing.TextHandler;
 import dev.jujumba.newsfromfaridsenpai.models.News;
 import dev.jujumba.newsfromfaridsenpai.services.NewsService;
-import lombok.Getter;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,22 +20,19 @@ import java.util.List;
 public class Collector {
     private final NewsService service;
     private final TextHandler textHandler;
-    @Getter
-    private volatile List<News> allNews;
 
     @Autowired
     public Collector(NewsService service, TextHandler textHandler) {
         this.service = service;
-        allNews = service.findAll();
         this.textHandler = textHandler;
-        Collections.sort(allNews);
     }
 
     @SneakyThrows
     public void collect() {
         Thread newsCleaner = new Thread(new NewsCleaner(this.service));
+        newsCleaner.setDaemon(true);
         newsCleaner.start();
-        Thread presidentOfficeThread = new Thread(new PresidentOffice(this,textHandler, service));
+        Thread presidentOfficeThread = new Thread(new PresidentOffice(this, textHandler, service));
         Thread pravdaThread = new Thread(new Pravda(this, textHandler, service));
         Thread tele = new Thread(new UkraineNowTelegram(this, textHandler, service));
         presidentOfficeThread.start();
@@ -44,16 +40,8 @@ public class Collector {
         tele.start();
     }
 
-    public void add(News news) {
-        allNews.add(news);
-        service.save(news);
-    }
-
-    public boolean contains(News news) {
-        return service.exists(news);
-    }
-
     public List<News> getAllNews() {
+        List<News> allNews = service.findAll();
         Collections.sort(allNews);
         return allNews;
     }

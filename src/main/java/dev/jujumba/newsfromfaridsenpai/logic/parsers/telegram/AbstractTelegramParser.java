@@ -64,8 +64,8 @@ public abstract class AbstractTelegramParser extends AbstractParser {
 
                 LocalDateTime now = LocalDateTime.parse(hrefs.get(i).getElementsByTag("time").get(0).attr("datetime").split("\\+")[0]);
                 News news = new News(title,href,now, fullTitle);
-                if (!collector.contains(news)) {
-                    collector.add(news);
+                if (!newsService.exists(news)) {
+                    newsService.save(news);
                     logger.info("New news found");
                 }
             }
