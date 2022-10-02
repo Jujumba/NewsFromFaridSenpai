@@ -63,7 +63,7 @@ public class Pravda extends AbstractParser {
                 LocalDateTime time = LocalTime.parse(dates.get(counter++).text(), pattern).atDate(LocalDate.now());
                 News news = new News(title,href,time, fullTitle);
                 if (!newsService.exists(news) && (LocalDateTime.now().getDayOfMonth() - time.getDayOfMonth() <= 2)) {
-                    collector.add(news);
+                    newsService.save(news);
                     logger.info("New news found");
                 }
             }
