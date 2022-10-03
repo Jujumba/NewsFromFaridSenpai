@@ -24,8 +24,8 @@ public abstract class AbstractParser implements Parser, Runnable {
         logger.info("Connected to "+url);
     }
 
-    public Elements execQuery(Document doc, String query) {
-        return doc.select(query);
+    public Elements execQuery(String query) {
+        return document.select(query);
     }
 
     public abstract String cleanupTitle(String title);

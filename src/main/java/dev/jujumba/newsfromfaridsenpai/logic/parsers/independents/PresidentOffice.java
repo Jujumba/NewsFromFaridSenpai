@@ -41,7 +41,7 @@ public class PresidentOffice extends AbstractParser {
     public void parse() {
         label: while (true) {
             connect();
-            Elements withAAttr = execQuery(getDocument(),".item_stat_headline");
+            Elements withAAttr = execQuery(".item_stat_headline");
             for (var elem : withAAttr) {
                 String title = elem.getElementsByTag("h3").text();
 
