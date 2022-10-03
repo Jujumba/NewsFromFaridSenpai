@@ -54,8 +54,8 @@ public class Gpt {
         try {
             map = mapper.readValue(response.body().split("\\[")[1].split("]")[0], HashMap.class);
         } catch (Exception e) {
-            logger.error(response.body());
             e.printStackTrace();
+            logger.error(response.body());
         }
         return map.get("text").replace(".","").replace("\n","").replace(":","")
                 .replace("!","");
