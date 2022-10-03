@@ -31,7 +31,7 @@ public class NewsCleaner extends AbstractParser {
         while (true) {
             logger.warn("Starting news cleaning");
             for (var news : service.findAll())
-                if (LocalDateTime.now().getDayOfMonth() - news.getNow().getDayOfMonth() > 3)
+                if (news.getNow().getDayOfMonth() - LocalDateTime.now().getDayOfMonth() > 3)
                     service.delete(news);
             sleep(8f);
         }
