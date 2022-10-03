@@ -11,7 +11,6 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
 /**
@@ -25,13 +24,14 @@ public class Gpt {
     private int counter = 0;
     @SneakyThrows
     protected String process(String text) {
-        if (++counter >= 60) {
+        counter += 1;
+        if (counter >= 60) {
             logger.warn("The request limit per minute has been reached!");
-            int minute = LocalTime.now().getMinute();
-            int nextMinute = minute + 1;
-            while (minute != nextMinute) {
-                Thread.sleep(500);
-                minute = LocalTime.now().getMinute();
+            long currentMillis = System.currentTimeMillis();
+            long afterOne = currentMillis + 1000;
+            while (currentMillis <= afterOne) {
+                Thread.sleep(5000);
+                currentMillis = System.currentTimeMillis();
             }
         }
         Map values = new HashMap() {{
