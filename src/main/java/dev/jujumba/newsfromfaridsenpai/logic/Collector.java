@@ -17,7 +17,7 @@ import java.util.List;
  * @author Jujumba
  */
 @Component
-public class Collector {
+public class    Collector {
     private final NewsService service;
     private final TextHandler textHandler;
 
@@ -32,9 +32,9 @@ public class Collector {
         Thread newsCleaner = new Thread(new NewsCleaner(this.service));
         newsCleaner.setDaemon(true);
         newsCleaner.start();
-        Thread presidentOfficeThread = new Thread(new PresidentOffice(this, textHandler, service));
-        Thread pravdaThread = new Thread(new Pravda(this, textHandler, service));
-        Thread tele = new Thread(new UkraineNowTelegram(this, textHandler, service));
+        Thread presidentOfficeThread = new Thread(new PresidentOffice(textHandler, service));
+        Thread pravdaThread = new Thread(new Pravda(textHandler, service));
+        Thread tele = new Thread(new UkraineNowTelegram(textHandler, service));
         presidentOfficeThread.start();
         pravdaThread.start();
         tele.start();

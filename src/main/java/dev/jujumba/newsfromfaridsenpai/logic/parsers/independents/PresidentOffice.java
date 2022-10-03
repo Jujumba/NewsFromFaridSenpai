@@ -1,6 +1,5 @@
 package dev.jujumba.newsfromfaridsenpai.logic.parsers.independents;
 
-import dev.jujumba.newsfromfaridsenpai.logic.Collector;
 import dev.jujumba.newsfromfaridsenpai.logic.parsers.AbstractParser;
 import dev.jujumba.newsfromfaridsenpai.logic.processing.TextHandler;
 import dev.jujumba.newsfromfaridsenpai.models.News;
@@ -25,12 +24,10 @@ import java.time.format.DateTimeFormatter;
 public class PresidentOffice extends AbstractParser {
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy MM dd HH:mm");
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private final Collector collector;
     private final TextHandler textHandler;
     private final NewsService newsService;
     @Autowired
-    public PresidentOffice(Collector collector, TextHandler textHandler, NewsService newsService) {
-        this.collector = collector;
+    public PresidentOffice(TextHandler textHandler, NewsService newsService) {
         this.textHandler = textHandler;
         this.newsService = newsService;
         setUrl("https://www.president.gov.ua/news/last");
