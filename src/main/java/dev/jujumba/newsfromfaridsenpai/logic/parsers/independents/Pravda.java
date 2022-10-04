@@ -40,8 +40,8 @@ public class Pravda extends AbstractParser {
     public void parse() {
         label: while (true) {
             connect();
-            Elements headers = execQuery(getDocument(),".article_header");
-            Elements dates = execQuery(getDocument(),".article_time");
+            Elements headers = execQuery(".article_header");
+            Elements dates = execQuery(".article_time");
             int counter = 0;
             for (var header : headers) {
                 String title = header.text();

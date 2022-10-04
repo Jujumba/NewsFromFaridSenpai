@@ -36,8 +36,8 @@ public abstract class AbstractTelegramParser extends AbstractParser {
     public void parse() {
         label: while (true) {
             connect();
-            Elements elements = execQuery(getDocument(),".tgme_widget_message_text");
-            Elements hrefs = execQuery(getDocument(),".tgme_widget_message_date");
+            Elements elements = execQuery(".tgme_widget_message_text");
+            Elements hrefs = execQuery(".tgme_widget_message_date");
             int counter = 0;
             for (int i = 0; i < elements.size(); i++) {
                 if (elements.get(i).classNames().contains("js-message_reply_text")) continue;

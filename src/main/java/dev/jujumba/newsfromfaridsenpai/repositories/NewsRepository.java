@@ -11,8 +11,6 @@ import java.util.List;
  */
 @Repository
 public interface NewsRepository extends JpaRepository<News, Integer> {
-    boolean existsByTitleAndUrl(String title, String url);
-    boolean existsByTitle(String title);
     boolean existsByFullTitle(String fullTitle);
     boolean existsByUrl(String url);
     @Override
