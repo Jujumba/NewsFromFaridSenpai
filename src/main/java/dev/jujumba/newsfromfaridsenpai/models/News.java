@@ -1,5 +1,6 @@
 package dev.jujumba.newsfromfaridsenpai.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
@@ -14,16 +15,19 @@ import java.util.Objects;
 @Component
 @Entity
 @Data
+@Table(name = "news")
 public class News implements Comparable<News> {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     private static final DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("HH:mm");
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private int id;
     @Column(name = "title")
     private String title;
     @Column(name = "full_title")
+    @JsonIgnore
     private String fullTitle;
     @Column(name = "url")
     private String url;

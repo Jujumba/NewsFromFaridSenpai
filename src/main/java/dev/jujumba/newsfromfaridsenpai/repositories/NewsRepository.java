@@ -2,6 +2,7 @@ package dev.jujumba.newsfromfaridsenpai.repositories;
 
 import dev.jujumba.newsfromfaridsenpai.models.News;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,6 +14,6 @@ import java.util.List;
 public interface NewsRepository extends JpaRepository<News, Integer> {
     boolean existsByFullTitle(String fullTitle);
     boolean existsByUrl(String url);
-    @Override
-    List<News> findAll();
+    @Query(value = "from News f order by f.now desc")
+    List<News> findAllAndSortByDate();
 }

@@ -25,11 +25,15 @@ public class NewsService {
         return repository.existsByFullTitle(fullTitle);
     }
 
+    public long getCount() {
+        return repository.count();
+    }
+
     public boolean existsByUrl(String url) {
         return repository.existsByUrl(url);
     }
     public List<News> findAll() {
-        return repository.findAll();
+        return repository.findAllAndSortByDate();
     }
     public void save(News news) {
         repository.save(news);
