@@ -5,19 +5,15 @@ import dev.jujumba.newsfromfaridsenpai.logic.parsers.independents.Pravda;
 import dev.jujumba.newsfromfaridsenpai.logic.parsers.independents.PresidentOffice;
 import dev.jujumba.newsfromfaridsenpai.logic.parsers.telegram.UkraineNowTelegram;
 import dev.jujumba.newsfromfaridsenpai.logic.processing.TextHandler;
-import dev.jujumba.newsfromfaridsenpai.models.News;
 import dev.jujumba.newsfromfaridsenpai.services.NewsService;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.Collections;
-import java.util.List;
 /**
  * @author Jujumba
  */
 @Component
-public class    Collector {
+public class Collector {
     private final NewsService service;
     private final TextHandler textHandler;
 
@@ -38,11 +34,5 @@ public class    Collector {
         presidentOfficeThread.start();
         pravdaThread.start();
         tele.start();
-    }
-
-    public List<News> getAllNews() {
-        List<News> allNews = service.findAll();
-        Collections.sort(allNews);
-        return allNews;
     }
 }
