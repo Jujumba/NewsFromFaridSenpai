@@ -13,6 +13,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
  * @author Jujumba
  */
@@ -21,14 +23,13 @@ public class Gpt {
     @Value("${gpt_api_key}")
     private String apiKey;
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private int counter = 0;
+    private static volatile AtomicInteger counter = new AtomicInteger(0);
     @SneakyThrows
     protected String process(String text) {
-        counter += 1;
-        if (counter >= 60) {
+        if (counter.incrementAndGet() >= 60) {
             logger.warn("The request limit per minute has been reached!");
             long currentMillis = System.currentTimeMillis();
-            long afterOne = currentMillis + 1000;
+            long afterOne = currentMillis + 60000;
             while (currentMillis <= afterOne) {
                 Thread.sleep(5000);
                 currentMillis = System.currentTimeMillis();
