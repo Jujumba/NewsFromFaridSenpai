@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author Jujumba
  */
 @Controller()
-@RequestMapping("/news")
+@RequestMapping("/")
 public class MainController {
     private final Collector collector;
         public MainController(Collector collector) {
