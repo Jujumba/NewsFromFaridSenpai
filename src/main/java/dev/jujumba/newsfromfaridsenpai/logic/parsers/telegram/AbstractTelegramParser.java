@@ -5,6 +5,7 @@ import dev.jujumba.newsfromfaridsenpai.logic.processing.TextHandler;
 import dev.jujumba.newsfromfaridsenpai.models.News;
 import dev.jujumba.newsfromfaridsenpai.services.NewsService;
 import lombok.Data;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +46,7 @@ public abstract class AbstractTelegramParser extends AbstractParser {
                 String fullTitle = title;
                 String href = hrefs.get(counter++).attr("href");
                 if (hasOccurred(title,href)) {
+                    System.out.println(title + "|" + href);
                     LocalTime now = LocalTime.now();
                     now = now.plusMinutes(3);
                     logger.warn("Continuing to while(true) loop. Will parse again in "+now);
@@ -59,8 +61,13 @@ public abstract class AbstractTelegramParser extends AbstractParser {
                 title = cleanupTitle(title);
                 title = textHandler.handleTitle(title);
 
-                LocalDateTime now = LocalDateTime.parse(hrefs.get(i).getElementsByTag("time").get(0).attr("datetime").split("\\+")[0]);
-                News news = new News(title,href,now, fullTitle);
+                //TODO: fix date parsing(!)
+                Element time = hrefs.get(i).getElementsByTag("time").get(0);
+                String temp = time.attr("datetime").split("\\+")[0];
+                LocalDateTime now = LocalDateTime.parse(temp);
+                now = now.plusHours(2);
+
+                News news = new News(title,href, now, fullTitle);
                 if (!newsService.exists(news)) {
                     newsService.save(news);
                     logger.info("New news found");
