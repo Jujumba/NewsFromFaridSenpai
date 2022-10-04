@@ -1,5 +1,6 @@
 package dev.jujumba.newsfromfaridsenpai.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
@@ -20,10 +21,12 @@ public class News implements Comparable<News> {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private int id;
     @Column(name = "title")
     private String title;
     @Column(name = "full_title")
+    @JsonIgnore
     private String fullTitle;
     @Column(name = "url")
     private String url;
