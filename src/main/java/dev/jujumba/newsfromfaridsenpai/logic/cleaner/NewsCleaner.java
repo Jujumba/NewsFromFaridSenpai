@@ -32,7 +32,7 @@ public class NewsCleaner extends AbstractParser {
             logger.warn("Starting news cleaning");
             int currentDay = LocalDateTime.now().getDayOfMonth();
             for (var news : service.findAll()) {
-                int newsDay = news.getNow().getDayOfMonth();
+                int newsDay = news.getDateTime().getDayOfMonth();
                 if (currentDay - newsDay >= 3 || currentDay - newsDay < 0)
                     service.delete(news);
             }

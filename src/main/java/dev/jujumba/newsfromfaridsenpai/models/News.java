@@ -32,38 +32,38 @@ public class News implements Comparable<News> {
     @Column(name = "url")
     private String url;
     @Column(name = "date")
-    private LocalDateTime now;
+    private LocalDateTime dateTime;
     public News () {
-        now = LocalDateTime.parse(formatter.format(LocalDateTime.now()), formatter);
+        dateTime = LocalDateTime.parse(formatter.format(LocalDateTime.now()), formatter);
     }
 
     public News(String title, String url) {
         this.title = title;
         this.url = url;
-        now = LocalDateTime.parse(formatter.format(LocalDateTime.now()), formatter);
+        dateTime = LocalDateTime.parse(formatter.format(LocalDateTime.now()), formatter);
     }
 
-    public News(String title, String url, LocalDateTime now) {
+    public News(String title, String url, LocalDateTime dateTime) {
         this.title = title;
         this.url = url;
-        this.now = now;
+        this.dateTime = dateTime;
     }
-    public News(String title, String url, LocalDateTime now, String fullTitle) {
+    public News(String title, String url, LocalDateTime dateTime, String fullTitle) {
         if (title.chars().filter(ch -> ch == '\"').count() == 1) title = title.replace("\"","");
         this.title = title;
         this.url = url;
-        this.now = now;
+        this.dateTime = dateTime;
         this.fullTitle = fullTitle;
     }
 
     public News(String fullTitle) {
         this.fullTitle = fullTitle;
     }
-
+    @JsonIgnore
     public String getFormattedNow() {
-        if (now.getYear() == LocalDateTime.now().getYear() && now.getMonth() == LocalDateTime.now().getMonth() && now.getDayOfMonth() == LocalDateTime.now().getDayOfMonth())
-        return formatter1.format(now);
-        else return formatter.format(now);
+        if (dateTime.getYear() == LocalDateTime.now().getYear() && dateTime.getMonth() == LocalDateTime.now().getMonth() && dateTime.getDayOfMonth() == LocalDateTime.now().getDayOfMonth())
+        return formatter1.format(dateTime);
+        else return formatter.format(dateTime);
     }
 
     public String getTitle() {
@@ -85,8 +85,8 @@ public class News implements Comparable<News> {
 
     @Override
     public int compareTo(News o) {
-        if ((o.getNow() == null) || (this.getNow().isBefore(o.getNow()))) return 1;
-        else if ((this.getNow() == null) || (this.getNow().isAfter(o.getNow()))) return -1;
+        if ((o.getDateTime() == null) || (this.getDateTime().isBefore(o.getDateTime()))) return 1;
+        else if ((this.getDateTime() == null) || (this.getDateTime().isAfter(o.getDateTime()))) return -1;
         else return 0;
     }
 }

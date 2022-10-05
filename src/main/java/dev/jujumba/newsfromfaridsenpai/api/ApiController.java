@@ -41,6 +41,7 @@ public class ApiController {
         if (apiKeysService.exists(Authorization)) {
             //TODO: вернуть напрямую последнюю новость, для этого сделать метод count в сервисе
             List<News> allNews = newsService.findAll();
+            System.out.println(allNews.get(allNews.size() - 1));
             return mapper.writeValueAsString(allNews.get(allNews.size() - 1));
         } else {
         return mapper.writeValueAsString(new HashMap() {{
