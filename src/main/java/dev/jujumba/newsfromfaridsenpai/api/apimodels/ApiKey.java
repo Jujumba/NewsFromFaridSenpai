@@ -1,5 +1,7 @@
 package dev.jujumba.newsfromfaridsenpai.api.apimodels;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
 /**
@@ -7,6 +9,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "api_keys")
+@Data
 public class ApiKey {
     @Id
     @Column(name = "id")
@@ -20,13 +23,5 @@ public class ApiKey {
 
     public ApiKey() {
 
-    }
-
-    @Override
-    public String toString() {
-        return "ApiKey{" +
-                "value='" + value + '\'' +
-                ", owner=" + owner +
-                '}';
     }
 }

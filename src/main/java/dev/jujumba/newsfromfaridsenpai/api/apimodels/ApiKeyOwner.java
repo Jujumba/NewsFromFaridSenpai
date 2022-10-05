@@ -1,5 +1,7 @@
 package dev.jujumba.newsfromfaridsenpai.api.apimodels;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
 /**
@@ -7,6 +9,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "api_owners")
+@Data
 public class ApiKeyOwner {
     @Id
     @Column
