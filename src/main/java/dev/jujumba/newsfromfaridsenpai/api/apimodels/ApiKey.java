@@ -21,4 +21,12 @@ public class ApiKey {
     public ApiKey() {
 
     }
+
+    @Override
+    public String toString() {
+        return "ApiKey{" +
+                "value='" + value + '\'' +
+                ", owner=" + owner +
+                '}';
+    }
 }
