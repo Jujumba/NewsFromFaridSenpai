@@ -12,7 +12,7 @@
     </header>
 </center>
     <div th:class="news" th:each="news : ${all_news}">
-        <a th:href="${news.getUrl()}" th:text="${news.getTitle()} +' - '+ ${news.getFormattedNow()}">title</a>
+        <a th:href="${news.getUrl()}" th:text="${news.getTitle()} + ' - ' + ${news.getFormattedNow()}">title</a>
     </div>
 </body>
 </html>
