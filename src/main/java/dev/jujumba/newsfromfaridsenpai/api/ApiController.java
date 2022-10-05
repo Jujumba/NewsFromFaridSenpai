@@ -1,13 +1,15 @@
 package dev.jujumba.newsfromfaridsenpai.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import dev.jujumba.newsfromfaridsenpai.models.News;
 import dev.jujumba.newsfromfaridsenpai.services.ApiKeysService;
 import dev.jujumba.newsfromfaridsenpai.services.NewsService;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,6 +23,10 @@ import java.util.List;
 @RequestMapping("/api")
 public class ApiController {
     private final ObjectMapper mapper = new ObjectMapper();
+    {
+        mapper.registerModule(new JavaTimeModule());
+        mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+    }
     private final NewsService newsService;
     private final ApiKeysService apiKeysService;
     @Autowired
@@ -31,9 +37,8 @@ public class ApiController {
 
     @SneakyThrows
     @PostMapping
-    //TODO: Починить...(((((
-    public String getLast(@RequestBody String apiKey) {
-        if (apiKeysService.exists(apiKey)) {
+    public String getLast(@RequestHeader String Authorization) {
+        if (apiKeysService.exists(Authorization)) {
             //TODO: вернуть напрямую последнюю новость, для этого сделать метод count в сервисе
             List<News> allNews = newsService.findAll();
             return mapper.writeValueAsString(allNews.get(allNews.size() - 1));
