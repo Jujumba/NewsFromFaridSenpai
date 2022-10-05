@@ -34,7 +34,6 @@ public class ApiController {
     @PostMapping
     public String getLast(@RequestHeader String Authorization) {
         if (apiKeysService.exists(Authorization)) {
-            //TODO: вернуть напрямую последнюю новость, для этого сделать метод count в сервисе
             return mapper.writeValueAsString(newsService.findAll().get(0));
         } else {
         return mapper.writeValueAsString(new HashMap() {{
