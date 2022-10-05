@@ -3,7 +3,6 @@ package dev.jujumba.newsfromfaridsenpai.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import dev.jujumba.newsfromfaridsenpai.models.News;
 import dev.jujumba.newsfromfaridsenpai.services.ApiKeysService;
 import dev.jujumba.newsfromfaridsenpai.services.NewsService;
 import lombok.SneakyThrows;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * @author Jujumba
@@ -40,9 +38,7 @@ public class ApiController {
     public String getLast(@RequestHeader String Authorization) {
         if (apiKeysService.exists(Authorization)) {
             //TODO: вернуть напрямую последнюю новость, для этого сделать метод count в сервисе
-            List<News> allNews = newsService.findAll();
-            System.out.println(allNews.get(allNews.size() - 1));
-            return mapper.writeValueAsString(allNews.get(allNews.size() - 1));
+            return mapper.writeValueAsString(newsService.findAll().get(0));
         } else {
         return mapper.writeValueAsString(new HashMap() {{
             put("error","You didn't provide a correct API-key!");
