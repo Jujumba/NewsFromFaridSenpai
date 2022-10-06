@@ -37,14 +37,14 @@ public class ApiController {
     @SneakyThrows
     @PostMapping(consumes = {"application/json"}, produces = {"application/json"})
     public String getNews(@RequestHeader String Authorization,
-                          @RequestBody ApiRequest request) {
+                          @RequestBody(required = false) ApiRequest request) {
         if (!apiKeysService.exists(Authorization)) {
             return mapper.writeValueAsString(new ApiError());
         }
         List<News> news = new ArrayList<>();
         List<News> allNews = newsService.findAll();
         if (request.getAmount() >= allNews.size()) {
-            request.setAmount(allNews.size() - 1);
+            return mapper.writeValueAsString(allNews);
         }
         for (int i = 0; i < request.getAmount(); i++) {
             news.add(allNews.get(i));
@@ -56,5 +56,4 @@ public class ApiController {
     public String returnNothing() {
         return mapper.writeValueAsString(new ApiError());
     }
-
 }
