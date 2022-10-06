@@ -40,7 +40,6 @@ public abstract class AbstractTelegramParser extends AbstractParser {
                 String fullTitle = title;
                 String href = hrefs.get(counter++).attr("href");
                 if (hasOccurred(title,href)) {
-                    System.out.println(title + "|" + href);
                     LocalTime now = LocalTime.now();
                     now = now.plusMinutes(3);
                     logger.warn("Continuing to while(true) loop. Will parse again in "+now);
