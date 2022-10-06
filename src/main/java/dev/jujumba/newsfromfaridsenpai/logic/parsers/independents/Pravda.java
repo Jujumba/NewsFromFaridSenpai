@@ -5,8 +5,6 @@ import dev.jujumba.newsfromfaridsenpai.logic.processing.TextHandler;
 import dev.jujumba.newsfromfaridsenpai.models.News;
 import dev.jujumba.newsfromfaridsenpai.services.NewsService;
 import org.jsoup.select.Elements;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,13 +20,9 @@ import java.time.format.DateTimeFormatter;
 @Component
 public class Pravda extends AbstractParser {
     private final DateTimeFormatter pattern = DateTimeFormatter.ofPattern("HH:mm");
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-    private final TextHandler textHandler;
-    private final NewsService newsService;
     @Autowired
     public Pravda(TextHandler textHandler, NewsService newsService) {
-        this.textHandler = textHandler;
-        this.newsService = newsService;
+        super(textHandler,newsService);
         setUrl("https://www.pravda.com.ua/news/");
     }
 

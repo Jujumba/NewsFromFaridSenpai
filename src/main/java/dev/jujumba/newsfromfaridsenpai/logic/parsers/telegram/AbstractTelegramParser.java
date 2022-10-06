@@ -7,8 +7,6 @@ import dev.jujumba.newsfromfaridsenpai.services.NewsService;
 import lombok.Data;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
@@ -19,13 +17,9 @@ import java.time.LocalTime;
  */
 @Data
 public abstract class AbstractTelegramParser extends AbstractParser {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-    private final TextHandler textHandler;
-    private final NewsService newsService;
     @Autowired
     public AbstractTelegramParser(TextHandler textHandler, NewsService newsService) {
-        this.textHandler = textHandler;
-        this.newsService = newsService;
+        super(textHandler,newsService);
     }
 
     @Override

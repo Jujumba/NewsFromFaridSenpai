@@ -2,8 +2,6 @@ package dev.jujumba.newsfromfaridsenpai.logic.cleaner;
 
 import dev.jujumba.newsfromfaridsenpai.logic.parsers.AbstractParser;
 import dev.jujumba.newsfromfaridsenpai.services.NewsService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,11 +12,9 @@ import java.time.LocalDateTime;
  */
 @Component
 public class NewsCleaner extends AbstractParser {
-    private final NewsService service;
-    private final Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     public NewsCleaner(NewsService service) {
-        this.service = service;
+        super(null,service);
     }
 
     @Override
@@ -31,10 +27,10 @@ public class NewsCleaner extends AbstractParser {
         while (true) {
             logger.warn("Starting news cleaning");
             int currentDay = LocalDateTime.now().getDayOfMonth();
-            for (var news : service.findAll()) {
+            for (var news : newsService.findAll()) {
                 int newsDay = news.getDateTime().getDayOfMonth();
                 if (currentDay - newsDay >= 3 || currentDay - newsDay < 0)
-                    service.delete(news);
+                    newsService.delete(news);
             }
             sleep(8f);
         }

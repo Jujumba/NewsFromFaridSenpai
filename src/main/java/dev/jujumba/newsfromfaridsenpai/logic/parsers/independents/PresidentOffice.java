@@ -6,8 +6,6 @@ import dev.jujumba.newsfromfaridsenpai.models.News;
 import dev.jujumba.newsfromfaridsenpai.services.NewsService;
 import lombok.Getter;
 import org.jsoup.select.Elements;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,13 +21,9 @@ import java.time.format.DateTimeFormatter;
 @Getter
 public class PresidentOffice extends AbstractParser {
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy MM dd HH:mm");
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-    private final TextHandler textHandler;
-    private final NewsService newsService;
     @Autowired
     public PresidentOffice(TextHandler textHandler, NewsService newsService) {
-        this.textHandler = textHandler;
-        this.newsService = newsService;
+        super(textHandler,newsService);
         setUrl("https://www.president.gov.ua/news/last");
     }
     @Override
