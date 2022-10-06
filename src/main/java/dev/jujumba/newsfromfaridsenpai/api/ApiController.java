@@ -10,7 +10,6 @@ import dev.jujumba.newsfromfaridsenpai.services.ApiKeysService;
 import dev.jujumba.newsfromfaridsenpai.services.NewsService;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -45,7 +44,7 @@ public class ApiController {
         List<News> news = new ArrayList<>();
         List<News> allNews = newsService.findAll();
         if (request.getAmount() >= allNews.size()) {
-            return mapper.writeValueAsString(new ApiError("Your amount is too big!",HttpStatus.BAD_REQUEST));
+            request.setAmount(allNews.size() - 1);
         }
         for (int i = 0; i < request.getAmount(); i++) {
             news.add(allNews.get(i));
