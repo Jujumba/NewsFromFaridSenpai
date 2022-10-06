@@ -14,6 +14,6 @@ import java.util.List;
 public interface NewsRepository extends JpaRepository<News, Integer> {
     boolean existsByFullTitle(String fullTitle);
     boolean existsByUrl(String url);
-    @Query(value = "from News f order by f.dateTime desc")
+    @Query(value = "from News n order by n.dateTime desc")
     List<News> findAllAndSortByDate();
 }
