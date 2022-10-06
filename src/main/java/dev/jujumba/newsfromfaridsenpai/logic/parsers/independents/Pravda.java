@@ -54,8 +54,7 @@ public class Pravda extends AbstractParser {
                 if (href.charAt(0) == '/') href = "https://www.pravda.com.ua" + href;
                 LocalDateTime time = LocalTime.parse(dates.get(counter++).text(), pattern).atDate(LocalDate.now());
                 News news = new News(title,href,time, fullTitle);
-                if (!newsService.exists(news) && (LocalDateTime.now().getDayOfMonth() - time.getDayOfMonth() <= 2)) {
-                    newsService.save(news);
+                if (newsService.save(news,time)) {
                     logger.info("New news found");
                 }
             }

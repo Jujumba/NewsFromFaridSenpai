@@ -60,11 +60,10 @@ public class PresidentOffice extends AbstractParser {
                 int hour = Integer.parseInt(hourAndMinute[0]);
                 int minute = Integer.parseInt(hourAndMinute[1]);
 
-                LocalDateTime dateTime = LocalDateTime.of(year,month ,day, hour, minute);
-                News news = new News(title, href, dateTime, fullTitle);
+                LocalDateTime time = LocalDateTime.of(year,month ,day, hour, minute);
+                News news = new News(title, href, time, fullTitle);
 
-                if (!newsService.exists(news) && (LocalDateTime.now().getDayOfMonth() - dateTime.getDayOfMonth() <= 2)) {
-                    newsService.save(news);
+                if (!newsService.save(news, time)) {
                     logger.info("New news found");
                 }
             }
