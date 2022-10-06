@@ -1,4 +1,4 @@
-package dev.jujumba.newsfromfaridsenpai.api.apimodels;
+package dev.jujumba.newsfromfaridsenpai.models;
 
 import lombok.Data;
 
@@ -8,9 +8,9 @@ import javax.persistence.*;
  * @author Jujumba
  */
 @Entity
-@Table(name = "api_owners")
+@Table(name = "users")
 @Data
-public class ApiKeyOwner {
+public class User {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,8 +19,9 @@ public class ApiKeyOwner {
     private String email;
     @Column(name = "name")
     private String name;
-
-    public ApiKeyOwner() {
+    @Column(name = "password")
+    private String pasword;
+    public User() {
 
     }
 }

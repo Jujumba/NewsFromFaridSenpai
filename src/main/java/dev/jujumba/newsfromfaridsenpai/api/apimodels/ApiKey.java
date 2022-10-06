@@ -1,5 +1,6 @@
 package dev.jujumba.newsfromfaridsenpai.api.apimodels;
 
+import dev.jujumba.newsfromfaridsenpai.models.User;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -18,8 +19,8 @@ public class ApiKey {
     @Column(name = "value")
     private String value;
     @ManyToOne
-    @JoinColumn(name = "owner_id", referencedColumnName = "id")
-    private ApiKeyOwner owner;
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 
     public ApiKey() {
 
