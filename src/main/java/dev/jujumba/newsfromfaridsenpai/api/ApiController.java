@@ -4,15 +4,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import dev.jujumba.newsfromfaridsenpai.api.apimodels.ApiRequest;
+import dev.jujumba.newsfromfaridsenpai.api.errors.ApiError;
 import dev.jujumba.newsfromfaridsenpai.models.News;
 import dev.jujumba.newsfromfaridsenpai.services.ApiKeysService;
 import dev.jujumba.newsfromfaridsenpai.services.NewsService;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -39,13 +40,13 @@ public class ApiController {
     public String getNews(@RequestHeader String Authorization,
                           @RequestBody ApiRequest request) {
         if (!apiKeysService.exists(Authorization)) {
-            return mapper.writeValueAsString(new HashMap() {{
-                put("error","You didn't provide a correct API-key! " +
-                        "Provide a correct API-key in an Authorization header (i.e Authorization: API-KEY )");
-            }});
+            return mapper.writeValueAsString(new ApiError());
         }
         List<News> news = new ArrayList<>();
         List<News> allNews = newsService.findAll();
+        if (request.getAmount() >= allNews.size()) {
+            return mapper.writeValueAsString(new ApiError("Your amount is too big!",HttpStatus.BAD_REQUEST));
+        }
         for (int i = 0; i < request.getAmount(); i++) {
             news.add(allNews.get(i));
         }
@@ -54,10 +55,7 @@ public class ApiController {
     @GetMapping
     @SneakyThrows
     public String returnNothing() {
-        return mapper.writeValueAsString(new HashMap() {{
-            put("error","You didn't provide a correct API-key! " +
-                    "Provide a correct API-key in an Authorization header ( \"Authorization\" :\"API-KEY\" )");
-        }});
+        return mapper.writeValueAsString(new ApiError());
     }
 
 }
