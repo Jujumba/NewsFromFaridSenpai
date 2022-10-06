@@ -18,7 +18,7 @@ public class NewsService {
         this.repository = newsRepository;
     }
     public boolean exists(News news) {
-        return repository.existsByUrl(news.getUrl()) || repository.existsByFullTitle(news.getFullTitle());
+        return repository.existsByUrl(news.getUrl());
     }
 
     public boolean existsByFullTitle(String fullTitle) {
