@@ -10,7 +10,6 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 /**
  * @author Jujumba
@@ -40,15 +39,13 @@ public abstract class AbstractTelegramParser extends AbstractParser {
                 String fullTitle = title;
                 String href = hrefs.get(counter++).attr("href");
                 if (hasOccurred(title,href)) {
-                    LocalTime now = LocalTime.now();
-                    now = now.plusMinutes(3);
-                    logger.warn("Continuing to while(true) loop. Will parse again in "+now);
-                    sleep(240);
+                    logger.warn("Will parse again in 3 minutes");
+                    sleep(delay);
                     continue label;
                 }
 
                 if (notSuits(title)) {
-                    logger.warn("An unsuitable news has been found",title);
+                    logger.warn("An unsuitable news has been found");
                     continue;
                 }
                 title = cleanupTitle(title);
@@ -65,7 +62,7 @@ public abstract class AbstractTelegramParser extends AbstractParser {
                     logger.info("New news found");
                 }
             }
-            sleep(180);
+            sleep(delay);
         }
     }
     abstract boolean notSuits(Object o);

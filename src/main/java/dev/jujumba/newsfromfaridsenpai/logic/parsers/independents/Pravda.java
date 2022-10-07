@@ -42,10 +42,8 @@ public class Pravda extends AbstractParser {
                 String title = header.text();
                 String href = header.getElementsByTag("a").attr("href");
                 if (hasOccurred(title, href)) {
-                    LocalTime now = LocalTime.now();
-                    now = now.plusMinutes(3);
-                    logger.warn("Will parse again in "+now);
-                    sleep(getDelay());
+                    logger.warn("Will parse again in 3 minutes");
+                    sleep(delay);
                     continue label;
                 }
                 title = cleanupTitle(title);
@@ -58,7 +56,7 @@ public class Pravda extends AbstractParser {
                     logger.info("New news found");
                 }
             }
-            sleep(getDelay());
+            sleep(delay);
         }
     }
 

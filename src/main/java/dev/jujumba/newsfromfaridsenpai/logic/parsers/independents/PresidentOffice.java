@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
 
@@ -41,9 +40,7 @@ public class PresidentOffice extends AbstractParser {
 
                 String href = elem.getElementsByTag("a").attr("href");
                 if (hasOccurred(title, href)) {
-                    LocalTime now = LocalTime.now();
-                    now = now.plusMinutes(3);
-                    logger.warn("Continuing to while(true) loop. Will parse again in "+now);
+                    logger.warn("Will parse again in 3 minutes");
                     sleep(getDelay());
                     continue label;
                 }
