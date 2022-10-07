@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import dev.jujumba.newsfromfaridsenpai.api.apimodels.ApiRequest;
-import dev.jujumba.newsfromfaridsenpai.api.errors.ApiError;
+import dev.jujumba.newsfromfaridsenpai.api.apimodels.errors.ApiError;
 import dev.jujumba.newsfromfaridsenpai.models.News;
 import dev.jujumba.newsfromfaridsenpai.services.ApiKeysService;
 import dev.jujumba.newsfromfaridsenpai.services.NewsService;
