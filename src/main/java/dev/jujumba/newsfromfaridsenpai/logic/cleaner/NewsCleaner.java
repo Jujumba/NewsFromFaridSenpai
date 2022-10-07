@@ -42,7 +42,7 @@ public class NewsCleaner extends AbstractParser {
     }
 
     @Override
-    public boolean hasOccurred(String fullTitle, String href) {
+    public boolean hasOccurred(String href) {
         throw new UnsupportedOperationException();
     }
 }

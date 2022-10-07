@@ -47,8 +47,7 @@ public abstract class AbstractParser implements Parser, Runnable {
 
     public abstract String cleanupTitle(String title);
 
-    public boolean hasOccurred(Object... args) {
-        return false;
+    public boolean hasOccurred(String href) {
+        return newsService.existsByUrl(href);
     }
-    public abstract boolean hasOccurred(String fullTitle, String href);
 }

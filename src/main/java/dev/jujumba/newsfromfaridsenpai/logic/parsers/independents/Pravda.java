@@ -41,7 +41,7 @@ public class Pravda extends AbstractParser {
             for (var header : headers) {
                 String title = header.text();
                 String href = header.getElementsByTag("a").attr("href");
-                if (hasOccurred(title, href)) {
+                if (hasOccurred(href)) {
                     logger.warn("Will parse again in 3 minutes");
                     sleep(delay);
                     continue label;
@@ -70,10 +70,5 @@ public class Pravda extends AbstractParser {
             title = title.replace("відео","");
         }
         return title;
-    }
-
-    @Override
-    public boolean hasOccurred(String fullTitle, String href) {
-        return newsService.existsByFullTitle(fullTitle) || newsService.existsByUrl(href);
     }
 }

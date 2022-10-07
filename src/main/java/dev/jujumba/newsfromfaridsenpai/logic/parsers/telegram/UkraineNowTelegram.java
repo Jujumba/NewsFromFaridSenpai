@@ -24,9 +24,4 @@ public class UkraineNowTelegram extends AbstractTelegramParser{
     public String cleanupTitle(String title) {
         return title;
     }
-
-    @Override
-    public boolean hasOccurred(String fullTitle, String href) {
-        return getNewsService().existsByFullTitle(fullTitle) || getNewsService().existsByUrl(href);
-    }
 }

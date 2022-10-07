@@ -39,7 +39,7 @@ public class PresidentOffice extends AbstractParser {
                 String title = elem.getElementsByTag("h3").text();
 
                 String href = elem.getElementsByTag("a").attr("href");
-                if (hasOccurred(title, href)) {
+                if (hasOccurred(href)) {
                     logger.warn("Will parse again in 3 minutes");
                     sleep(getDelay());
                     continue label;
@@ -73,10 +73,6 @@ public class PresidentOffice extends AbstractParser {
         return null;
     }
 
-    @Override
-    public boolean hasOccurred(String fullTitle, String href) {
-        return newsService.existsByFullTitle(fullTitle) || newsService.existsByUrl(href);
-    }
     private Month parseMonth(String s) {
         return switch (s) {
             case "січня" -> Month.JANUARY;

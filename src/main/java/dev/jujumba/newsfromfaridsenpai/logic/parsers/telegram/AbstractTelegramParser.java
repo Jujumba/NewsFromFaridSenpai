@@ -38,7 +38,7 @@ public abstract class AbstractTelegramParser extends AbstractParser {
                 String title = elements.get(i).text();
                 String fullTitle = title;
                 String href = hrefs.get(counter++).attr("href");
-                if (hasOccurred(title,href)) {
+                if (hasOccurred(href)) {
                     logger.warn("Will parse again in 3 minutes");
                     sleep(delay);
                     continue label;
