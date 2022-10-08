@@ -34,6 +34,7 @@ public class Gpt {
                 Thread.sleep(5000);
                 currentMillis = System.currentTimeMillis();
             }
+            counter.set(0);
         }
         Map values = new HashMap() {{
             put("model","text-davinci-002");
