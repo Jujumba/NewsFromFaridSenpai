@@ -65,5 +65,5 @@ public abstract class AbstractTelegramParser extends AbstractParser {
             sleep(delay);
         }
     }
-    abstract boolean notSuits(Object o);
+    public abstract boolean notSuits(Object o);
 }

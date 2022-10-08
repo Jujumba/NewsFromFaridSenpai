@@ -15,7 +15,7 @@ public class UkraineNowTelegram extends AbstractTelegramParser{
     }
 
     @Override
-    boolean notSuits(Object o) {
+    public boolean notSuits(Object o) {
         String title = (String) o;
         return title.contains("#") || title.contains("\uD83D\uDD25");
     }
