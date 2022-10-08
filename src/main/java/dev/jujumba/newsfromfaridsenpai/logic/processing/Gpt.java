@@ -25,7 +25,7 @@ public class Gpt {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private static volatile AtomicInteger counter = new AtomicInteger(0);
     @SneakyThrows
-    protected String process(String text) {
+    protected synchronized String process(String text) {
         if (counter.incrementAndGet() >= 60) {
             logger.warn("The request limit per minute has been reached!");
             long currentMillis = System.currentTimeMillis();

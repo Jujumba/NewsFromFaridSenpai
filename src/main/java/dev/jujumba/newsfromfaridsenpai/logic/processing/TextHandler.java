@@ -16,7 +16,7 @@ public class TextHandler {
         this.translator = translator;
     }
 
-    public String handleTitle(String title) {
+    public synchronized String handleTitle(String title) {
         return gpt.process(translator.translate("EN",title));
     }
 }
