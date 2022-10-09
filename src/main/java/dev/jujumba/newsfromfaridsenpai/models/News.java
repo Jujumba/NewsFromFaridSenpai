@@ -2,6 +2,7 @@ package dev.jujumba.newsfromfaridsenpai.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -16,7 +17,8 @@ import java.util.Objects;
 @Entity
 @Data
 @Table(name = "news")
-public class News implements Comparable<News> {
+@NoArgsConstructor
+public class News {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     private static final DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("HH:mm");
     @Id
@@ -33,21 +35,7 @@ public class News implements Comparable<News> {
     private String url;
     @Column(name = "date")
     private LocalDateTime dateTime;
-    public News () {
-        dateTime = LocalDateTime.parse(formatter.format(LocalDateTime.now()), formatter);
-    }
 
-    public News(String title, String url) {
-        this.title = title;
-        this.url = url;
-        dateTime = LocalDateTime.parse(formatter.format(LocalDateTime.now()), formatter);
-    }
-
-    public News(String title, String url, LocalDateTime dateTime) {
-        this.title = title;
-        this.url = url;
-        this.dateTime = dateTime;
-    }
     public News(String title, String url, LocalDateTime dateTime, String fullTitle) {
         if (title.chars().filter(ch -> ch == '\"').count() == 1) title = title.replace("\"","");
         this.title = title;
@@ -56,9 +44,6 @@ public class News implements Comparable<News> {
         this.fullTitle = fullTitle;
     }
 
-    public News(String fullTitle) {
-        this.fullTitle = fullTitle;
-    }
     @JsonIgnore
     public String getFormattedNow() {
         if (dateTime.getYear() == LocalDateTime.now().getYear() && dateTime.getMonth() == LocalDateTime.now().getMonth() && dateTime.getDayOfMonth() == LocalDateTime.now().getDayOfMonth())
@@ -81,12 +66,5 @@ public class News implements Comparable<News> {
     @Override
     public int hashCode() {
         return Objects.hash(title, url);
-    }
-
-    @Override
-    public int compareTo(News o) {
-        if ((o.getDateTime() == null) || (this.getDateTime().isBefore(o.getDateTime()))) return 1;
-        else if ((this.getDateTime() == null) || (this.getDateTime().isAfter(o.getDateTime()))) return -1;
-        else return 0;
     }
 }
