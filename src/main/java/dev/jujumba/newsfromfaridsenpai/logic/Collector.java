@@ -32,8 +32,8 @@ public class Collector {
         Thread presidentOfficeThread = new Thread(presidentOffice);
         Thread pravdaThread = new Thread(pravda);
         Thread tele = new Thread(ukraineNowTelegram);
-//        presidentOfficeThread.start();
-//        pravdaThread.start();
-//        tele.start();
+        presidentOfficeThread.start();
+        pravdaThread.start();
+        tele.start();
     }
 }
