@@ -4,7 +4,6 @@ import dev.jujumba.newsfromfaridsenpai.logic.parsers.AbstractParser;
 import dev.jujumba.newsfromfaridsenpai.logic.processing.TextHandler;
 import dev.jujumba.newsfromfaridsenpai.models.News;
 import dev.jujumba.newsfromfaridsenpai.services.NewsService;
-import lombok.Data;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import java.time.LocalDateTime;
 /**
  * @author Jujumba
  */
-@Data
 public abstract class AbstractTelegramParser extends AbstractParser {
     @Autowired
     public AbstractTelegramParser(TextHandler textHandler, NewsService newsService) {

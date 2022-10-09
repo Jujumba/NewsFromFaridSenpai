@@ -17,7 +17,6 @@ import java.time.format.DateTimeFormatter;
  * @author Jujumba
  */
 @Component
-@Getter
 public class PresidentOffice extends AbstractParser {
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy MM dd HH:mm");
     @Autowired
