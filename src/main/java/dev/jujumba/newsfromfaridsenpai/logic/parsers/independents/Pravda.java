@@ -17,6 +17,7 @@ import java.time.format.DateTimeFormatter;
  * @author Jujumba
  */
 @Deprecated(forRemoval = true)
+@Component
 public class Pravda extends AbstractParser {
     private final DateTimeFormatter pattern = DateTimeFormatter.ofPattern("HH:mm");
     @Autowired
