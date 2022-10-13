@@ -4,12 +4,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import dev.jujumba.newsfromfaridsenpai.api.apimodels.ApiRequest;
-import dev.jujumba.newsfromfaridsenpai.api.apimodels.errors.ApiError;
+import dev.jujumba.newsfromfaridsenpai.api.apimodels.ApiResponse;
+import dev.jujumba.newsfromfaridsenpai.api.apimodels.exceptions.ApiException;
 import dev.jujumba.newsfromfaridsenpai.models.News;
 import dev.jujumba.newsfromfaridsenpai.services.ApiKeysService;
 import dev.jujumba.newsfromfaridsenpai.services.NewsService;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -39,7 +42,8 @@ public class ApiController {
     public String getNews(@RequestHeader String Authorization,
                           @RequestBody(required = false) ApiRequest request) {
         if (!apiKeysService.exists(Authorization)) {
-            return mapper.writeValueAsString(new ApiError());
+//            return mapper.writeValueAsString(new ApiForbiddenError());
+            throw new ApiException();
         }
         List<News> news = new ArrayList<>();
         List<News> allNews = newsService.findAll();
@@ -54,6 +58,14 @@ public class ApiController {
     @GetMapping
     @SneakyThrows
     public String returnNothing() {
-        return mapper.writeValueAsString(new ApiError());
+        throw new ApiException();
+    }
+    //todo: add exception handler
+    @SneakyThrows
+    @ExceptionHandler
+    @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
+    public ResponseEntity<String> handleException(ApiException apiException) {
+        ApiResponse response = new ApiResponse(apiException);
+        return new ResponseEntity<>(mapper.writeValueAsString(response), HttpStatus.UNAUTHORIZED);
     }
 }
