@@ -11,7 +11,6 @@ import dev.jujumba.newsfromfaridsenpai.services.ApiKeysService;
 import dev.jujumba.newsfromfaridsenpai.services.NewsService;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,7 +41,6 @@ public class ApiController {
     public String getNews(@RequestHeader String Authorization,
                           @RequestBody(required = false) ApiRequest request) {
         if (!apiKeysService.exists(Authorization)) {
-//            return mapper.writeValueAsString(new ApiForbiddenError());
             throw new ApiException();
         }
         List<News> news = new ArrayList<>();
@@ -55,17 +53,17 @@ public class ApiController {
         }
         return mapper.writeValueAsString(news);
     }
+
     @GetMapping
     @SneakyThrows
     public String returnNothing() {
         throw new ApiException();
     }
-    //todo: add exception handler
+
     @SneakyThrows
     @ExceptionHandler
-    @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
     public ResponseEntity<String> handleException(ApiException apiException) {
         ApiResponse response = new ApiResponse(apiException);
-        return new ResponseEntity<>(mapper.writeValueAsString(response), HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(mapper.writeValueAsString(response), response.getStatus());
     }
 }
