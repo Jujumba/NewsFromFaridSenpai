@@ -28,12 +28,7 @@ public class Gpt {
     protected synchronized String process(String text) {
         if (counter.incrementAndGet() >= 60) {
             logger.warn("The request limit per minute has been reached!");
-            long currentMillis = System.currentTimeMillis();
-            long afterOne = currentMillis + 60000;
-            while (currentMillis <= afterOne) {
-                Thread.sleep(5000);
-                currentMillis = System.currentTimeMillis();
-            }
+            Thread.sleep(60000);
             counter.set(0);
         }
         Map values = new HashMap() {{
