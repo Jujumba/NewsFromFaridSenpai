@@ -1,8 +1,9 @@
 package dev.jujumba.newsfromfaridsenpai.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -15,7 +16,8 @@ import java.util.Objects;
  */
 @Component
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name = "news")
 @NoArgsConstructor
 public class News {
@@ -66,5 +68,10 @@ public class News {
     @Override
     public int hashCode() {
         return Objects.hash(title, url);
+    }
+
+    @Override
+    public String toString() {
+        return getTitle() + " - " + getFormattedNow();
     }
 }
