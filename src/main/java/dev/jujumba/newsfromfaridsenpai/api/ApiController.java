@@ -23,8 +23,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class ApiController {
-    private final ObjectMapper mapper = new ObjectMapper();
-    {
+    private static final ObjectMapper mapper = new ObjectMapper();
+    static {
         mapper.registerModule(new JavaTimeModule());
         mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
     }
@@ -46,12 +46,12 @@ public class ApiController {
         List<News> news = new ArrayList<>();
         List<News> allNews = newsService.findAll();
         if (request.getAmount() >= allNews.size()) {
-            return mapper.writeValueAsString(allNews);
+            return toJson(allNews);
         }
         for (int i = 0; i < request.getAmount(); i++) {
             news.add(allNews.get(i));
         }
-        return mapper.writeValueAsString(news);
+        return toJson(news);
     }
 
     @GetMapping
@@ -64,6 +64,11 @@ public class ApiController {
     @ExceptionHandler
     public ResponseEntity<String> handleException(ApiException apiException) {
         ApiResponse response = new ApiResponse(apiException);
-        return new ResponseEntity<>(mapper.writeValueAsString(response), response.getStatus());
+        return new ResponseEntity<>(toJson(response), response.getStatus());
+    }
+
+    @SneakyThrows
+    private static String toJson(Object o) {
+        return mapper.writeValueAsString(o);
     }
 }
