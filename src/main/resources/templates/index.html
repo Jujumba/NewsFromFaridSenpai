@@ -1,18 +1,30 @@
+<!-- Cаша сделал)(C) -->
 <!DOCTYPE html>
-<html  lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Новости</title>
+    <title> News </title>
+    <meta th:charset="UTF-8">
+    <link th:rel="preconnect" href="https://fonts.googleapis.com">
+    <link th:rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300&family=Lilita+One&family=Mukta:wght@600&family=Open+Sans:wght@300;400&family=Roboto:wght@300&family=Smooch+Sans:wght@200;700&display=swap" rel="stylesheet">
+    <link th:rel="preconnect" href="https://fonts.googleapis.com">
+    <link th:rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Luxurious+Roman&family=Montserrat:wght@500&family=Quicksand:wght@300;400;500;600;700&family=Waiting+for+the+Sunrise&display=swap" rel="stylesheet">
+    <meta th:name="viewport" content="width=device-width, initial-scale=1.0">
     <link th:rel="stylesheet" th:href="@{/styles/style.css}">
 </head>
-<body th:class="body">
-<center>
-    <header th:class="news">
-        <h1>News</h1>
-    </header>
-</center>
-    <div th:class="news" th:each="news : ${all_news}">
-        <a th:href="${news.getUrl()}" th:text="${news.getTitle()} + ' - ' + ${news.getFormattedNow()}">title</a>
+<body>
+<div class="wrapper">
+    <div class="header">
+        <a href=""> <div class="header_text"> Farid_News </div> </a>
     </div>
+    <div class="container">
+        <nav class="popups_menu">
+            <ul class="popups_list">
+                <li class="dental_floss" th:each="news : ${all_news}"> <div class="rectangle"> <div class="inside_text" th:text="${news.toString()}"> text_ </div> <a class="button_to" target="_blank" th:href="${news.getUrl()}"> <div class="textt">Source</div> </a> </div> </li>
+            </ul>
+        </nav>
+    </div>
+</div>
 </body>
 </html>
