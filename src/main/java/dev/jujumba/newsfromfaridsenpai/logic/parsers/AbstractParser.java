@@ -19,15 +19,15 @@ import org.springframework.stereotype.Component;
 @Data
 @Component
 public abstract class AbstractParser implements Parser, Runnable {
-    private String url;
-    public Document document;
-    public TextHandler textHandler;
-    public NewsService newsService;
+    protected String url;
+    protected Document document;
+    protected TextHandler textHandler;
+    protected NewsService newsService;
 
-    public int delay = 180;
-    public final Logger logger = LoggerFactory.getLogger(getClass());
+    protected int delay = 180;
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
-    public AbstractParser(TextHandler textHandler, NewsService newsService) {
+    protected AbstractParser(TextHandler textHandler, NewsService newsService) {
         this.textHandler = textHandler;
         this.newsService = newsService;
     }
@@ -36,18 +36,18 @@ public abstract class AbstractParser implements Parser, Runnable {
     }
 
     @SneakyThrows
-    public void connect() {
+    protected void connect() {
         document = Jsoup.connect(url).get();
         logger.info("Connected to "+url);
     }
 
-    public Elements execQuery(String query) {
+    protected Elements execQuery(String query) {
         return document.select(query);
     }
 
-    public abstract String cleanupTitle(String title);
+    protected abstract String cleanupTitle(String title);
 
-    public boolean hasOccurred(String href) {
+    protected boolean hasOccurred(String href) {
         return newsService.existsByUrl(href);
     }
 }
