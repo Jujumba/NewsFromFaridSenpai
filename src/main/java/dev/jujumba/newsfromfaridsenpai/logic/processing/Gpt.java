@@ -23,22 +23,25 @@ public class Gpt {
     @Value("${gpt_api_key}")
     private String apiKey;
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private static volatile AtomicInteger counter = new AtomicInteger(0);
+    private final AtomicInteger counter = new AtomicInteger(0);
+    private final ObjectMapper mapper = new ObjectMapper();
     @SneakyThrows
-    protected synchronized String process(String text) {
-        if (counter.incrementAndGet() >= 60) {
+    synchronized String process(String text) {
+        if (counter.incrementAndGet() > 60) {
             logger.warn("The request limit per minute has been reached!");
             Thread.sleep(60000);
             counter.set(0);
         }
+
         Map values = new HashMap() {{
-            put("model","text-davinci-002");
+            put("model","text-davinci-003");
             put("prompt", text.replace("\n","") +"\nMake a title out of this text");
             put("max_tokens",30);
             put("temperature",0.45f);
         }};
-        ObjectMapper mapper = new ObjectMapper();
+
         String requestBody = mapper.writeValueAsString(values);
+
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.openai.com/v1/completions"))
@@ -46,15 +49,16 @@ public class Gpt {
                 .header("Content-Type","application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                 .build();
+
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         HashMap<String, String> map = null;
+
         try {
             map = mapper.readValue(response.body().split("\\[")[1].split("]")[0], HashMap.class);
         } catch (Exception e) {
-            e.printStackTrace();
             logger.error(response.body());
         }
-        return map.get("text").replace(".","").replace("\n","").replace(":","")
-                .replace("!","");
+        //?
+        return map.get("text");
     }
 }
