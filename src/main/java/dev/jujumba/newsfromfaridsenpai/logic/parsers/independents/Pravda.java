@@ -8,18 +8,12 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-
 /**
  * @author Jujumba
  */
 @Deprecated(forRemoval = true)
 @Component
 public class Pravda extends AbstractParser {
-    private final DateTimeFormatter pattern = DateTimeFormatter.ofPattern("HH:mm");
     @Autowired
     public Pravda(TextHandler textHandler, NewsService newsService) {
         super(textHandler,newsService);
@@ -36,25 +30,23 @@ public class Pravda extends AbstractParser {
         label: while (true) {
             connect();
             Elements headers = execQuery(".article_header");
-            Elements dates = execQuery(".article_time");
-            int counter = 0;
             for (var header : headers) {
                 String title = header.text();
                 String href = header.getElementsByTag("a").attr("href");
+
                 if (hasOccurred(href)) {
-                    logger.warn("Will parse again in 3 minutes");
+                    logger.warn("Waiting 3 minutes, then`ll parse again");
                     sleep(delay);
                     continue label;
                 }
+
                 title = cleanupTitle(title);
                 String fullTitle = title;
                 title = textHandler.handleTitle(title);
                 if (href.charAt(0) == '/') href = "https://www.pravda.com.ua" + href;
-                LocalDateTime time = LocalTime.parse(dates.get(counter++).text(), pattern).atDate(LocalDate.now());
-                News news = new News(title,href,time, fullTitle);
-                if (newsService.save(news,time)) {
-                    logger.info("New news found");
-                }
+
+                News news = new News(title,href, fullTitle);
+                newsService.save(news);
             }
             sleep(delay);
         }

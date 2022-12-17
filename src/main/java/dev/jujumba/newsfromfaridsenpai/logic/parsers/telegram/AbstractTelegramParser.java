@@ -4,11 +4,8 @@ import dev.jujumba.newsfromfaridsenpai.logic.parsers.AbstractParser;
 import dev.jujumba.newsfromfaridsenpai.logic.processing.TextHandler;
 import dev.jujumba.newsfromfaridsenpai.models.News;
 import dev.jujumba.newsfromfaridsenpai.services.NewsService;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.time.LocalDateTime;
 
 /**
  * @author Jujumba
@@ -16,7 +13,7 @@ import java.time.LocalDateTime;
 public abstract class AbstractTelegramParser extends AbstractParser {
     @Autowired
     public AbstractTelegramParser(TextHandler textHandler, NewsService newsService) {
-        super(textHandler,newsService);
+        super(textHandler, newsService);
     }
 
     @Override
@@ -30,38 +27,33 @@ public abstract class AbstractTelegramParser extends AbstractParser {
             connect();
             Elements elements = execQuery(".tgme_widget_message_text");
             Elements hrefs = execQuery(".tgme_widget_message_date");
-            int counter = 0;
-            for (int i = 0; i < elements.size(); i++) {
-                if (elements.get(i).classNames().contains("js-message_reply_text")) continue;
-                String title = elements.get(i).text();
-                String fullTitle = title;
-                String href = hrefs.get(counter++).attr("href");
+
+            int hrefsPointer = 0;
+            String prevTitle = null;
+
+            for (var element : elements) {
+                if (element.text().equals(prevTitle) || element.className().contains("reply")) {
+                    continue;
+                }
+
+
+                String href = hrefs.get(hrefsPointer++).attr("href");
+                String fullTitle = element.text(); //todo: remove
+                String handledTitle = element.text();
+
                 if (hasOccurred(href)) {
-                    logger.warn("Will parse again in 3 minutes");
-                    sleep(delay);
+                    logger.warn("Unsuitable news has been found");
                     continue label;
                 }
 
-                if (notSuits(title)) {
-                    logger.warn("An unsuitable news has been found");
-                    continue;
-                }
-                title = cleanupTitle(title);
-                title = textHandler.handleTitle(title);
+                handledTitle = textHandler.handleTitle(handledTitle);
 
-                //TODO: fix date parsing(!)
-                Element time = hrefs.get(i).getElementsByTag("time").get(0);
-                String temp = time.attr("datetime").split("\\+")[0];
-                LocalDateTime dateTime = LocalDateTime.parse(temp);
-                dateTime = dateTime.plusHours(2);
+                News news = new News(handledTitle, href, fullTitle);
+                newsService.save(news);
 
-                News news = new News(title,href, dateTime, fullTitle);
-                if (!newsService.save(news,dateTime)) {
-                    logger.info("New news found");
-                }
+                prevTitle = element.text();
             }
             sleep(delay);
         }
     }
-    public abstract boolean notSuits(Object o);
 }
