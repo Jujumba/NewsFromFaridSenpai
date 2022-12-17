@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 /**
@@ -21,8 +22,8 @@ import java.util.Objects;
 @Table(name = "news")
 @NoArgsConstructor
 public class News {
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-    private static final DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("HH:mm");
+    private static final DateTimeFormatter FULL_DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    private static final DateTimeFormatter HOURS_AND_MINUTES_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,18 +40,25 @@ public class News {
     private LocalDateTime dateTime;
 
     public News(String title, String url, LocalDateTime dateTime, String fullTitle) {
-        if (title.chars().filter(ch -> ch == '\"').count() == 1) title = title.replace("\"","");
         this.title = title;
         this.url = url;
         this.dateTime = dateTime;
         this.fullTitle = fullTitle;
     }
 
+    public News(String title, String url, String fullTitle) {
+        this(title, url, LocalDateTime.now(), fullTitle);
+    }
+
     @JsonIgnore
     public String getFormattedNow() {
-        if (dateTime.getYear() == LocalDateTime.now().getYear() && dateTime.getMonth() == LocalDateTime.now().getMonth() && dateTime.getDayOfMonth() == LocalDateTime.now().getDayOfMonth())
-        return formatter1.format(dateTime);
-        else return formatter.format(dateTime);
+        long days = ChronoUnit.DAYS.between(dateTime, LocalDateTime.now());
+        if (days == 0) {
+            return HOURS_AND_MINUTES_FORMATTER.format(dateTime);
+        }
+        else {
+            return FULL_DATE_FORMATTER.format(dateTime);
+        }
     }
 
     public String getTitle() {
