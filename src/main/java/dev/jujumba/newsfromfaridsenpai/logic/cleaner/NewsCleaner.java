@@ -26,13 +26,13 @@ public class NewsCleaner extends AbstractParser {
     public void parse() {
         while (true) {
             logger.warn("Starting news cleaning");
-            int currentDay = LocalDateTime.now().getDayOfMonth();
+            int today = LocalDateTime.now().getDayOfMonth();
             for (var news : newsService.findAll()) {
                 int newsDay = news.getDateTime().getDayOfMonth();
-                if (currentDay - newsDay >= 3 || currentDay - newsDay < 0)
+                if (today - newsDay >= 3 || today - newsDay < 0)
                     newsService.delete(news);
             }
-            sleep(8f);
+            sleep(12f);
         }
     }
 
