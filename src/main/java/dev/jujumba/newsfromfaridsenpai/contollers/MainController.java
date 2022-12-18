@@ -1,7 +1,8 @@
 package dev.jujumba.newsfromfaridsenpai.contollers;
 
-import dev.jujumba.newsfromfaridsenpai.logic.Collector;
+import dev.jujumba.newsfromfaridsenpai.logic.Starter;
 import dev.jujumba.newsfromfaridsenpai.services.NewsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,13 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller()
 @RequestMapping("/")
 public class MainController {
-    private final Collector collector;
     private final NewsService newsService;
-
-        public MainController(Collector collector, NewsService newsService) {
-            this.newsService = newsService;
-            this.collector = collector;
-            this.collector.collect();
+    @Autowired
+    public MainController(Starter collector, NewsService newsService) {
+        this.newsService = newsService;
+        collector.collect();
     }
 
     @GetMapping()
