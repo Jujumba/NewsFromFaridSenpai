@@ -1,4 +1,4 @@
-package dev.jujumba.newsfromfaridsenpai.api;
+package dev.jujumba.newsfromfaridsenpai.contollers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -56,7 +56,7 @@ public class ApiController {
 
     @GetMapping
     @SneakyThrows
-    public String returnNothing() {
+    public String throwApiException() {
         throw new ApiException();
     }
 
