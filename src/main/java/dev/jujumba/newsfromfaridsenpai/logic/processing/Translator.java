@@ -19,10 +19,10 @@ public class Translator {
     private String apiKey;
 
     @SneakyThrows
-    protected synchronized String translate(String languageCode, String text) {
+    synchronized String translate(String languageCode, String text) {
         Translate t = new Translate.Builder(
                 GoogleNetHttpTransport.newTrustedTransport()
-                , GsonFactory.getDefaultInstance(), null)
+                ,GsonFactory.getDefaultInstance(), null)
                 .setApplicationName("NewsFromFaridSenpai")
                 .build();
 
