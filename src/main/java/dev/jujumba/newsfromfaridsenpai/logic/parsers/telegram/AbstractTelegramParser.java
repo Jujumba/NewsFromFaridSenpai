@@ -28,18 +28,18 @@ public abstract class AbstractTelegramParser extends AbstractParser {
             Elements elements = execQuery(".tgme_widget_message_text");
             Elements hrefs = execQuery(".tgme_widget_message_date");
 
-            int hrefsPointer = 0;
+            int hrefsPointer = hrefs.size() - 1;
             String prevTitle = null;
 
-            for (var element : elements) {
-                if (element.text().equals(prevTitle) || element.className().contains("reply")) {
+            for (int i = elements.size() - 1; i >= 0; i++) {
+                if (elements.get(i).text().equals(prevTitle) || elements.get(i).className().contains("reply")) {
                     continue;
                 }
 
 
-                String href = hrefs.get(hrefsPointer++).attr("href");
-                String fullTitle = element.text(); //todo: remove
-                String handledTitle = element.text();
+                String href = hrefs.get(hrefsPointer--).attr("href");
+                String fullTitle = elements.get(i).text(); //todo: remove
+                String handledTitle = elements.get(i).text();
 
                 if (hasOccurred(href)) {
                     logger.warn("Unsuitable news has been found");
@@ -52,7 +52,7 @@ public abstract class AbstractTelegramParser extends AbstractParser {
                 News news = new News(handledTitle, href, fullTitle);
                 newsService.save(news);
 
-                prevTitle = element.text();
+                prevTitle = elements.get(i).text();
             }
             sleep(delay);
         }
