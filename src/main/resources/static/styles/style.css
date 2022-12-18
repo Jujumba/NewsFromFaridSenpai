@@ -1,3 +1,4 @@
+/*Саша сделал)(С) */
 body {
     height: 100%;
     line-height: 1;
@@ -72,6 +73,9 @@ img {
 .popups_list {
 
 
+}
+.popups_list::selection {
+    background: pink;
 }
 .dental_floss {
     display: block;
