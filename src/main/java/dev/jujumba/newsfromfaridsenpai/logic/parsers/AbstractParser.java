@@ -3,6 +3,7 @@ package dev.jujumba.newsfromfaridsenpai.logic.parsers;
 import dev.jujumba.newsfromfaridsenpai.logic.processing.TextHandler;
 import dev.jujumba.newsfromfaridsenpai.services.NewsService;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -16,8 +17,9 @@ import org.springframework.stereotype.Component;
 /**
  * @author Jujumba
  */
-@Data
 @Component
+@Data
+@NoArgsConstructor
 public abstract class AbstractParser implements Parser, Runnable {
     protected String url;
     protected Document document;
@@ -32,13 +34,10 @@ public abstract class AbstractParser implements Parser, Runnable {
         this.newsService = newsService;
     }
 
-    public AbstractParser() {
-    }
-
     @SneakyThrows
     protected void connect() {
         document = Jsoup.connect(url).get();
-        logger.info("Connected to "+url);
+        logger.info("Connected to " + url);
     }
 
     protected Elements execQuery(String query) {
