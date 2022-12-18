@@ -4,8 +4,13 @@ import dev.jujumba.newsfromfaridsenpai.logic.parsers.AbstractParser;
 import dev.jujumba.newsfromfaridsenpai.logic.processing.TextHandler;
 import dev.jujumba.newsfromfaridsenpai.models.News;
 import dev.jujumba.newsfromfaridsenpai.services.NewsService;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 /**
  * @author Jujumba
@@ -26,33 +31,39 @@ public abstract class AbstractTelegramParser extends AbstractParser {
         label: while (true) {
             connect();
             Elements elements = execQuery(".tgme_widget_message_text");
-            Elements hrefs = execQuery(".tgme_widget_message_date");
+            Elements messageData = execQuery(".tgme_widget_message_date");
 
-            int hrefsPointer = hrefs.size() - 1;
+            int hrefsPointer = messageData.size() - 1;
             String prevTitle = null;
 
-            for (int i = elements.size() - 1; i >= 0; i++) {
+            for (int i = elements.size() - 1; i >= 0; i--) {
                 if (elements.get(i).text().equals(prevTitle) || elements.get(i).className().contains("reply")) {
                     continue;
                 }
 
 
-                String href = hrefs.get(hrefsPointer--).attr("href");
+                Element dataElement = messageData.get(hrefsPointer);
+
+                String href = dataElement.attr("href");
                 String fullTitle = elements.get(i).text(); //todo: remove
                 String handledTitle = elements.get(i).text();
 
+                LocalDateTime date = LocalDateTime.of(LocalDate.now(), LocalTime.parse(dataElement.text()));
+                date = date.plusHours(1);
+
                 if (hasOccurred(href)) {
-                    logger.warn("Unsuitable news has been found");
+                    logger.warn("Duplicate news has been found. Continuing to parse after 3 minutes delay");
                     sleep(getDelay());
                     continue label;
                 }
 
                 handledTitle = textHandler.handleTitle(handledTitle);
 
-                News news = new News(handledTitle, href, fullTitle);
+                News news = new News(handledTitle, href,date, fullTitle);
                 newsService.save(news);
 
                 prevTitle = elements.get(i).text();
+                hrefsPointer -= 1;
             }
             sleep(delay);
         }
