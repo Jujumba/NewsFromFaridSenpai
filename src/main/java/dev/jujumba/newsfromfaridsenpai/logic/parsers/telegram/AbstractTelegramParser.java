@@ -43,6 +43,7 @@ public abstract class AbstractTelegramParser extends AbstractParser {
 
                 if (hasOccurred(href)) {
                     logger.warn("Unsuitable news has been found");
+                    sleep(getDelay());
                     continue label;
                 }
 
