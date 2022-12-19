@@ -18,11 +18,6 @@ public class NewsCleaner extends AbstractParser {
     }
 
     @Override
-    public void run() {
-        parse();
-    }
-
-    @Override
     public void parse() {
         while (true) {
             logger.warn("Starting news cleaning");

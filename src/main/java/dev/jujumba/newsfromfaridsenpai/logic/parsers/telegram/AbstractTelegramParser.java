@@ -22,11 +22,6 @@ public abstract class AbstractTelegramParser extends AbstractParser {
     }
 
     @Override
-    public void run() {
-        parse();
-    }
-
-    @Override
     public void parse() {
         label: while (true) {
             connect();
