@@ -1,4 +1,4 @@
-package dev.jujumba.newsfromfaridsenpai.api.apimodels.exceptions;
+package dev.jujumba.newsfromfaridsenpai.models.exceptions;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

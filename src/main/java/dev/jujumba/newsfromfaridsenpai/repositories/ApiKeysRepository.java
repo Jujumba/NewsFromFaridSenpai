@@ -1,6 +1,6 @@
 package dev.jujumba.newsfromfaridsenpai.repositories;
 
-import dev.jujumba.newsfromfaridsenpai.api.apimodels.ApiKey;
+import dev.jujumba.newsfromfaridsenpai.models.ApiKey;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

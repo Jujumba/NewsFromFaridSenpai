@@ -1,4 +1,4 @@
-package dev.jujumba.newsfromfaridsenpai.api.apimodels;
+package dev.jujumba.newsfromfaridsenpai.api;
 
 import lombok.Data;
 
