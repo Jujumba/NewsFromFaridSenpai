@@ -7,6 +7,10 @@ import dev.jujumba.newsfromfaridsenpai.logic.parsers.telegram.UkraineNowTelegram
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 /**
  * @author Jujumba
  */
@@ -26,16 +30,10 @@ public class Starter {
 
     @SneakyThrows
     public void collect() {
-        Thread newsCleanerThread = new Thread(newsCleaner);
-        newsCleanerThread.setDaemon(true);
-
-        Thread presidentOfficeThread = new Thread(presidentOffice);
-        Thread pravdaThread = new Thread(pravda);
-        Thread tele = new Thread(ukraineNowTelegram);
-
-//        presidentOfficeThread.start();
-//        pravdaThread.start();
-        tele.start();
-//        newsCleanerThread.start();
+        ExecutorService service = Executors.newFixedThreadPool(this.getClass().getDeclaredFields().length);
+        service.submit(pravda);
+        service.submit(presidentOffice);
+        service.submit(ukraineNowTelegram);
+        service.submit(newsCleaner);
     }
 }

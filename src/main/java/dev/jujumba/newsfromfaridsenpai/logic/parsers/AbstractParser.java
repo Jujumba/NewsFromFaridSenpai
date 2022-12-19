@@ -46,6 +46,11 @@ public abstract class AbstractParser implements Parser, Runnable {
 
     protected abstract String cleanupTitle(String title);
 
+    @Override
+    public void run() {
+        parse();
+    }
+
     protected boolean hasOccurred(String href) {
         return newsService.existsByUrl(href);
     }
