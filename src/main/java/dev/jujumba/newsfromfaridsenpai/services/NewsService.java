@@ -17,18 +17,6 @@ public class NewsService {
     public NewsService(NewsRepository newsRepository) {
         this.repository = newsRepository;
     }
-    public boolean exists(News news) {
-        return repository.existsByUrl(news.getUrl());
-    }
-
-    public boolean existsByFullTitle(String fullTitle) {
-        return repository.existsByFullTitle(fullTitle);
-    }
-
-    public long getCount() {
-        return repository.count();
-    }
-
     public boolean existsByUrl(String url) {
         return repository.existsByUrl(url);
     }
