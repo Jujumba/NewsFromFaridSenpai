@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,8 +22,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class ApiController {
-    private static final ObjectMapper mapper = new ObjectMapper();
-    static {
+    private final ObjectMapper mapper = new ObjectMapper();
+    {
         mapper.registerModule(new JavaTimeModule());
         mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
     }
@@ -38,20 +37,13 @@ public class ApiController {
 
     @SneakyThrows
     @PostMapping(consumes = {"application/json"}, produces = {"application/json"})
-    public String getNews(@RequestHeader String Authorization,
-                          @RequestBody(required = false) ApiRequest request) {
+    public String getNews(@RequestHeader String Authorization, @RequestBody(required = false) ApiRequest request) {
         if (!apiKeysService.exists(Authorization)) {
             throw new ApiException();
         }
-        List<News> news = new ArrayList<>();
         List<News> allNews = newsService.findAll();
-        if (request.getAmount() >= allNews.size()) {
-            return toJson(allNews);
-        }
-        for (int i = 0; i < request.getAmount(); i++) {
-            news.add(allNews.get(i));
-        }
-        return toJson(news);
+
+        return toJson(allNews.subList(0, Math.min(request.getAmount(), allNews.size())));
     }
 
     @GetMapping
@@ -60,7 +52,6 @@ public class ApiController {
         throw new ApiException();
     }
 
-    @SneakyThrows
     @ExceptionHandler
     public ResponseEntity<String> handleException(ApiException apiException) {
         ApiResponse response = new ApiResponse(apiException);
@@ -68,7 +59,7 @@ public class ApiController {
     }
 
     @SneakyThrows
-    private static String toJson(Object o) {
+    private String toJson(Object o) {
         return mapper.writeValueAsString(o);
     }
 }
