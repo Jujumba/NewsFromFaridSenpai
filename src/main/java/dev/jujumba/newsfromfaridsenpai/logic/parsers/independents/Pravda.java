@@ -35,7 +35,6 @@ public class Pravda extends AbstractParser {
                     continue label;
                 }
 
-                title = cleanupTitle(title);
                 String fullTitle = title;
                 title = textHandler.handleTitle(title);
                 if (href.charAt(0) == '/') href = "https://www.pravda.com.ua" + href;
@@ -45,17 +44,5 @@ public class Pravda extends AbstractParser {
             }
             sleep(delay);
         }
-    }
-
-    @Override
-    public String cleanupTitle(String title) {
-        if (title.startsWith("фото")) {
-            title = title.replace("фото","");
-        } else if (title.startsWith("фото, оновлено")) {
-            title = title.replace("фото, оновлено","");
-        } else if (title.startsWith("відео")) {
-            title = title.replace("відео","");
-        }
-        return title;
     }
 }

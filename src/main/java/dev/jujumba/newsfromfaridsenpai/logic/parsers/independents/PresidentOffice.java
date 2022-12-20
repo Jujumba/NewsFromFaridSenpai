@@ -43,9 +43,4 @@ public class PresidentOffice extends AbstractParser {
             sleep(getDelay());
         }
     }
-
-    @Override
-    public String cleanupTitle(String title) {
-        throw new UnsupportedOperationException();
-    }
 }
