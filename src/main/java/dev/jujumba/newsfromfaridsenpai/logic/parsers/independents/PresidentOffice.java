@@ -25,7 +25,7 @@ public class PresidentOffice extends AbstractParser {
             connect();
             Elements selected = execQuery(".item_stat_headline");
             for (var elem : selected) {
-                String title = elem.getElementsByTag("h3").text();
+                String title = textHandler.handleTitle(elem.getElementsByTag("h3").text());
 
                 String href = elem.getElementsByTag("a").attr("href");
                 if (hasOccurred(href)) {
@@ -34,10 +34,7 @@ public class PresidentOffice extends AbstractParser {
                     continue label;
                 }
 
-                String fullTitle = title;
-                title = textHandler.handleTitle(title);
-
-                News news = new News(title, href, fullTitle);
+                News news = new News(title, href);
                 newsService.save(news);
             }
             sleep(getDelay());

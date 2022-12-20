@@ -40,10 +40,9 @@ public abstract class AbstractTelegramParser extends AbstractParser {
                 Element dataElement = messageData.get(hrefsPointer);
 
                 String href = dataElement.attr("href");
-                String handledTitle = elements.get(i).text();
+                String title = textHandler.handleTitle(elements.get(i).text());
 
                 LocalDateTime date = LocalDateTime.of(LocalDate.now(), LocalTime.parse(dataElement.text()));
-                date = date.plusHours(1);
 
                 if (hasOccurred(href)) {
                     logger.warn("Duplicate news has been found. Continuing to parse after 3 minutes delay");
@@ -51,9 +50,8 @@ public abstract class AbstractTelegramParser extends AbstractParser {
                     continue label;
                 }
 
-                handledTitle = textHandler.handleTitle(handledTitle);
 
-                News news = new News(handledTitle, href,date, null);
+                News news = new News(title, href,date);
                 newsService.save(news);
 
                 prevTitle = elements.get(i).text();

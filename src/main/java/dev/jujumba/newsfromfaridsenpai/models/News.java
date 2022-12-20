@@ -30,24 +30,19 @@ public class News {
     @JsonIgnore
     private int id;
     @Column(name = "title")
-    private String title;
-    @Column(name = "full_title")
-    @JsonIgnore
-    private String fullTitle;
-    @Column(name = "url")
+    private String title;@Column(name = "url")
     private String url;
     @Column(name = "date")
     private LocalDateTime dateTime;
 
-    public News(String title, String url, LocalDateTime dateTime, String fullTitle) {
+    public News(String title, String url, LocalDateTime dateTime) {
         this.title = title;
         this.url = url;
         this.dateTime = dateTime;
-        this.fullTitle = fullTitle;
     }
 
-    public News(String title, String url, String fullTitle) {
-        this(title, url, LocalDateTime.now(), fullTitle);
+    public News(String title, String url) {
+        this(title, url, LocalDateTime.now());
     }
 
     @JsonIgnore
