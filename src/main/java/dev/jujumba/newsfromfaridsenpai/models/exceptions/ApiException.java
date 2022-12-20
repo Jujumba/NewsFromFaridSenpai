@@ -11,7 +11,7 @@ public class ApiException extends RuntimeException {
     private final String message;
     private final HttpStatus status;
     public ApiException() {
-        this.message = "You didn't provide a correct API-key! Provide a correct API-key in an Authorization header (i.e Authorization: API-KEY)";
+        this.message = "You didn't provide a correct API-key! Provide a correct API-key in the Authorization header (i.e Authorization: API-KEY)";
         this.status = HttpStatus.UNAUTHORIZED;
     }
 
