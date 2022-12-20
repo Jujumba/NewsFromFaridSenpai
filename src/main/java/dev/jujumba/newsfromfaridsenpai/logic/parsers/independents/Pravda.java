@@ -26,7 +26,7 @@ public class Pravda extends AbstractParser {
             connect();
             Elements headers = execQuery(".article_header");
             for (var header : headers) {
-                String title = header.text();
+                String title = textHandler.handleTitle(header.text());
                 String href = header.getElementsByTag("a").attr("href");
 
                 if (hasOccurred(href)) {
@@ -35,11 +35,9 @@ public class Pravda extends AbstractParser {
                     continue label;
                 }
 
-                String fullTitle = title;
-                title = textHandler.handleTitle(title);
                 if (href.charAt(0) == '/') href = "https://www.pravda.com.ua" + href;
 
-                News news = new News(title,href, fullTitle);
+                News news = new News(title,href);
                 newsService.save(news);
             }
             sleep(delay);
