@@ -32,11 +32,6 @@ public class NewsCleaner extends AbstractParser {
     }
 
     @Override
-    public String cleanupTitle(String title) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public boolean hasOccurred(String href) {
         throw new UnsupportedOperationException();
     }

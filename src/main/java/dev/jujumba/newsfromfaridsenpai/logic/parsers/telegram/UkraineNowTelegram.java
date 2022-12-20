@@ -13,9 +13,4 @@ public class UkraineNowTelegram extends AbstractTelegramParser{
         super(textHandler, newsService);
         setUrl("https://t.me/s/UkraineNow");
     }
-
-    @Override
-    public String cleanupTitle(String title) {
-        return title;
-    }
 }

@@ -25,7 +25,7 @@ public class TextHandler {
         if (shallProcess) {
             return gpt.process(translator.translate("EN", title));
         } else {
-            return title.substring(0, Math.min(65, title.length()));
+            return title.substring(0, Math.min(65, title.length())) + "...";
         }
     }
 }

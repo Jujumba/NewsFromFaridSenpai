@@ -33,9 +33,12 @@ public class Gpt {
             counter.set(0);
         }
 
+        text = text.replace("\n","");
+
+        String finalText = text;
         Map values = new HashMap() {{
             put("model","text-davinci-003");
-            put("prompt", text.replace("\n","") +"\nMake a title out of this text");
+            put("prompt", finalText +"\nMake a title out of this text");
             put("max_tokens",30);
             put("temperature",0.45f);
         }};
@@ -51,12 +54,13 @@ public class Gpt {
                 .build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        HashMap<String, String> map = null;
+        HashMap<String, String> map;
 
         try {
             map = mapper.readValue(response.body().split("\\[")[1].split("]")[0], HashMap.class);
         } catch (Exception e) {
             logger.error(response.body());
+            return null;
         }
         //?
         return map.get("text");
