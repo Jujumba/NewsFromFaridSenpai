@@ -20,7 +20,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 @Component
 public class Gpt {
-    @Value("${gpt_api_key}")
+    @Value("${dev.jujumba.gpt_api_key}")
     private String apiKey;
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final AtomicInteger counter = new AtomicInteger(0);

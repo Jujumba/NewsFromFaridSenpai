@@ -16,12 +16,23 @@
 <body>
 <div class="wrapper">
     <div class="header">
-        <a href=""> <div class="header_text"> Farid_News </div> </a>
+        <a href=""> <div class="header_text"> News </div> </a>
     </div>
     <div class="container">
         <nav class="popups_menu">
             <ul class="popups_list">
-                <li class="dental_floss" th:each="news : ${all_news}"> <div class="rectangle"> <div class="inside_text" th:text="${news.toString()}"> text_ </div> <a class="button_to" target="_blank" th:href="${news.getUrl()}"> <div class="textt">Source</div> </a> </div> </li>
+                <li class="dental_floss" th:each="news : ${all_news}">
+                    <div class="rectangle">
+                        <div class="inside_text" th:text="${news.toString()}">
+                            __text__
+                        </div>
+                        <a class="button_to" target="_blank" th:href="${news.getUrl()}">
+                            <div class="textt">
+                                Source
+                            </div>
+                        </a>
+                    </div>
+                </li>
             </ul>
         </nav>
     </div>

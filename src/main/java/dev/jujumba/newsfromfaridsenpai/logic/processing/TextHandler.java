@@ -2,6 +2,7 @@ package dev.jujumba.newsfromfaridsenpai.logic.processing;
 
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class TextHandler {
+    @Value("${dev.jujumba.shall_process}")
+    private boolean shallProcess;
     private final Gpt gpt;
     private final Translator translator;
     @Autowired
@@ -19,7 +22,10 @@ public class TextHandler {
 
     @SneakyThrows
     public synchronized String handleTitle(String title) {
-        Thread.sleep(2000);
-        return gpt.process(translator.translate("EN",title));
+        if (shallProcess) {
+            return gpt.process(translator.translate("EN", title));
+        } else {
+            return title.substring(0, Math.min(65, title.length()));
+        }
     }
 }

@@ -15,7 +15,7 @@ import java.util.Arrays;
  */
 @Component
 public class Translator {
-    @Value("${translate_api_key}")
+    @Value("${dev.jujumba.translate_api_key}")
     private String apiKey;
 
     @SneakyThrows

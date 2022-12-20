@@ -53,7 +53,7 @@ img {
 .container {
     width: 1000px;
     height: 100%;
-    margin: 0px auto;
+    margin: 0 auto;
     display: flex;
     justify-content: center;
 
@@ -70,13 +70,6 @@ img {
 .popups_menu {
     display: block;
 }
-.popups_list {
-
-
-}
-.popups_list::selection {
-    background: pink;
-}
 .dental_floss {
     display: block;
     margin-top: 5%;
@@ -92,7 +85,6 @@ img {
     max-height: 180px;
     display: block;
     font-family: 'Montserrat', sans-serif;
-
 }
 .button_to {
     display: flex;
@@ -110,4 +102,7 @@ img {
     font-size: 30px;
     margin-top: 6%;
     color: white;
+}
+.inside_text::selection {
+    background: pink;
 }

@@ -44,8 +44,6 @@ public abstract class AbstractParser implements Parser, Runnable {
         return document.select(query);
     }
 
-    protected abstract String cleanupTitle(String title);
-
     @Override
     public void run() {
         parse();

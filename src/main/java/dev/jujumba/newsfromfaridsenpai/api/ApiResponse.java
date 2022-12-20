@@ -1,6 +1,6 @@
-package dev.jujumba.newsfromfaridsenpai.api.apimodels;
+package dev.jujumba.newsfromfaridsenpai.api;
 
-import dev.jujumba.newsfromfaridsenpai.api.apimodels.exceptions.ApiException;
+import dev.jujumba.newsfromfaridsenpai.models.exceptions.ApiException;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 

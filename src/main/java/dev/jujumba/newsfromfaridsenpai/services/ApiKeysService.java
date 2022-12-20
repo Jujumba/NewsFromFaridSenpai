@@ -1,6 +1,6 @@
 package dev.jujumba.newsfromfaridsenpai.services;
 
-import dev.jujumba.newsfromfaridsenpai.api.apimodels.ApiKey;
+import dev.jujumba.newsfromfaridsenpai.models.ApiKey;
 import dev.jujumba.newsfromfaridsenpai.repositories.ApiKeysRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
