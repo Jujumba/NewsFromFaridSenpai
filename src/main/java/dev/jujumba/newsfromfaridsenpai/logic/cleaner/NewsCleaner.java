@@ -30,9 +30,4 @@ public class NewsCleaner extends AbstractParser {
             sleep(12f);
         }
     }
-
-    @Override
-    public boolean hasOccurred(String href) {
-        throw new UnsupportedOperationException();
-    }
 }
