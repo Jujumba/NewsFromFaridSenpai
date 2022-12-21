@@ -44,12 +44,13 @@ public class ApiController {
         List<News> allNews = newsService.findAll();
 
         String json = toJson(allNews.subList(0, Math.min(request.getAmount(), allNews.size())));
+
         return ResponseEntity.ok(json);
     }
 
     @GetMapping
     @SneakyThrows
-    public String throwApiException() {
+    public ResponseEntity<String> index() {
         throw new ApiException();
     }
 
