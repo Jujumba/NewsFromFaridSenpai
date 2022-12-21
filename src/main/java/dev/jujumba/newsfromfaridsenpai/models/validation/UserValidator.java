@@ -1,9 +1,8 @@
 package dev.jujumba.newsfromfaridsenpai.models.validation;
 
 import dev.jujumba.newsfromfaridsenpai.models.User;
-import dev.jujumba.newsfromfaridsenpai.services.MyUserDetailsService;
+import dev.jujumba.newsfromfaridsenpai.services.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -14,7 +13,7 @@ import org.springframework.validation.Validator;
 @Component
 @AllArgsConstructor
 public class UserValidator implements Validator {
-    private final MyUserDetailsService userDetailsService;
+    private final UserService userService;
     @Override
     public boolean supports(Class<?> clazz) {
         return User.class.equals(clazz);
@@ -24,10 +23,8 @@ public class UserValidator implements Validator {
     public void validate(Object target, Errors errors) {
         User user = (User) target;
 
-        try {
-            userDetailsService.loadUserByUsername(user.getEmail());
-        } catch (UsernameNotFoundException ignored) {
-
+        if (userService.findByEmail(user.getEmail()) == null) {
+            return;
         }
 
         errors.rejectValue("email","","This email is already in use!");
