@@ -2,17 +2,17 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Sign Up</title>
 </head>
 <body>
     <form th:method="post" action="/auth/signup" th:object="${user}">
         <label for="email">Email:</label>
         <input th:type="text" th:field="*{email}" id="email">
-        <div style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Error1</div>
+        <div style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">__error__</div>
         <br/>
         <label for="password">Password:</label>
         <input type="password" th:field="*{password}" id="password">
-        <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Error2</div>
+        <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">__error__</div>
         <br/>
         <input type="submit" value="Sign Up!">
     </form>
