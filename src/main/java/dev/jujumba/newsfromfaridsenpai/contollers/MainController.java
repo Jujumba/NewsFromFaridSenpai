@@ -1,29 +1,32 @@
 package dev.jujumba.newsfromfaridsenpai.contollers;
 
-import dev.jujumba.newsfromfaridsenpai.logic.Starter;
 import dev.jujumba.newsfromfaridsenpai.models.User;
+import dev.jujumba.newsfromfaridsenpai.models.validation.UserValidator;
 import dev.jujumba.newsfromfaridsenpai.services.NewsService;
-import org.springframework.beans.factory.annotation.Autowired;
+import dev.jujumba.newsfromfaridsenpai.services.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.validation.Valid;
 
 /**
  * @author Jujumba
  */
-@Controller()
+@Controller
 @RequestMapping("/")
+@AllArgsConstructor
 public class MainController {
     private final NewsService newsService;
-    @Autowired
-    public MainController(Starter collector, NewsService newsService) {
-        this.newsService = newsService;
-        collector.collect();
-    }
+    private final UserValidator userValidator;
+    private final UserService userService;
 
     @GetMapping()
     public String index(Model model) {
@@ -31,15 +34,22 @@ public class MainController {
         return "index.html";
     }
     @GetMapping("/auth/signin")
-    public String signin() {
+    public String signIn() {
         return "auth/signin.html";
     }
 
     @GetMapping("/auth/signup")
-    public String signup(@ModelAttribute("User") User user) {
+    public String signUp(@ModelAttribute("User") User user) {
         return "auth/signup.html";
     }
 
+    @PostMapping("/auth/signup")
+    public String performSignUp(@ModelAttribute("User") @Valid User user, BindingResult bindingResult) {
+        userValidator.validate(user, bindingResult);
+
+        userService.save(user);
+        return "redirect:/auth/login.html";
+    }
     @GetMapping("/profile")
     public String profile(Model model) {
         Authentication auth  = SecurityContextHolder.getContext().getAuthentication(); //fetches the user from current session
