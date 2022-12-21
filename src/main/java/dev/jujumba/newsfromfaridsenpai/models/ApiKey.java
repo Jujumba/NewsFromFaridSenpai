@@ -3,6 +3,7 @@ package dev.jujumba.newsfromfaridsenpai.models;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Random;
 
 
@@ -23,6 +24,8 @@ public class ApiKey {
     private int id;
     @Column(name = "value")
     private String value;
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
