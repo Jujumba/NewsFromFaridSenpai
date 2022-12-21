@@ -1,32 +1,23 @@
 package dev.jujumba.newsfromfaridsenpai.services;
 
-import dev.jujumba.newsfromfaridsenpai.models.User;
 import dev.jujumba.newsfromfaridsenpai.repositories.UserRepository;
-import dev.jujumba.newsfromfaridsenpai.security.MyUserDetails;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
+import org.springframework.transaction.annotation.Transactional;
+import dev.jujumba.newsfromfaridsenpai.models.User;
 
 /**
  * @author Jujumba
  */
 @Service
 @AllArgsConstructor
-public class UserService implements UserDetailsService {
+public class UserService {
     private final UserRepository userRepository;
-
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<User> userOptional = userRepository.findUserByEmail(email);
-
-        if (userOptional.isEmpty()) {
-            throw new UsernameNotFoundException("No such user!");
-        }
-
-        return new MyUserDetails(userOptional.get());
+    @Transactional
+    public void save(User user) {
+        userRepository.save(user);
+    }
+    public User findByEmail(String e) {
+        return userRepository.findUserByEmail(e).orElse(null);
     }
 }

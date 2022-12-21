@@ -14,7 +14,6 @@ import java.time.LocalTime;
 import java.time.Month;
 
 import static java.time.Month.*;
-import static java.time.Month.DECEMBER;
 
 /**
  * @author Jujumba
