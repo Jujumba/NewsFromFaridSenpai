@@ -35,8 +35,6 @@ public abstract class AbstractTelegramParser extends AbstractParser {
                 if (elements.get(i).text().equals(prevTitle) || elements.get(i).className().contains("reply")) {
                     continue;
                 }
-
-
                 Element dataElement = messageData.get(hrefsPointer);
 
                 String href = dataElement.attr("href");
