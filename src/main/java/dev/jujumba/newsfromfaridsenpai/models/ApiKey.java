@@ -1,9 +1,9 @@
 package dev.jujumba.newsfromfaridsenpai.models;
 
-import dev.jujumba.newsfromfaridsenpai.models.User;
 import lombok.Data;
 
 import javax.persistence.*;
+
 
 /**
  * @author Jujumba
@@ -11,7 +11,6 @@ import javax.persistence.*;
 @Entity
 @Table(name = "api_keys")
 @Data
-//todo: move to models package
 public class ApiKey {
     @Id
     @Column(name = "id")
