@@ -2,6 +2,7 @@ package dev.jujumba.newsfromfaridsenpai.contollers;
 
 import dev.jujumba.newsfromfaridsenpai.models.User;
 import dev.jujumba.newsfromfaridsenpai.models.validation.UserValidator;
+import dev.jujumba.newsfromfaridsenpai.services.ApiKeysService;
 import dev.jujumba.newsfromfaridsenpai.services.NewsService;
 import dev.jujumba.newsfromfaridsenpai.services.UserService;
 import lombok.AllArgsConstructor;
@@ -27,6 +28,7 @@ public class MainController {
     private final NewsService newsService;
     private final UserValidator userValidator;
     private final UserService userService;
+    private final ApiKeysService apiKeysService;
 
     @GetMapping()
     public String index(Model model) {
@@ -56,8 +58,10 @@ public class MainController {
     @GetMapping("/profile")
     public String profile(Model model) {
         Authentication auth  = SecurityContextHolder.getContext().getAuthentication(); //fetches the user from current session
-        String name = auth.getName();
-        model.addAttribute("name", name);
+        String email = auth.getName();
+        User user = userService.findByEmail(email);
+        model.addAttribute("email", email);
+        model.addAttribute("keys", apiKeysService.findAllByUser(user));
         return "profile.html";
     }
 }
