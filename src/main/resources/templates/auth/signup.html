@@ -5,6 +5,7 @@
     <title>Sign Up</title>
 </head>
 <body>
+<center>
     <form th:method="post" action="/auth/signup" th:object="${user}">
         <label for="email">Email:</label>
         <input th:type="text" th:field="*{email}" id="email">
@@ -14,7 +15,11 @@
         <input type="password" th:field="*{password}" id="password">
         <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">__error__</div>
         <br/>
-        <input type="submit" value="Sign Up!">
+        <input type="submit" value="Sign Up">
     </form>
+    <h3>
+        <a href="/auth/signin">Already have an account?</a>
+    </h3>
+</center>
 </body>
 </html>
