@@ -2,11 +2,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${name}"></title>
+    <title th:text="${email}"></title>
 </head>
 <body>
-    <h1 th:text="'Hello, ' + ${name}"></h1>
-    <br/>
+    <h1 th:text="'Hello, ' + ${email} + '!'"></h1>
+    <h3 th:if="${keys.size()} == 0">You don`t have api keys:(</h3>
+    <div th:if="${keys.size()} > 0" th:each="key : ${keys}">
+        <p th:text="${key.getValue()}"/>
+    </div>
     <h3>
         <a href="/">Back to news</a>
         <br>
