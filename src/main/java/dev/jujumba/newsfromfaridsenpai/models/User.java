@@ -1,7 +1,6 @@
 package dev.jujumba.newsfromfaridsenpai.models;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -10,7 +9,10 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "users")
-@Data
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
 @NoArgsConstructor
 public class User {
     @Id
@@ -19,8 +21,10 @@ public class User {
     private int id;
     @Column(name = "email")
     private String email;
-    @Column(name = "name")
-    private String name;
     @Column(name = "password")
     private String password;
+    public User(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
 }
