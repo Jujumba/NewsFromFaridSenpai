@@ -5,8 +5,8 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import dev.jujumba.newsfromfaridsenpai.api.ApiRequest;
 import dev.jujumba.newsfromfaridsenpai.api.ApiResponse;
-import dev.jujumba.newsfromfaridsenpai.models.exceptions.ApiException;
 import dev.jujumba.newsfromfaridsenpai.models.News;
+import dev.jujumba.newsfromfaridsenpai.models.exceptions.ApiException;
 import dev.jujumba.newsfromfaridsenpai.services.ApiKeysService;
 import dev.jujumba.newsfromfaridsenpai.services.NewsService;
 import lombok.SneakyThrows;
@@ -20,7 +20,7 @@ import java.util.List;
  * @author Jujumba
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 public class ApiController {
     private final ObjectMapper mapper = new ObjectMapper();
     {
@@ -37,13 +37,14 @@ public class ApiController {
 
     @SneakyThrows
     @PostMapping(consumes = {"application/json"}, produces = {"application/json"})
-    public String getNews(@RequestHeader String Authorization, @RequestBody(required = false) ApiRequest request) {
+    public ResponseEntity<String> getNews(@RequestHeader String Authorization, @RequestBody(required = false) ApiRequest request) {
         if (!apiKeysService.exists(Authorization)) {
             throw new ApiException();
         }
         List<News> allNews = newsService.findAll();
 
-        return toJson(allNews.subList(0, Math.min(request.getAmount(), allNews.size())));
+        String json = toJson(allNews.subList(0, Math.min(request.getAmount(), allNews.size())));
+        return ResponseEntity.ok(json);
     }
 
     @GetMapping
