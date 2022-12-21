@@ -28,7 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable() //todo
                 .authorizeRequests()
-                .antMatchers("/", "/api/v1", "/auth/login", "/error")
+                .antMatchers("/", "/api/v1", "/auth/login", "/error", "/styles/*", "/auth/*") //todo
                 .permitAll()
                 .anyRequest()
                 .authenticated()
@@ -37,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/auth/signin")
                 .loginProcessingUrl("/process_login")
                 .defaultSuccessUrl("/profile", true)
-                .failureUrl("/auth/login?error");
+                .failureUrl("/auth/signin?error");
     }
 
     @Override
