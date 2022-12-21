@@ -13,6 +13,6 @@ import java.util.List;
 @Repository
 public interface ApiKeysRepository extends JpaRepository<ApiKey, Integer> {
     boolean existsByValue(String value);
-    @Query("from ApiKey keys where keys.user = ?1")
+    @Query("from ApiKey keys where keys.user.id = ?1")
     List<ApiKey> findAllByUser(Integer id); //may be simpler
 }
