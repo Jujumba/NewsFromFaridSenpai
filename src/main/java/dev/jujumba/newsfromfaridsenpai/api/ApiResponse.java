@@ -9,8 +9,8 @@ import org.springframework.http.HttpStatus;
  */
 @Getter
 public class ApiResponse {
-    private String message;
-    private HttpStatus status;
+    private final String message;
+    private final HttpStatus status;
     public ApiResponse(String message, HttpStatus status) {
         this.message = message;
         this.status = status;
