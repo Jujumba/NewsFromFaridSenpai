@@ -1,6 +1,7 @@
 package dev.jujumba.newsfromfaridsenpai.services;
 
 import dev.jujumba.newsfromfaridsenpai.models.ApiKey;
+import dev.jujumba.newsfromfaridsenpai.models.User;
 import dev.jujumba.newsfromfaridsenpai.repositories.ApiKeysRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,11 @@ public class ApiKeysService {
         return apiKeysRepository.existsByValue(apiKeyValue);
     }
 
-    public List<ApiKey> findAll() {
-        return apiKeysRepository.findAll();
+    public List<ApiKey> findAllByUser(User user) {
+        return findAllByUser(user.getId());
+    }
+
+    public List<ApiKey> findAllByUser(int id) {
+        return apiKeysRepository.findAllByUser(id);
     }
 }
