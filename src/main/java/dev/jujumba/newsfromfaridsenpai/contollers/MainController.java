@@ -39,16 +39,19 @@ public class MainController {
     }
 
     @GetMapping("/auth/signup")
-    public String signUp(@ModelAttribute("User") User user) {
+    public String signUp(@ModelAttribute("user") User user) {
         return "auth/signup.html";
     }
 
     @PostMapping("/auth/signup")
-    public String performSignUp(@ModelAttribute("User") @Valid User user, BindingResult bindingResult) {
+    public String performSignUp(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
         userValidator.validate(user, bindingResult);
-
+        if (bindingResult.hasErrors()) {
+            return "auth/signup";
+        }
         userService.save(user);
-        return "redirect:/auth/login.html";
+
+        return "redirect:/auth/signin";
     }
     @GetMapping("/profile")
     public String profile(Model model) {
