@@ -26,7 +26,7 @@ public class Gpt {
     private final AtomicInteger counter = new AtomicInteger(0);
     private final ObjectMapper mapper = new ObjectMapper();
     @SneakyThrows
-    synchronized String process(String text) {
+    String process(String text) {
         if (counter.incrementAndGet() > 60) {
             logger.warn("The request limit per minute has been reached!");
             Thread.sleep(60000);
