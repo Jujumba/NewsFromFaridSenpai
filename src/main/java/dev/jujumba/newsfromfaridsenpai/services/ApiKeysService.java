@@ -5,6 +5,7 @@ import dev.jujumba.newsfromfaridsenpai.models.User;
 import dev.jujumba.newsfromfaridsenpai.repositories.ApiKeysRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -30,5 +31,13 @@ public class ApiKeysService {
 
     public List<ApiKey> findAllByUser(int id) {
         return apiKeysRepository.findAllByUser(id);
+    }
+    @Transactional
+    public void remove(int id) {
+        apiKeysRepository.deleteApiKeyById(id);
+    }
+
+    public void save(ApiKey apiKey) {
+        apiKeysRepository.save(apiKey);
     }
 }
