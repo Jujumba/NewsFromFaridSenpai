@@ -11,7 +11,8 @@
 
     <div th:if="${keys.size()} > 0" th:each="key : ${keys}">
         <p th:text="${key.getValue()}"/>
-        <form th:method="post" th:action="@{/profile/remove_apikey/{id}(id = ${key.getId()})}">
+        <form th:method="post" th:action="@{/profile/remove_apikey}">
+            <input type="hidden" name ="apikey_id" th:value="${key.getId()}">
             <input type="submit" value="Remove this key">
         </form>
     </div>
