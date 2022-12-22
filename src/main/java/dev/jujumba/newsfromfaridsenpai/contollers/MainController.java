@@ -69,8 +69,8 @@ public class MainController {
         return "redirect:/profile";
     }
 
-    @PostMapping("/profile/remove_apikey/{id}")
-    public String removeApiKey(@PathVariable("id") int id) {
+    @PostMapping("/profile/remove_apikey")
+    public String removeApiKey(@RequestParam(name = "apikey_id") int id) {
         apiKeysService.remove(id);
         return "redirect:/profile";
     }
