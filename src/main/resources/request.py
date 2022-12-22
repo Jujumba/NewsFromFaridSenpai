@@ -5,6 +5,6 @@ import requests
 
 url = 'http://localhost:8080/api/v1'
 amount = 3
-
-request = requests.post(url, headers={'Authorization': 'vIHYmlEk4yXQEXlA03D9UmT7M'}, json={'amount': amount})
+api_key = None #todo
+request = requests.post(url, headers={'Authorization': api_key}, json={'amount': amount})
 print(request.text)
