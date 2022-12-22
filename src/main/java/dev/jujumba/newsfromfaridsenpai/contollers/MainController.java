@@ -1,5 +1,6 @@
 package dev.jujumba.newsfromfaridsenpai.contollers;
 
+import dev.jujumba.newsfromfaridsenpai.models.ApiKey;
 import dev.jujumba.newsfromfaridsenpai.models.User;
 import dev.jujumba.newsfromfaridsenpai.models.validation.UserValidator;
 import dev.jujumba.newsfromfaridsenpai.services.ApiKeysService;
@@ -11,10 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -57,11 +55,28 @@ public class MainController {
     }
     @GetMapping("/profile")
     public String profile(Model model) {
-        Authentication auth  = SecurityContextHolder.getContext().getAuthentication(); //fetches the user from current session
-        String email = auth.getName();
-        User user = userService.findByEmail(email);
-        model.addAttribute("email", email);
+        User user = fetchUserFromSession();
+        model.addAttribute("email", user.getEmail());
         model.addAttribute("keys", apiKeysService.findAllByUser(user));
         return "profile.html";
+    }
+
+    @PostMapping("/profile/create_apikey")
+    public String createApiKey(ApiKey apikey) {
+        User user = fetchUserFromSession();
+        apikey.setUser(user);
+        apiKeysService.save(apikey);
+        return "redirect:/profile";
+    }
+
+    @PostMapping("/profile/remove_apikey/{id}")
+    public String removeApiKey(@PathVariable("id") int id) {
+        apiKeysService.remove(id);
+        return "redirect:/profile";
+    }
+
+    private User fetchUserFromSession() {
+        Authentication auth  = SecurityContextHolder.getContext().getAuthentication();
+        return userService.findByEmail(auth.getName());
     }
 }
