@@ -32,8 +32,13 @@ public class ApiKey {
 
     public ApiKey() {
         initValue(); //todo: rename
+        this.createdAt = LocalDateTime.now();
     }
 
+    public ApiKey(User user) {
+        this();
+        this.user = user;
+    }
     private void initValue() {
         Random random = new Random((long) (3 + Math.random() * 999999999));
 
