@@ -37,7 +37,7 @@ public class ApiController {
 
     @SneakyThrows
     @PostMapping(consumes = {"application/json"}, produces = {"application/json"})
-    public ResponseEntity<String> getNews(@RequestHeader String Authorization, @RequestBody(required = false) ApiRequest request) {
+    public ResponseEntity<String> getNews(@RequestHeader String Authorization, @RequestBody ApiRequest request) {
         if (!apiKeysService.exists(Authorization)) {
             throw new ApiException();
         }
