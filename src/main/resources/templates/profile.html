@@ -6,10 +6,19 @@
 </head>
 <body>
     <h1 th:text="'Hello, ' + ${email} + '!'"></h1>
-    <h3 th:if="${keys.size()} == 0">You don`t have api keys:(</h3>
+    <h3 th:text="${keys.size()} == 0 ? 'You dont have api-keys:(' : 'Your api-keys:'"></h3>
+
     <div th:if="${keys.size()} > 0" th:each="key : ${keys}">
         <p th:text="${key.getValue()}"/>
+        <form th:method="post" th:action="@{/profile/remove_apikey/{id}(id = ${key.getId()})}">
+            <input type="submit" value="Remove this key">
+        </form>
     </div>
+
+    <form th:method="post" th:action="@{/profile/create_apikey}" th:object="${apikey}">
+    <input type="submit" value="Create Api-key">
+    </form>
+
     <h3>
         <a href="/">Back to news</a>
         <br>
