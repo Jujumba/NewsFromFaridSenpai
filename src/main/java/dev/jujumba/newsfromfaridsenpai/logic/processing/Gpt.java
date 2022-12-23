@@ -58,12 +58,12 @@ public class Gpt {
         HashMap<String, String> map;
 
         try {
+            //todo: refactor...
             map = mapper.readValue(response.body().split("\\[")[1].split("]")[0], HashMap.class);
         } catch (Exception e) {
             logger.error(response.body());
             return null;
         }
-        //?
         return map.get("text");
     }
 }
