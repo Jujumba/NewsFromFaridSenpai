@@ -8,9 +8,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * @author Jujumba
@@ -40,7 +39,9 @@ public abstract class AbstractTelegramParser extends AbstractParser {
                 String href = dataElement.attr("href");
                 String title = textHandler.handleTitle(elements.get(i).text());
 
-                LocalDateTime date = LocalDateTime.of(LocalDate.now(), LocalTime.parse(dataElement.text()));
+                Element nestedDateElement = dataElement.firstElementChild();
+
+                LocalDateTime date = LocalDateTime.parse(nestedDateElement.attr("datetime"), DateTimeFormatter.ISO_ZONED_DATE_TIME);
 
                 if (hasOccurred(href)) {
                     logger.warn("Duplicate news has been found. Continuing to parse after 3 minutes delay");
