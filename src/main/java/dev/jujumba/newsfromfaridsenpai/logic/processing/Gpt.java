@@ -36,12 +36,13 @@ public class Gpt {
         text = text.replace("\n","");
 
         String finalText = text;
-        Map values = new HashMap() {{
-            put("model","text-davinci-003");
-            put("prompt", finalText +"\nMake a title out of this text");
-            put("max_tokens",30);
-            put("temperature",0.45f);
-        }};
+        Map values = new HashMap();
+
+        values.put("model","text-davinci-003");
+        values.put("prompt", finalText +"\nMake a title out of this text");
+        values.put("max_tokens",30);
+        values.put("temperature",0.45f);
+
 
         String requestBody = mapper.writeValueAsString(values);
 
