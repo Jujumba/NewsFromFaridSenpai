@@ -2,14 +2,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${email}"></title>
+    <title th:text="${user.getEmail()}"></title>
 </head>
 <center>
 <body>
-    <h1 th:text="'Hello, ' + ${email} + '!'"></h1>
-    <h3 th:text="${keys.size()} == 0 ? 'You dont have api-keys:(' : 'Your api-keys:'"></h3>
+    <h1 th:text="'Hello, ' + ${user.getEmail()} + '!'"></h1>
+    <h3 th:text="${user.getApiKeys().size()} == 0 ? 'You dont have api-keys:(' : 'Your api-keys:'"></h3>
 
-    <div th:if="${keys.size()} > 0" th:each="key : ${keys}">
+    <div th:if="${user.getApiKeys()} != null" th:each="key : ${user.getApiKeys()}">
         <p th:text="${key.getValue()}"/>
         <form th:method="post" th:action="@{/profile/remove_apikey}">
             <input type="hidden" name ="apikey_id" th:value="${key.getId()}">
