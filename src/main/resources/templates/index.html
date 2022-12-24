@@ -32,6 +32,10 @@
                             </div>
                         </a>
                     </div>
+                        <div th:each="image : ${news.getImages()}">
+                            <img th:src="${image.getImg()}" width="150" height="150"/>
+                            <br/>
+                        </div>
                 </li>
             </ul>
         </nav>
