@@ -56,8 +56,7 @@ public class MainController {
     @GetMapping("/profile")
     public String profile(Model model) {
         User user = fetchUserFromSession();
-        model.addAttribute("email", user.getEmail());
-        model.addAttribute("keys", apiKeysService.findAllByUser(user));
+        model.addAttribute("user", user);
         return "profile.html";
     }
 
