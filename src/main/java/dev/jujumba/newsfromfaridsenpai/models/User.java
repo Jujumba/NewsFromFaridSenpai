@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 /**
  * @author Jujumba
@@ -29,6 +30,8 @@ public class User {
     @NotEmpty
     @Size(min = 5, message = "Your password is too short!")
     private String password;
+    @OneToMany(mappedBy = "user")
+    private List<ApiKey> apiKeys;
     public User(String email, String password) {
         this.email = email;
         this.password = password;
