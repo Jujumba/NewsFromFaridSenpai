@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -34,7 +35,8 @@ public class News {
     private String url;
     @Column(name = "date")
     private LocalDateTime dateTime;
-
+    @OneToMany(mappedBy = "news")
+    private List<Image> images;
     public News(String title, String url, LocalDateTime dateTime) {
         this.title = title;
         this.url = url;
