@@ -21,7 +21,6 @@ import java.util.List;
  */
 @Component
 public abstract class AbstractTelegramParser extends AbstractParser {
-
     private final ImagesService imagesService;
 
     @Autowired
@@ -48,6 +47,9 @@ public abstract class AbstractTelegramParser extends AbstractParser {
                 }
 
                 String title = current.select(".tgme_widget_message_text").text();
+
+                title = textHandler.handleTitle(title);
+
                 LocalDateTime dateTime = LocalDateTime.parse(date.firstElementChild().attr("datetime"), DateTimeFormatter.ISO_ZONED_DATE_TIME);
 
                 News news = new News(title, href, dateTime);
