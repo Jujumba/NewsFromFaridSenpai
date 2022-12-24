@@ -43,6 +43,7 @@ public abstract class AbstractTelegramParser extends AbstractParser {
 
                 if (hasOccurred(href)) {
                     sleep(delay);
+                    logger.warn("Waiting 3 minutes, then`ll parse again");
                     continue label;
                 }
 
