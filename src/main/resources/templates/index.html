@@ -33,8 +33,7 @@
                         </a>
                     </div>
                         <div th:each="image : ${news.getImages()}">
-                            <img th:src="${image.getImg()}" width="150" height="150"/>
-                            <br/>
+                            <img th:src="${image.getUrl()}" width="150" height="150"/>
                         </div>
                 </li>
             </ul>
