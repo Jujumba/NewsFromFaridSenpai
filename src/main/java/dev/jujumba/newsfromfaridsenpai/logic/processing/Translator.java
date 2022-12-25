@@ -8,7 +8,9 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.util.Collections;
 
 /**
  * @author Jujumba
@@ -17,16 +19,21 @@ import java.util.Arrays;
 public class Translator {
     @Value("${dev.jujumba.translate_api_key}")
     private String apiKey;
-
+    private Translate t;
+    {
+        try {
+            t = new Translate.Builder(
+                    GoogleNetHttpTransport.newTrustedTransport()
+                    ,GsonFactory.getDefaultInstance(), null)
+                    .setApplicationName("NewsFromFaridSenpai")
+                    .build();
+        } catch (GeneralSecurityException | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
     @SneakyThrows
     String translate(String languageCode, String text) {
-        Translate t = new Translate.Builder(
-                GoogleNetHttpTransport.newTrustedTransport()
-                ,GsonFactory.getDefaultInstance(), null)
-                .setApplicationName("NewsFromFaridSenpai")
-                .build();
-
-        Translate.Translations.List list = t.new Translations().list(Arrays.asList(text), languageCode);
+        Translate.Translations.List list = t.new Translations().list(Collections.singletonList(text), languageCode);
         list.setKey(apiKey);
         TranslationsListResponse response = list.execute();
         StringBuilder result = new StringBuilder();
