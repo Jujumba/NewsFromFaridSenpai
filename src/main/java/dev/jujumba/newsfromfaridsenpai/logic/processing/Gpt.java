@@ -35,11 +35,10 @@ public class Gpt {
 
         text = text.replace("\n","");
 
-        String finalText = text;
         Map<Object, Object> values = new HashMap<>  ();
 
         values.put("model","text-davinci-003");
-        values.put("prompt", finalText +"\nMake a title out of this text");
+        values.put("prompt", text +"\nMake a title out of this text");
         values.put("max_tokens",30);
         values.put("temperature",0.45f);
 
