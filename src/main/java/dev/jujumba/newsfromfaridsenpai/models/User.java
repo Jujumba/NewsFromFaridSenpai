@@ -24,7 +24,7 @@ public class User {
     private int id;
     @Column(name = "email")
     @NotEmpty
-    @Size(min = 6, message = "Your email is too short or it`ve been registered already")
+    @Size(min = 6, message = "Your email is too short or it has been registered already")
     private String email;
     @Column(name = "password")
     @NotEmpty
