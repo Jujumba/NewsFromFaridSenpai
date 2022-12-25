@@ -37,7 +37,7 @@ public abstract class AbstractTelegramParser extends AbstractParser {
             //todo: REFACTOR UNREADABLE CODE
             for (int i = messages.size() - 1; i >= 0; i--) {
                 Element current = messages.get(i);
-                Element date = current.select(".tgme_widget_message_date").get(0);
+                Element date = current.selectFirst(".tgme_widget_message_date");
                 String href = date.attr("href");
 
                 if (hasOccurred(href)) {
@@ -47,7 +47,6 @@ public abstract class AbstractTelegramParser extends AbstractParser {
                 }
 
                 String title = current.select(".tgme_widget_message_text").text();
-
                 title = textHandler.handleTitle(title);
 
                 LocalDateTime dateTime = LocalDateTime.parse(date.firstElementChild().attr("datetime"), DateTimeFormatter.ISO_ZONED_DATE_TIME);
@@ -64,7 +63,6 @@ public abstract class AbstractTelegramParser extends AbstractParser {
                 newsService.save(news);
                 imagesService.saveAll(images);
             }
-
             sleep(delay);
         }
     }
