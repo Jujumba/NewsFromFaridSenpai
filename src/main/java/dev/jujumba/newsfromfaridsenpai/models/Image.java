@@ -1,5 +1,6 @@
 package dev.jujumba.newsfromfaridsenpai.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,15 +19,17 @@ public class Image {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private int id;
-    @Column(name = "img")
-    private String img;
+    @Column(name = "url")
+    private String url;
     @ManyToOne
     @JoinColumn(name = "news_id", referencedColumnName = "id")
+    @JsonIgnore
     private News news;
 
-    public Image(String img, News news) {
-        this.img = img;
+    public Image(String url, News news) {
+        this.url = url;
         this.news = news;
     }
 }
