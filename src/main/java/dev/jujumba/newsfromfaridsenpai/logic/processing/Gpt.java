@@ -36,7 +36,7 @@ public class Gpt {
         text = text.replace("\n","");
 
         String finalText = text;
-        Map values = new HashMap();
+        Map<Object, Object> values = new HashMap<>  ();
 
         values.put("model","text-davinci-003");
         values.put("prompt", finalText +"\nMake a title out of this text");
