@@ -41,8 +41,8 @@ public abstract class AbstractTelegramParser extends AbstractParser {
                 String href = date.attr("href");
 
                 if (hasOccurred(href)) {
-                    sleep(delay);
                     logger.warn("Waiting 3 minutes, then`ll parse again");
+                    sleep(delay);
                     continue label;
                 }
 
