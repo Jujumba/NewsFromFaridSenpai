@@ -16,7 +16,7 @@ public class UserService extends AbstractService<User> {
         super(repository);
         this.passwordEncoder = passwordEncoder;
     }
-
+    @Override
     public void save(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         super.save(user);
