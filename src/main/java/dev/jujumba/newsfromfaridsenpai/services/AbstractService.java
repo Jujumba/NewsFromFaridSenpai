@@ -16,7 +16,6 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 @Scope("prototype")
-@Getter
 public class AbstractService<T> {
     protected final JpaRepository<T, Integer> repository;
 
