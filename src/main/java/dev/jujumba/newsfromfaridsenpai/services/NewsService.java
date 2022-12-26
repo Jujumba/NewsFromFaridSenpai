@@ -5,29 +5,16 @@ import dev.jujumba.newsfromfaridsenpai.repositories.NewsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 /**
  * @author Jujumba
  */
 @Service
-public class NewsService {
-    private final NewsRepository repository;
+public class NewsService extends AbstractService<News> {
     @Autowired
     public NewsService(NewsRepository newsRepository) {
-        this.repository = newsRepository;
+        super(newsRepository);
     }
     public boolean existsByUrl(String url) {
-        return repository.existsByUrl(url);
-    }
-    public List<News> findAll() {
-        return repository.findAllAndSortByDate();
-    }
-    public void save(News news) {
-        repository.save(news);
-    }
-
-    public void delete(News news) {
-        repository.delete(news);
+        return ((NewsRepository) repository).existsByUrl(url);
     }
 }

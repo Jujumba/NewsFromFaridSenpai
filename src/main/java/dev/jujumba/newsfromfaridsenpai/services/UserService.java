@@ -1,26 +1,27 @@
 package dev.jujumba.newsfromfaridsenpai.services;
 
+import dev.jujumba.newsfromfaridsenpai.models.User;
 import dev.jujumba.newsfromfaridsenpai.repositories.UserRepository;
-import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import dev.jujumba.newsfromfaridsenpai.models.User;
 
 /**
  * @author Jujumba
  */
 @Service
-@AllArgsConstructor
-public class UserService {
-    private final UserRepository userRepository;
+public class UserService extends AbstractService<User> {
     private final PasswordEncoder passwordEncoder;
-    @Transactional
+
+    public UserService(UserRepository repository, PasswordEncoder passwordEncoder) {
+        super(repository);
+        this.passwordEncoder = passwordEncoder;
+    }
+
     public void save(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+        super.save(user);
     }
     public User findByEmail(String e) {
-        return userRepository.findUserByEmail(e).orElse(null);
+        return ((UserRepository) repository).findUserByEmail(e).orElse(null);
     }
 }
