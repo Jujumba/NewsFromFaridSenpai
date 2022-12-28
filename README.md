@@ -1,4 +1,4 @@
-# News aggregator written using Spring Boot, Security, etc.
+# News aggregator
 
 # Note that:
 1) You shouldn't create user by inserting data in the users table

@@ -1,7 +1,6 @@
 package dev.jujumba.newsfromfaridsenpai.services;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
