@@ -29,13 +29,11 @@ public class Gpt {
     String process(String text) {
         if (counter.incrementAndGet() > 60) {
             logger.warn("The request limit per minute has been reached!");
-            Thread.sleep(60000);
+            Thread.sleep(60000); //todo: This is a very big issue, I don't understand why I didn't see it before...
             counter.set(0);
         }
 
-        text = text.replace("\n","");
-
-        Map<Object, Object> values = new HashMap<>  ();
+        Map<Object, Object> values = new HashMap<>();
 
         values.put("model","text-davinci-003");
         values.put("prompt", text +"\nMake a title out of this text");
