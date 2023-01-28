@@ -27,7 +27,7 @@ public class Gpt {
     private final ObjectMapper mapper = new ObjectMapper();
     @SneakyThrows
     String process(String text) {
-        if (counter.incrementAndGet() > 60) {
+        if (counter.incrementAndGet() >= 60) {
             logger.warn("The request limit per minute has been reached!");
             Thread.sleep(60000); //todo: This is a very big issue, I don't understand why I didn't see it before...
             counter.set(0);
