@@ -26,7 +26,7 @@ public class Gpt {
     private final AtomicInteger counter = new AtomicInteger(0);
     private final ObjectMapper mapper = new ObjectMapper();
     @SneakyThrows
-    String process(String text) {
+    synchronized String process(String text) {
         if (counter.incrementAndGet() >= 60) {
             logger.warn("The request limit per minute has been reached!");
             Thread.sleep(60000); //todo: This is a very big issue, I don't understand why I didn't see it before...
@@ -51,9 +51,7 @@ public class Gpt {
                 .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                 .build();
         HttpResponse<String> response;
-        synchronized (this) {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        }
+        response = client.send(request, HttpResponse.BodyHandlers.ofString());
         HashMap<String, String> map;
 
         try {
