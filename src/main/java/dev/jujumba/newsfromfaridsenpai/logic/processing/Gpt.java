@@ -52,8 +52,10 @@ public class Gpt {
                 .header("Content-Type","application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                 .build();
-
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response;
+        synchronized (this) {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        }
         HashMap<String, String> map;
 
         try {

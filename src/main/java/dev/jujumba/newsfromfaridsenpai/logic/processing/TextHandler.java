@@ -21,7 +21,7 @@ public class TextHandler {
     }
 
     @SneakyThrows
-    public synchronized String handleTitle(String title) {
+    public String handleTitle(String title) {
         if (shallProcess) {
             return gpt.process(translator.translate("EN", title));
         } else {
