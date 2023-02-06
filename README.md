@@ -4,7 +4,7 @@
 
 ### Prerequisites:
 
-1) __Java 17__
+1) __Java 8+__
 2) __Any supported DBMS (PostgreSQL by default. Add your required driver in [build.gradle](https://github.com/Jujumba/NewsFromFaridSenpai/blob/master/build.gradle) and change the corresponding keys in [application.properties](https://github.com/Jujumba/NewsFromFaridSenpai/blob/master/src/main/resources/application.properties))__
 3) __Gradle (optionally)__
 
