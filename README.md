@@ -1,6 +1,9 @@
 # Telegram-based news aggregator
+
 ## Build
+
 ### Prerequisites:
+
 1) __Java 17__
 2) __Any supported DBMS (PostgreSQL by default. Add your required driver in [build.gradle](https://github.com/Jujumba/NewsFromFaridSenpai/blob/master/build.gradle) and change the corresponding keys in [application.properties](https://github.com/Jujumba/NewsFromFaridSenpai/blob/master/src/main/resources/application.properties))__
 3) __Gradle (optionally)__
@@ -12,6 +15,7 @@ $ ./gradlew bootRun
 ```
 
 # Note that:
+
 1) __If you have API-keys for OpenAI's GPT-3 and Google Translate, you can paste them in the [application.properties](https://github.com/Jujumba/NewsFromFaridSenpai/blob/master/src/main/resources/application.properties). Once it's done, be sure to set the `has_translate` flag to true__
 
 # Adding your source
@@ -35,7 +39,7 @@ __Result should be like this:__
 public class YourClassName extends AbstractTelegramParser {
     public YourClassName(TextHandler textHandler, NewsService newsService, ImagesService imagesService) {
         super(textHandler, newsService, imagesService);
-        setUrl(""<URL_FROM_STEP_1>"");
+        setUrl("<URL_FROM_STEP_1>");
     }
 }
 ```
