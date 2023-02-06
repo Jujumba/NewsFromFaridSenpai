@@ -15,7 +15,7 @@ $ ./gradlew bootRun
 1) __If you have API-keys for OpenAI's GPT-3 and Google Translate, you can paste them in the [application.properties](https://github.com/Jujumba/NewsFromFaridSenpai/blob/master/src/main/resources/application.properties). Once it's done, be sure to set the `has_translate` flag to true__
 
 # Adding your source
-1) __Get the link of channel to be parsed (https://t.me/s/<name_of_channel>)__
+1) __Get the link of channel to be parsed (``https://t.me/s/<name_of_channel>``)__
 2) __In [parser's package](https://github.com/Jujumba/NewsFromFaridSenpai/tree/master/src/main/java/dev/jujumba/newsfromfaridsenpai/logic/parsers/telegram) create new Java/Kotlin class and  Mark it with `@Component` annotation__
 3) __Extend it from [Abstract Telegram Parser](https://github.com/Jujumba/NewsFromFaridSenpai/blob/master/src/main/java/dev/jujumba/newsfromfaridsenpai/logic/parsers/telegram/AbstractTelegramParser.java)__
 4) __Override constructor with the following pattern__
