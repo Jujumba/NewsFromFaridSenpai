@@ -20,7 +20,7 @@ $ ./gradlew bootRun
 
 # Adding your source
 1) __Get the link of channel to be parsed (``https://t.me/s/<name_of_channel>``)__
-2) __In [parser's package](https://github.com/Jujumba/NewsFromFaridSenpai/tree/master/src/main/java/dev/jujumba/newsfromfaridsenpai/logic/parsers/telegram) create new Java/Kotlin class and  Mark it with `@Component` annotation__
+2) __In [parser's package](https://github.com/Jujumba/NewsFromFaridSenpai/tree/master/src/main/java/dev/jujumba/newsfromfaridsenpai/logic/parsers/telegram) create new Java/Kotlin class and mark it with `@Component` annotation__
 3) __Extend it from [Abstract Telegram Parser](https://github.com/Jujumba/NewsFromFaridSenpai/blob/master/src/main/java/dev/jujumba/newsfromfaridsenpai/logic/parsers/telegram/AbstractTelegramParser.java)__
 4) __Override constructor with the following pattern__
 ```java
