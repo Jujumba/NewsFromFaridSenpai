@@ -18,7 +18,25 @@ $ ./gradlew bootRun
 
 1) __If you have API-keys for OpenAI's GPT-3 and Google Translate, you can paste them in the [application.properties](https://github.com/Jujumba/NewsFromFaridSenpai/blob/master/src/main/resources/application.properties). Once it's done, be sure to set the `has_translate` flag to true__
 
+# Api
+
+__You can retrieve news from project's Rest-API__
+
+__An example:__
+
+```http request
+curl -H 'Authorization: <API-KEY FROM YOUR PROFILE>' -H 'Content-Type: application/json' -d 'amount: <Amount>' localhost:8080/api/v1
+```
+__Params:__
+1) Your API-KEY
+2) Amount of news (optionally, 1 by default) specifies amount of *__latest__* to be returned
+
+__If you want for more functionality, I'll be glad to leave this task for you<(^.^)>. Or simply: code it yourself. And be sure to create a pull request!__
+
+__Check out [request.py](https://github.com/Jujumba/NewsFromFaridSenpai/blob/master/src/main/resources/request.py) to see simple Python example__
+
 # Adding your source
+
 1) __Get the link of channel to be parsed (``https://t.me/s/<name_of_channel>``)__
 2) __In [parser's package](https://github.com/Jujumba/NewsFromFaridSenpai/tree/master/src/main/java/dev/jujumba/newsfromfaridsenpai/logic/parsers/telegram) create new Java/Kotlin class and mark it with `@Component` annotation__
 3) __Extend it from [Abstract Telegram Parser](https://github.com/Jujumba/NewsFromFaridSenpai/blob/master/src/main/java/dev/jujumba/newsfromfaridsenpai/logic/parsers/telegram/AbstractTelegramParser.java)__
