@@ -6,7 +6,7 @@
 </head>
 <body>
     <div th:each="news : ${found}">
-        <a th:text="${news.getUrl()}"></a>
+        <a th:href="${news.getUrl()}" th:text="${news.getTitle()}"></a>
     </div>
 </body>
 </html>
