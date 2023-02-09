@@ -15,7 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  */
 @EnableWebSecurity
 @AllArgsConstructor
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter /* todo: deprecated */ {
     private final MyUserDetailsService myUserDetailsService;
 
     @Bean
@@ -28,7 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable() //todo
                 .authorizeRequests()
-                .antMatchers("/", "/api/v1", "/auth/login", "/styles/*", "/auth/*") //todo
+                .antMatchers("/", "/api/v1", "/auth/login", "/styles/*", "/auth/*", "/search/*") //todo
                 .permitAll()
                 .anyRequest()
                 .authenticated()
