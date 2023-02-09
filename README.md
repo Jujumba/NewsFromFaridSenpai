@@ -49,8 +49,9 @@ public YourClassName(TextHandler textHandler, NewsService newsService, ImagesSer
 ```
 __Result should be like this:__
 ```java
-// YourClassName.java
 /*
+ * YourClassName.java
+ * 
  * imports...
  */
 
