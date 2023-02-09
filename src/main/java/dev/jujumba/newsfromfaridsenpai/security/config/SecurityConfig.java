@@ -28,7 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter /* todo: deprec
         http
                 .csrf().disable() //todo
                 .authorizeRequests()
-                .antMatchers("/", "/api/v1", "/auth/login", "/styles/*", "/auth/*", "/search/*") //todo
+                .antMatchers("/", "/api/v1", "/auth/login", "/styles/*", "/auth/*", "/search/*", "/search") //todo
                 .permitAll()
                 .anyRequest()
                 .authenticated()
