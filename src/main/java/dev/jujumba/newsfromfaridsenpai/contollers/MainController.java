@@ -74,6 +74,12 @@ public class MainController {
         return "redirect:/profile";
     }
 
+    @PostMapping("/search")
+    public String search(@RequestParam(value = "q") String query, Model model) {
+        model.addAttribute("found", newsService.getWhereTitleLike(query));
+        return "search";
+    }
+
     private User fetchUserFromSession() {
         Authentication auth  = SecurityContextHolder.getContext().getAuthentication();
         return userService.findByEmail(auth.getName());
