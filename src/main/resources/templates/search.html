@@ -5,6 +5,14 @@
     <title>Result</title>
 </head>
 <body>
+    <center>
+        <a href="/">All news</a>
+    </center>
+    <form th:method="POST" th:action="@{search}">
+        <input type="input" id="q" name="q" placeholder="Try me..."/>
+        <input type="submit" value="Search"/>
+    </form>
+    <br>
     <div th:each="news : ${found}">
         <a th:href="${news.getUrl()}" th:text="${news.getTitle()}"></a>
     </div>
