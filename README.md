@@ -38,28 +38,4 @@ __Check out [request.py](https://github.com/Jujumba/NewsFromFaridSenpai/blob/mas
 # Adding your source
 
 1) __Get the link of channel to be parsed (``https://t.me/s/<name_of_channel>``)__
-2) __In [parser's package](https://github.com/Jujumba/NewsFromFaridSenpai/tree/master/src/main/java/dev/jujumba/newsfromfaridsenpai/logic/parsers/telegram) create new Java/Kotlin class and mark it with `@Component` annotation__
-3) __Extend it from [Abstract Telegram Parser](https://github.com/Jujumba/NewsFromFaridSenpai/blob/master/src/main/java/dev/jujumba/newsfromfaridsenpai/logic/parsers/telegram/AbstractTelegramParser.java)__
-4) __Override constructor with the following pattern__
-```java
-public YourClassName(TextHandler textHandler, NewsService newsService, ImagesService imagesService) {
-    super(textHandler, newsService, imagesService);
-    setUrl("<URL_FROM_STEP_1>");
-}
-```
-__Result should be like this:__
-```java
-/*
- * YourClassName.java
- * 
- * imports...
- */
-
-@Component
-public class YourClassName extends AbstractTelegramParser {
-    public YourClassName(TextHandler textHandler, NewsService newsService, ImagesService imagesService) {
-        super(textHandler, newsService, imagesService);
-        setUrl("<URL_FROM_STEP_1>");
-    }
-}
-```
+2) __Paste it into the new line in the [sources file](https://github.com/Jujumba/NewsFromFaridSenpai/tree/master/src/main/resources/sources.txt)__
