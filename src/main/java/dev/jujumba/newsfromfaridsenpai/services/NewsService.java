@@ -22,4 +22,9 @@ public class NewsService extends AbstractService<News> {
     public List<News> getWhereTitleLike(String query) {
         return ((NewsRepository) repository).findByTitleIsContainingIgnoreCase(query);
     }
+
+    @Override
+    public List<News> findAll() {
+        return ((NewsRepository) repository).findAllAndSortByDate();
+    }
 }
