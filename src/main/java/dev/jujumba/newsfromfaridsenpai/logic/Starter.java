@@ -6,6 +6,7 @@ import dev.jujumba.newsfromfaridsenpai.logic.parsers.telegram.UkraineNowTelegram
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.Field;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -27,9 +28,12 @@ public class Starter {
 
     @SneakyThrows
     public void collect() {
-        ExecutorService service = Executors.newFixedThreadPool(this.getClass().getDeclaredFields().length);
-        service.submit(presidentOffice);
-        service.submit(ukraineNowTelegram);
-        service.submit(newsCleaner);
+        Field[] fields = this.getClass().getDeclaredFields();
+        ExecutorService service = Executors.newFixedThreadPool(fields.length);
+        for (Field field : fields) {
+            field.setAccessible(true);
+            Runnable r = (Runnable) field.get(this);
+            service.submit(r);
+        }
     }
 }
