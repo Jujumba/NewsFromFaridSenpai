@@ -29,7 +29,7 @@ curl -H 'Authorization: <API-KEY FROM YOUR PROFILE>' -H 'Content-Type: applicati
 ```
 __Params:__
 1) Your API-KEY
-2) Amount of news (optionally, 1 by default) specifies amount of *__latest__* to be returned
+2) Amount of news (optionally, 1 by default) specifies amount of the  *__latest__* to be returned
 
 __If you want for more functionality, I'll be glad to leave this task for you<(^.^)>. Or simply: code it yourself. And be sure to create a pull request!__
 
