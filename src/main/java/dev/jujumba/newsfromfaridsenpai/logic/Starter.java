@@ -33,8 +33,7 @@ public class Starter {
         ExecutorService service = Executors.newFixedThreadPool(fields.length);
         for (Field field : fields) {
             field.setAccessible(true);
-            Runnable r = (Runnable) field.get(this);
-            service.submit(r);
+            service.submit((Runnable) field.get(this));
         }
     }
 }
