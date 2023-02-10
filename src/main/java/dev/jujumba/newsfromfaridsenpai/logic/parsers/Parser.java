@@ -11,12 +11,12 @@ public interface Parser {
     void parse();
 
     @SneakyThrows
-    default void sleep(int seconds) {
+    default void sleep(long seconds) {
         TimeUnit.SECONDS.sleep(seconds);
     }
 
     @SneakyThrows
-    default void sleep(float hours) {
+    default void sleep(double hours) {
         TimeUnit.HOURS.sleep((long) hours);
     }
 }
