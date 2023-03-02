@@ -10,7 +10,7 @@
 
 __Run [database.sql](https://github.com/Jujumba/NewsFromFaridSenpai/blob/master/src/main/resources/database.sql) (be careful, it may be not compatible with your DBMS!)__
 
-```sh 
+```sh
 $ ./gradlew bootRun
 ```
 
@@ -37,5 +37,5 @@ __Check out [request.py](https://github.com/Jujumba/NewsFromFaridSenpai/blob/mas
 
 # Adding your source
 
-1) __Get the link of channel to be parsed (``https://t.me/s/<name_of_channel>``)__
+1) __Get the link of a channel to be parsed (``https://t.me/s/<name_of_channel>``)__
 2) __Paste it into the new line in the [sources file](https://github.com/Jujumba/NewsFromFaridSenpai/tree/master/src/main/resources/sources.txt)__
