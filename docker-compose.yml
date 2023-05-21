@@ -1,0 +1,17 @@
+
+# docker-compose.yml
+version: '3'
+services:
+  news:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./.:/news
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=root
+    ports:
+      - "5432:5432"
